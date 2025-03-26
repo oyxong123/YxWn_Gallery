@@ -32,12 +32,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // Initialize
-    int width = ui->img->width();
-    int height = ui->img->height();
-    ui->img->setPixmap(QPixmap("C:/Users/Admin/Pictures/Twitter/25f7218c010fdff4c6e0a4d838cc820c.jpg").scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    ui->img->setAlignment(Qt::AlignCenter);
     player.setVideoOutput(ui->vid);
     player.setAudioOutput(audio);
+    ui->vid->hide();
+    ui->img->hide();
 }
 
 MainWindow::~MainWindow()
