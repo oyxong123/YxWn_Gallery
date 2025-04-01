@@ -34,19 +34,6 @@
 }
 </string>
    </property>
-   <widget class="QPushButton" name="btnGenerate">
-    <property name="geometry">
-     <rect>
-      <x>660</x>
-      <y>580</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Generate</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="img">
     <property name="enabled">
      <bool>true</bool>
@@ -56,7 +43,7 @@
       <x>0</x>
       <y>0</y>
       <width>1216</width>
-      <height>684</height>
+      <height>491</height>
      </rect>
     </property>
     <property name="palette">
@@ -121,84 +108,109 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnSelectFolder">
+   <widget class="QVideoWidget" name="vid" native="true">
     <property name="enabled">
      <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>580</y>
-      <width>80</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Select Folder</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lblPath">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>620</y>
-      <width>91</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="text">
-     <string>Path:</string>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lblFilePath">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>620</y>
-      <width>49</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>File Path:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lblFileName">
-    <property name="geometry">
-     <rect>
-      <x>670</x>
-      <y>650</y>
-      <width>49</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Name:</string>
-    </property>
-   </widget>
-   <widget class="QVideoWidget" name="vid" native="true">
-    <property name="geometry">
-     <rect>
       <x>0</x>
       <y>0</y>
       <width>1216</width>
-      <height>684</height>
+      <height>481</height>
      </rect>
     </property>
    </widget>
-   <zorder>vid</zorder>
+   <widget class="QStackedWidget" name="contActionPanel">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>520</y>
+      <width>1216</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="page_file">
+     <widget class="QLabel" name="lblPath">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>100</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Path:</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblFilePath">
+      <property name="geometry">
+       <rect>
+        <x>670</x>
+        <y>100</y>
+        <width>49</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>File Path:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnSelectFolder">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>60</y>
+        <width>80</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Select Folder</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lblFileName">
+      <property name="geometry">
+       <rect>
+        <x>670</x>
+        <y>130</y>
+        <width>49</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Name:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btnGenerate">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>60</y>
+        <width>80</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Generate</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_player"/>
+   </widget>
+   <zorder>contActionPanel</zorder>
    <zorder>img</zorder>
-   <zorder>btnSelectFolder</zorder>
-   <zorder>lblPath</zorder>
-   <zorder>btnGenerate</zorder>
-   <zorder>lblFileName</zorder>
-   <zorder>lblFilePath</zorder>
+   <zorder>vid</zorder>
   </widget>
  </widget>
  <customwidgets>

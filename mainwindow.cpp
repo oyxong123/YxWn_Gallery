@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
     player.setAudioOutput(audio);
     ui->vid->hide();
     ui->img->hide();
+
 }
 
 MainWindow::~MainWindow()
@@ -72,7 +73,10 @@ void MainWindow::btnGenerate_clicked()
     }
     int indexRand = QRandomGenerator::global()->bounded(pathList.size());
     QString pathRandTemp = dirImages.absoluteFilePath(pathList[indexRand]);
-    if (pathRandTemp == pathRand) btnGenerate_clicked();  // Prevent the same media file from being generated.
+    if (pathRandTemp == pathRand) {  // Prevent the same media file from being generated.
+        btnGenerate_clicked();
+        return;
+    }
     else pathRand = pathRandTemp;
     QString fileExtension = QFileInfo(pathRand).suffix().toLower();  // Change all letters lowercase (eg. JPG to jpg)
     if (fileExtension == "png" || fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "jfif"){
