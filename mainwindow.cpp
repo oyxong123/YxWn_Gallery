@@ -105,6 +105,7 @@ void MainWindow::btnGenerate_clicked()
     ui->lblFilePath->adjustSize();
     ui->lblFileName->setText("Name: " + QFileInfo(pathRand).fileName());
     ui->lblFileName->adjustSize();
+    ui->contActionPanel->setCurrentIndex(1);
 }
 
 void MainWindow::btnSelectFolder_clicked()
