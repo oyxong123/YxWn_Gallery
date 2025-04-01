@@ -18,11 +18,12 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void btnGenerate_clicked();
 
-    void on_btnGenerate_clicked();
+    void btnSelectFolder_clicked();
 
-    void on_btnSelectFolder_clicked();
+signals:
+    // Any custom signals
 
 private:
     Ui::MainWindow *ui;

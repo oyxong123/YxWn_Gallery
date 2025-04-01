@@ -37,6 +37,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QObject::connect(ui->btnGenerate, &QPushButton::clicked, this, &MainWindow::btnGenerate_clicked);
+    QObject::connect(ui->btnSelectFolder, &QPushButton::clicked, this, &MainWindow::btnSelectFolder_clicked);
 
     // Initialize
     QObject::connect(&player, &QMediaPlayer::positionChanged, &onPlayerPositionChanged);
@@ -51,7 +53,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_btnGenerate_clicked()
+void MainWindow::btnGenerate_clicked()
 {
     /**
      * 1. Select random file path from the selected directory (includes files from subdirectories).
@@ -70,7 +72,7 @@ void MainWindow::on_btnGenerate_clicked()
     }
     int indexRand = QRandomGenerator::global()->bounded(pathList.size());
     QString pathRandTemp = dirImages.absoluteFilePath(pathList[indexRand]);
-    if (pathRandTemp == pathRand) on_btnGenerate_clicked();  // Prevent the same media file from being generated.
+    if (pathRandTemp == pathRand) btnGenerate_clicked();  // Prevent the same media file from being generated.
     else pathRand = pathRandTemp;
     QString fileExtension = QFileInfo(pathRand).suffix().toLower();  // Change all letters lowercase (eg. JPG to jpg)
     if (fileExtension == "png" || fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "jfif"){
@@ -101,7 +103,7 @@ void MainWindow::on_btnGenerate_clicked()
     ui->lblFileName->adjustSize();
 }
 
-void MainWindow::on_btnSelectFolder_clicked()
+void MainWindow::btnSelectFolder_clicked()
 {
     /**
      * 1. Click on button.
@@ -124,6 +126,3 @@ void MainWindow::on_btnSelectFolder_clicked()
     }
 }
 
-void MainWindow::on_pushButton_clicked(){
-
-}
