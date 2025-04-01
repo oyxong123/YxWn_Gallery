@@ -53,10 +53,10 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>1191</width>
-      <height>561</height>
+      <x>0</x>
+      <y>0</y>
+      <width>1216</width>
+      <height>684</height>
      </rect>
     </property>
     <property name="palette">
@@ -146,6 +146,9 @@
       <height>16</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="text">
      <string>Path:</string>
     </property>
@@ -182,13 +185,20 @@
    <widget class="QVideoWidget" name="vid" native="true">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>1191</width>
-      <height>561</height>
+      <x>0</x>
+      <y>0</y>
+      <width>1216</width>
+      <height>684</height>
      </rect>
     </property>
    </widget>
+   <zorder>vid</zorder>
+   <zorder>img</zorder>
+   <zorder>btnSelectFolder</zorder>
+   <zorder>lblPath</zorder>
+   <zorder>btnGenerate</zorder>
+   <zorder>lblFileName</zorder>
+   <zorder>lblFilePath</zorder>
   </widget>
  </widget>
  <customwidgets>

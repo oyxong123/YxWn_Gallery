@@ -25,6 +25,13 @@ QString pathRand;
 QMediaPlayer player;
 QAudioOutput *audio = new QAudioOutput;
 
+void onPlayerPositionChanged(qint64 position){
+    qint64 duration = player.duration();
+    if (duration - position < 100){
+        player.pause();
+    }
+}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -32,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // Initialize
+    QObject::connect(&player, &QMediaPlayer::positionChanged, &onPlayerPositionChanged);
     player.setVideoOutput(ui->vid);
     player.setAudioOutput(audio);
     ui->vid->hide();
@@ -67,12 +75,12 @@ void MainWindow::on_btnGenerate_clicked()
     QString fileExtension = QFileInfo(pathRand).suffix().toLower();  // Change all letters lowercase (eg. JPG to jpg)
     if (fileExtension == "png" || fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "jfif"){
         player.stop();
-        ui->vid->hide();
         QPixmap imgRand(pathRand);
         int width = ui->img->width();
         int height = ui->img->height();
         ui->img->setPixmap(imgRand.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
         ui->img->setAlignment(Qt::AlignCenter);
+        ui->vid->hide();
         ui->img->show();
     }
     else if (fileExtension == "gif" || fileExtension == "mp4" || fileExtension == "mkv"){
