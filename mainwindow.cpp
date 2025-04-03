@@ -117,7 +117,10 @@ void MainWindow::btnGenerate_clicked()
         ui->contPlayerPanel->show();
         player.play();
     }
-    ui->lblFilePath->setText("File Path: " + QFileInfo(pathRand).path());
+    QString pathFolder = QFileInfo(pathRand).path().remove(dirImages.path());
+    if (pathFolder.isEmpty()) pathFolder = "-";
+    else pathFolder.removeFirst();
+    ui->lblFilePath->setText("Folder: " + pathFolder);
     ui->lblFilePath->adjustSize();
     ui->lblFileName->setText("Name: " + QFileInfo(pathRand).fileName());
     ui->lblFileName->adjustSize();

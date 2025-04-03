@@ -308,8 +308,11 @@
         <height>16</height>
        </rect>
       </property>
+      <property name="cursor">
+       <cursorShape>ArrowCursor</cursorShape>
+      </property>
       <property name="text">
-       <string>File Path:</string>
+       <string>Folder:</string>
       </property>
      </widget>
      <widget class="QPushButton" name="btnSelectFolder">
