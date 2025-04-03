@@ -117,7 +117,7 @@
       <x>0</x>
       <y>0</y>
       <width>1216</width>
-      <height>481</height>
+      <height>491</height>
      </rect>
     </property>
    </widget>
@@ -168,13 +168,10 @@
       </property>
       <property name="styleSheet">
        <string notr="true"> background-color: grey;
- border-style: solid;
- border-width:1px;
- border-radius:25px;
- border-color: red;</string>
+ border-radius:25px;</string>
       </property>
       <property name="text">
-       <string>Pause</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="btnSkip">
@@ -188,14 +185,10 @@
       </property>
       <property name="styleSheet">
        <string notr="true"> background-color: grey;
- border-style: solid;
- border-width:1px;
- border-radius:25px;
- border-color: red;</string>
+ border-radius:25px;</string>
       </property>
       <property name="text">
-       <string>Skip
-30</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="btnRewind">
@@ -209,14 +202,10 @@
       </property>
       <property name="styleSheet">
        <string notr="true"> background-color: grey;
- border-style: solid;
- border-width:1px;
- border-radius:25px;
- border-color: red;</string>
+ border-radius:25px;</string>
       </property>
       <property name="text">
-       <string>Rewind
-10</string>
+       <string/>
       </property>
      </widget>
      <widget class="QLabel" name="lblCurrentTime">

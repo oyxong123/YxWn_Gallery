@@ -36,6 +36,7 @@ signals:
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 private:  // Global variables
     Ui::MainWindow *ui;

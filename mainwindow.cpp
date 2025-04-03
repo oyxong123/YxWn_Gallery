@@ -15,6 +15,7 @@
 #include <QTimer>
 #include <QStyle>
 #include <QScreen>
+#include <QKeyEvent>
 
 // Page to reference for resizing GUI dynamically based on window size: https://doc.qt.io/qt-6/layout.html
 
@@ -40,6 +41,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->vid->hide();
     ui->img->hide();
     ui->contPlayerPanel->hide();
+
+    ui->btnPlayPause->setIcon(QIcon("resources/btnPause.png"));
+    ui->btnPlayPause->setIconSize(ui->btnPlayPause->size());  // Size only need to set once, it will retain when image changes.
+    ui->btnRewind->setIcon(QIcon("resources/btnRewind.png"));
+    ui->btnRewind->setIconSize(ui->btnRewind->size());
+    ui->btnSkip->setIcon(QIcon("resources/btnSkip.png"));
+    ui->btnSkip->setIconSize(ui->btnSkip->size());
 }
 
 MainWindow::~MainWindow()
@@ -57,6 +65,9 @@ void MainWindow::btnGenerate_clicked()
      * 4. Display the file based on file extension. (Only open image, video, and audio file)
      * Note: Can't display .webp files.
     **/
+    ui->img->clear();  // Clear opened media before opening the next one.
+    player.stop();
+    player.setSource(QUrl());
     if (pathList.isEmpty()) {
         ui->img->clear();
         ui->lblFilePath->setText("File Path: ");
@@ -87,14 +98,21 @@ void MainWindow::btnGenerate_clicked()
     else if (fileExtension == "gif" || fileExtension == "mp4" || fileExtension == "mkv"){
         ui->img->hide();
         player.setSource(QUrl(pathRand));
+        ui->btnPlayPause->setIcon(QIcon("resources/btnPause.png"));
         ui->vid->show();
         ui->contPlayerPanel->show();
         player.play();
     }
     else if (fileExtension == "mp3" || fileExtension == "wav"){
-        ui->img->hide();
+        ui->vid->hide();
         player.setSource(QUrl(pathRand));
-        ui->vid->show();
+        QPixmap imgMusic("resources/imgMusic.png");
+        int width = ui->img->width();
+        int height = ui->img->height();
+        ui->img->setPixmap(imgMusic.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        ui->img->setAlignment(Qt::AlignCenter);
+        ui->btnPlayPause->setIcon(QIcon("resources/btnPause.png"));
+        ui->img->show();
         ui->contPlayerPanel->show();
         player.play();
     }
@@ -132,12 +150,12 @@ void MainWindow::btnPlayPause_clicked()
 {
     if (player.isPlaying()){
         player.pause();
-        ui->btnPlayPause->setText("Play");
+        ui->btnPlayPause->setIcon(QIcon("resources/btnPlay.png"));
     }
     else {
         if (player.duration() - player.position() < 100) player.setPosition(0);  // Restart the video if the almost ended. (Paused by program due to reached the last few frame of video)
         player.play();
-        ui->btnPlayPause->setText("Pause");
+        ui->btnPlayPause->setIcon(QIcon("resources/btnPause.png"));
     }
 }
 
@@ -166,7 +184,7 @@ void MainWindow::playerPositionChanged(qint64 position){
     qint64 duration = player.duration();
     if (duration - position < 100){
         player.pause();
-        ui->btnPlayPause->setText("Play");
+        ui->btnPlayPause->setIcon(QIcon("resources/btnPlay.png"));
     }
     ui->slrProgressBar->setMaximum(player.duration() - 100);  // Offset for last-frame pause.
     ui->slrProgressBar->setValue(position);
@@ -209,4 +227,12 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
         }
     }
     return QMainWindow::eventFilter(obj, event);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    if (event->key() == Qt::Key_Space) {
+        MainWindow::btnGenerate_clicked();
+    }
+
+    QWidget::keyPressEvent(event);
 }
