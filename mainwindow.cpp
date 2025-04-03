@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->slrProgressBar->installEventFilter(this);
+    setFocusPolicy(Qt::StrongFocus);
     QObject::connect(ui->btnGenerate, &QPushButton::clicked, this, &MainWindow::btnGenerate_clicked);
     QObject::connect(ui->btnSelectFolder, &QPushButton::clicked, this, &MainWindow::btnSelectFolder_clicked);
     QObject::connect(ui->btnPlayPause, &QPushButton::clicked, this, &MainWindow::btnPlayPause_clicked);
@@ -233,6 +234,5 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Space) {
         MainWindow::btnGenerate_clicked();
     }
-
     QWidget::keyPressEvent(event);
 }

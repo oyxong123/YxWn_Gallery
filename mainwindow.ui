@@ -147,6 +147,9 @@
         <height>20</height>
        </rect>
       </property>
+      <property name="focusPolicy">
+       <enum>Qt::FocusPolicy::NoFocus</enum>
+      </property>
       <property name="maximum">
        <number>97</number>
       </property>
@@ -166,6 +169,9 @@
         <height>52</height>
        </rect>
       </property>
+      <property name="focusPolicy">
+       <enum>Qt::FocusPolicy::NoFocus</enum>
+      </property>
       <property name="styleSheet">
        <string notr="true"> background-color: grey;
  border-radius:25px;</string>
@@ -183,6 +189,9 @@
         <height>52</height>
        </rect>
       </property>
+      <property name="focusPolicy">
+       <enum>Qt::FocusPolicy::NoFocus</enum>
+      </property>
       <property name="styleSheet">
        <string notr="true"> background-color: grey;
  border-radius:25px;</string>
@@ -199,6 +208,9 @@
         <width>52</width>
         <height>52</height>
        </rect>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::FocusPolicy::NoFocus</enum>
       </property>
       <property name="styleSheet">
        <string notr="true"> background-color: grey;
@@ -312,6 +324,9 @@
         <height>24</height>
        </rect>
       </property>
+      <property name="focusPolicy">
+       <enum>Qt::FocusPolicy::NoFocus</enum>
+      </property>
       <property name="text">
        <string>Select Folder</string>
       </property>
@@ -324,6 +339,9 @@
         <width>80</width>
         <height>24</height>
        </rect>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::FocusPolicy::NoFocus</enum>
       </property>
       <property name="text">
        <string>Roll</string>
