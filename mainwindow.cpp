@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "qcustompushbutton.h"
 #include "ui_mainwindow.h"
 #include <cstdio>
 #include <QDir>
@@ -43,12 +44,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->img->hide();
     ui->contPlayerPanel->hide();
 
-    ui->btnPlayPause->setIcon(QIcon("resources/btnPause.png"));
-    ui->btnPlayPause->setIconSize(ui->btnPlayPause->size());  // Size only need to set once, it will retain when image changes.
-    ui->btnRewind->setIcon(QIcon("resources/btnRewind.png"));
-    ui->btnRewind->setIconSize(ui->btnRewind->size());
-    ui->btnSkip->setIcon(QIcon("resources/btnSkip.png"));
-    ui->btnSkip->setIconSize(ui->btnSkip->size());
+    ui->btnPlayPause->setIcons(QIcon("resources/btnPause.png"), QIcon("resources/btnPauseHover.png"), QIcon("resources/btnPausePressed.png"));
+    ui->btnRewind->setIcons(QIcon("resources/btnRewind.png"), QIcon("resources/btnRewindHover.png"), QIcon("resources/btnRewindPressed.png"));
+    ui->btnSkip->setIcons(QIcon("resources/btnSkip.png"), QIcon("resources/btnSkipHover.png"), QIcon("resources/btnSkipPressed.png"));
 }
 
 MainWindow::~MainWindow()
@@ -71,7 +69,7 @@ void MainWindow::btnGenerate_clicked()
     player.setSource(QUrl());
     if (pathList.isEmpty()) {
         ui->img->clear();
-        ui->lblFilePath->setText("File Path: ");
+        ui->lblFilePath->setText("Folder: ");
         ui->lblFilePath->adjustSize();
         ui->lblFileName->setText("Name: ");
         ui->lblFileName->adjustSize();
@@ -99,7 +97,7 @@ void MainWindow::btnGenerate_clicked()
     else if (fileExtension == "gif" || fileExtension == "mp4" || fileExtension == "mkv"){
         ui->img->hide();
         player.setSource(QUrl(pathRand));
-        ui->btnPlayPause->setIcon(QIcon("resources/btnPause.png"));
+        ui->btnPlayPause->setIcons(QIcon("resources/btnPause.png"), QIcon("resources/btnPauseHover.png"), QIcon("resources/btnPausePressed.png"));
         ui->vid->show();
         ui->contPlayerPanel->show();
         player.play();
@@ -112,7 +110,7 @@ void MainWindow::btnGenerate_clicked()
         int height = ui->img->height();
         ui->img->setPixmap(imgMusic.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
         ui->img->setAlignment(Qt::AlignCenter);
-        ui->btnPlayPause->setIcon(QIcon("resources/btnPause.png"));
+        ui->btnPlayPause->setIcons(QIcon("resources/btnPause.png"), QIcon("resources/btnPauseHover.png"), QIcon("resources/btnPausePressed.png"));
         ui->img->show();
         ui->contPlayerPanel->show();
         player.play();
@@ -154,12 +152,14 @@ void MainWindow::btnPlayPause_clicked()
 {
     if (player.isPlaying()){
         player.pause();
-        ui->btnPlayPause->setIcon(QIcon("resources/btnPlay.png"));
+        ui->btnPlayPause->setIcons(QIcon("resources/btnPlay.png"), QIcon("resources/btnPlayHover.png"), QIcon("resources/btnPlayPressed.png"));
+        ui->btnPlayPause->setIcon(QIcon("resources/btnPlayHover.png"));
     }
     else {
         if (player.duration() - player.position() < 100) player.setPosition(0);  // Restart the video if the almost ended. (Paused by program due to reached the last few frame of video)
         player.play();
-        ui->btnPlayPause->setIcon(QIcon("resources/btnPause.png"));
+        ui->btnPlayPause->setIcons(QIcon("resources/btnPause.png"), QIcon("resources/btnPauseHover.png"), QIcon("resources/btnPausePressed.png"));
+        ui->btnPlayPause->setIcon(QIcon("resources/btnPauseHover.png"));
     }
 }
 
@@ -188,7 +188,7 @@ void MainWindow::playerPositionChanged(qint64 position){
     qint64 duration = player.duration();
     if (duration - position < 100){
         player.pause();
-        ui->btnPlayPause->setIcon(QIcon("resources/btnPlay.png"));
+        ui->btnPlayPause->setIcons(QIcon("resources/btnPlay.png"), QIcon("resources/btnPlayHover.png"), QIcon("resources/btnPlayPressed.png"));
     }
     ui->slrProgressBar->setMaximum(player.duration() - 100);  // Offset for last-frame pause.
     ui->slrProgressBar->setValue(position);
