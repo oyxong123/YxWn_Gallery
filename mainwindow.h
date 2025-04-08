@@ -22,6 +22,8 @@ public:
 
 private slots:
     void btnGenerate_clicked();
+    void filterFiles();
+    void retrieveFiles();
     void btnSelectFolder_clicked();
     void btnPlayPause_clicked();
     void btnRewind_clicked();
@@ -30,6 +32,7 @@ private slots:
     void sliderPressed();
     void sliderMoved(int value);
     void sliderReleased();
+    void chkEchoesThisDay_clicked(Qt::CheckState state);
 
 signals:
     // Any custom signals

@@ -43,7 +43,7 @@
       <x>0</x>
       <y>0</y>
       <width>1216</width>
-      <height>491</height>
+      <height>531</height>
      </rect>
     </property>
     <property name="palette">
@@ -117,246 +117,299 @@
       <x>0</x>
       <y>0</y>
       <width>1216</width>
-      <height>491</height>
+      <height>531</height>
      </rect>
     </property>
    </widget>
-   <widget class="QStackedWidget" name="contPlayerPanel">
+   <widget class="QStackedWidget" name="contControls">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>520</y>
+      <y>540</y>
       <width>1221</width>
-      <height>161</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="currentIndex">
-     <number>1</number>
-    </property>
-    <widget class="QWidget" name="page_2"/>
-    <widget class="QWidget" name="page_player">
-     <widget class="QSlider" name="slrProgressBar">
-      <property name="geometry">
-       <rect>
-        <x>70</x>
-        <y>30</y>
-        <width>1071</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::FocusPolicy::NoFocus</enum>
-      </property>
-      <property name="maximum">
-       <number>97</number>
-      </property>
-      <property name="pageStep">
-       <number>0</number>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Orientation::Horizontal</enum>
-      </property>
-     </widget>
-     <widget class="QCustomPushButton" name="btnPlayPause">
-      <property name="geometry">
-       <rect>
-        <x>570</x>
-        <y>80</y>
-        <width>52</width>
-        <height>52</height>
-       </rect>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::FocusPolicy::NoFocus</enum>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"> background-color: grey;
- border-radius:25px;</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QCustomPushButton" name="btnSkip">
-      <property name="geometry">
-       <rect>
-        <x>640</x>
-        <y>80</y>
-        <width>52</width>
-        <height>52</height>
-       </rect>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::FocusPolicy::NoFocus</enum>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"> background-color: grey;
- border-radius:25px;</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QCustomPushButton" name="btnRewind">
-      <property name="geometry">
-       <rect>
-        <x>500</x>
-        <y>80</y>
-        <width>52</width>
-        <height>52</height>
-       </rect>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::FocusPolicy::NoFocus</enum>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"> background-color: grey;
- border-radius:25px;</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </widget>
-     <widget class="QLabel" name="lblCurrentTime">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>51</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>00:00:00</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter</set>
-      </property>
-     </widget>
-     <widget class="QLabel" name="lblRemainingTime">
-      <property name="geometry">
-       <rect>
-        <x>1150</x>
-        <y>30</y>
-        <width>51</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>00:00:00</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignCenter</set>
-      </property>
-     </widget>
-    </widget>
-   </widget>
-   <widget class="QStackedWidget" name="contFilePanel">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>570</y>
-      <width>491</width>
-      <height>121</height>
+      <height>141</height>
      </rect>
     </property>
     <property name="currentIndex">
      <number>0</number>
     </property>
-    <widget class="QWidget" name="page_file">
-     <widget class="QLabel" name="lblFileName">
+    <widget class="QWidget" name="page_controls">
+     <widget class="QStackedWidget" name="contPlayerPanel">
       <property name="geometry">
        <rect>
-        <x>130</x>
-        <y>79</y>
-        <width>49</width>
-        <height>16</height>
+        <x>0</x>
+        <y>0</y>
+        <width>1221</width>
+        <height>141</height>
        </rect>
       </property>
-      <property name="text">
-       <string>Name:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="lblPath">
-      <property name="geometry">
-       <rect>
-        <x>130</x>
-        <y>19</y>
-        <width>91</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true"/>
-      </property>
-      <property name="text">
-       <string>Path:</string>
-      </property>
-      <property name="scaledContents">
+      <property name="autoFillBackground">
        <bool>false</bool>
       </property>
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <widget class="QWidget" name="page_2"/>
+      <widget class="QWidget" name="page_player">
+       <widget class="QSlider" name="slrProgressBar">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>10</y>
+          <width>1071</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
+        <property name="maximum">
+         <number>97</number>
+        </property>
+        <property name="pageStep">
+         <number>0</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QCustomPushButton" name="btnPlayPause">
+        <property name="geometry">
+         <rect>
+          <x>570</x>
+          <y>60</y>
+          <width>52</width>
+          <height>52</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"> background-color: grey;
+ border-radius:25px;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QCustomPushButton" name="btnSkip">
+        <property name="geometry">
+         <rect>
+          <x>640</x>
+          <y>60</y>
+          <width>52</width>
+          <height>52</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"> background-color: grey;
+ border-radius:25px;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QCustomPushButton" name="btnRewind">
+        <property name="geometry">
+         <rect>
+          <x>500</x>
+          <y>60</y>
+          <width>52</width>
+          <height>52</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"> background-color: grey;
+ border-radius:25px;</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lblCurrentTime">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>51</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>00:00:00</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lblRemainingTime">
+        <property name="geometry">
+         <rect>
+          <x>1150</x>
+          <y>10</y>
+          <width>51</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>00:00:00</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignmentFlag::AlignCenter</set>
+        </property>
+       </widget>
+      </widget>
      </widget>
-     <widget class="QLabel" name="lblFilePath">
+     <widget class="QStackedWidget" name="contFilePanel">
       <property name="geometry">
        <rect>
-        <x>130</x>
-        <y>49</y>
-        <width>49</width>
-        <height>16</height>
+        <x>0</x>
+        <y>30</y>
+        <width>491</width>
+        <height>121</height>
        </rect>
       </property>
-      <property name="cursor">
-       <cursorShape>ArrowCursor</cursorShape>
+      <property name="currentIndex">
+       <number>0</number>
       </property>
-      <property name="text">
-       <string>Folder:</string>
-      </property>
+      <widget class="QWidget" name="page_file">
+       <widget class="QLabel" name="lblFileName">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>79</y>
+          <width>49</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Name:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lblPath">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>19</y>
+          <width>91</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string>Path:</string>
+        </property>
+        <property name="scaledContents">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="lblFilePath">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>49</y>
+          <width>49</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="cursor">
+         <cursorShape>ArrowCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>Folder:</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnSelectFolder">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>16</y>
+          <width>80</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
+        <property name="text">
+         <string>Select Folder</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnGenerate">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>46</y>
+          <width>80</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
+        <property name="text">
+         <string>Roll</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="page"/>
      </widget>
-     <widget class="QPushButton" name="btnSelectFolder">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
+     <widget class="QStackedWidget" name="contCheckbox">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>16</y>
-        <width>80</width>
-        <height>24</height>
+        <x>720</x>
+        <y>30</y>
+        <width>491</width>
+        <height>121</height>
        </rect>
       </property>
-      <property name="focusPolicy">
-       <enum>Qt::FocusPolicy::NoFocus</enum>
-      </property>
-      <property name="text">
-       <string>Select Folder</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btnGenerate">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>46</y>
-        <width>80</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::FocusPolicy::NoFocus</enum>
-      </property>
-      <property name="text">
-       <string>Roll</string>
-      </property>
+      <widget class="QWidget" name="page_checkbox">
+       <widget class="QCheckBox" name="chkEchoesThisDay">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>10</y>
+          <width>131</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
+        <property name="toolTip">
+         <string>What This Day Once Carried</string>
+        </property>
+        <property name="accessibleName">
+         <string/>
+        </property>
+        <property name="accessibleDescription">
+         <string>Memories on This Date</string>
+        </property>
+        <property name="text">
+         <string>Echoes of This Day ;;</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="page_6"/>
      </widget>
     </widget>
-    <widget class="QWidget" name="page"/>
+    <widget class="QWidget" name="page_blank"/>
    </widget>
-   <zorder>contPlayerPanel</zorder>
+   <zorder>contControls</zorder>
    <zorder>img</zorder>
    <zorder>vid</zorder>
-   <zorder>contFilePanel</zorder>
   </widget>
  </widget>
  <customwidgets>

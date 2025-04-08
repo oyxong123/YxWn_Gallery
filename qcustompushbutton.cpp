@@ -1,7 +1,6 @@
 #include "qcustompushbutton.h"
 
 QCustomPushButton::QCustomPushButton(QWidget *parent) : QPushButton(parent) {
-    // setMouseTracking(true);
     QObject::connect(this, &QPushButton::pressed, this, &QCustomPushButton::btnPressed);
     QObject::connect(this, &QPushButton::released, this, &QCustomPushButton::btnReleased);
 }

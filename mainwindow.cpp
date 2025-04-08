@@ -17,6 +17,7 @@
 #include <QStyle>
 #include <QScreen>
 #include <QKeyEvent>
+#include <QRegularExpression>
 
 // Page to reference for resizing GUI dynamically based on window size: https://doc.qt.io/qt-6/layout.html
 
@@ -36,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->slrProgressBar, &QAbstractSlider::sliderPressed, this, &MainWindow::sliderPressed);
     QObject::connect(ui->slrProgressBar, &QAbstractSlider::sliderMoved, this, &MainWindow::sliderMoved);
     QObject::connect(ui->slrProgressBar, &QAbstractSlider::sliderReleased, this, &MainWindow::sliderReleased);
+    QObject::connect(ui->chkEchoesThisDay, &QCheckBox::checkStateChanged, this, &MainWindow::chkEchoesThisDay_clicked);
 
     // Initialize
     player.setVideoOutput(ui->vid);
@@ -125,6 +127,36 @@ void MainWindow::btnGenerate_clicked()
     ui->contPlayerPanel->setCurrentIndex(1);
 }
 
+void MainWindow::filterFiles() {
+    qDebug() << "Before filter: " << pathList.length();
+    if (!pathList.empty() && ui->chkEchoesThisDay->isChecked()){
+        QDate date = QDate::currentDate();
+        QString year = date.toString("yyyy");
+        QString month = date.toString("MM");
+        QString day = date.toString("dd");
+        // QRegularExpression regex(QString(".*%1[-_]?%2[-_]?%3.*").arg(year, month, day));  // Production use
+        static QRegularExpression regex(QString(".*2025[-_]?04[-_]?06.*"));  // Debug Use: Use on Precious Moments.
+        QStringList filteredPaths;
+        for (QStringList::const_iterator it = pathList.cbegin(); it != pathList.cend(); ++it) {
+            if (regex.match(*it).hasMatch()) {
+                filteredPaths.append(*it);  // Add paths that match the regex
+            }
+        }
+        pathList = filteredPaths;
+    }
+    qDebug() << "After filter: " << pathList.length();
+}
+
+void MainWindow::retrieveFiles() {
+    QStringList filters;
+    filters << "*.png" << "*.jpg" << "*.jfif" << "*.jpeg" << "*.mp4" << "*.gif" << "*.mkv" << "*.mp3" << "*.wav";  // Specify the file extensions to accept. (Case insensitive, eg. jpg = JPG)
+    pathList.clear();  // Clear off buffer of files from previously selected dir.
+    QDirIterator iterator(dirImages.path(), filters, QDir::Files, QDirIterator::Subdirectories);  // Automatically ignores "." and ".."
+    while (iterator.hasNext()){
+        pathList.append(iterator.next());
+    }
+}
+
 void MainWindow::btnSelectFolder_clicked()
 {
     /**
@@ -139,13 +171,8 @@ void MainWindow::btnSelectFolder_clicked()
     dirImages.setPath(dir);
     ui->lblPath->setText("Path: " + dirImages.path());
     ui->lblPath->adjustSize();
-    QStringList filters;
-    filters << "*.png" << "*.jpg" << "*.jfif" << "*.jpeg" << "*.mp4" << "*.gif" << "*.mkv" << "*.mp3" << "*.wav";  // Specify the file extensions to accept. (Case insensitive, eg. jpg = JPG)
-    pathList.clear();  // Clear off buffer of files from previously selected dir.
-    QDirIterator iterator(dirImages.path(), filters, QDir::Files, QDirIterator::Subdirectories);  // Automatically ignores "." and ".."
-    while (iterator.hasNext()){
-        pathList.append(iterator.next());
-    }
+    retrieveFiles();
+    filterFiles();
 }
 
 void MainWindow::btnPlayPause_clicked()
@@ -238,4 +265,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
         MainWindow::btnGenerate_clicked();
     }
     QWidget::keyPressEvent(event);
+}
+
+void MainWindow::chkEchoesThisDay_clicked(Qt::CheckState state) {
+    if (state == Qt::Unchecked) {
+        if (!pathList.empty()) {
+            retrieveFiles();
+        }
+    }
+    else {  // Qt::Checked or Qt::PartiallyChecked
+        filterFiles();
+    }
 }
