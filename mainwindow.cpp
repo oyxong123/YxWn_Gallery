@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->slrProgressBar, &QAbstractSlider::sliderMoved, this, &MainWindow::sliderMoved);
     QObject::connect(ui->slrProgressBar, &QAbstractSlider::sliderReleased, this, &MainWindow::sliderReleased);
     QObject::connect(ui->chkEchoesThisDay, &QCheckBox::checkStateChanged, this, &MainWindow::chkEchoesThisDay_clicked);
+    QObject::connect(ui->chkAutoplay, &QCheckBox::checkStateChanged, this, &MainWindow::chkAutoplay_clicked);
+    QObject::connect(&autoplay, &QTimer::timeout, this, &MainWindow::btnGenerate_clicked);
 
     // Initialize
     player.setVideoOutput(ui->vid);
@@ -45,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->vid->hide();
     ui->img->hide();
     ui->contPlayerPanel->hide();
+    autoplay.setInterval(3000);  // Default autoplay time interval.
 
     ui->btnPlayPause->setIcons(QIcon("resources/btnPause.png"), QIcon("resources/btnPauseHover.png"), QIcon("resources/btnPausePressed.png"));
     ui->btnRewind->setIcons(QIcon("resources/btnRewind.png"), QIcon("resources/btnRewindHover.png"), QIcon("resources/btnRewindPressed.png"));
@@ -128,7 +131,6 @@ void MainWindow::btnGenerate_clicked()
 }
 
 void MainWindow::filterFiles() {
-    qDebug() << "Before filter: " << pathList.length();
     if (!pathList.empty() && ui->chkEchoesThisDay->isChecked()){
         QDate date = QDate::currentDate();
         QString year = date.toString("yyyy");
@@ -144,7 +146,6 @@ void MainWindow::filterFiles() {
         }
         pathList = filteredPaths;
     }
-    qDebug() << "After filter: " << pathList.length();
 }
 
 void MainWindow::retrieveFiles() {
@@ -262,7 +263,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Space) {
-        MainWindow::btnGenerate_clicked();
+        btnGenerate_clicked();
     }
     QWidget::keyPressEvent(event);
 }
@@ -275,5 +276,14 @@ void MainWindow::chkEchoesThisDay_clicked(Qt::CheckState state) {
     }
     else {  // Qt::Checked or Qt::PartiallyChecked
         filterFiles();
+    }
+}
+
+void MainWindow::chkAutoplay_clicked(Qt::CheckState state){
+    if (state == Qt::Unchecked) {
+        autoplay.stop();
+    }
+    else {
+        autoplay.start();
     }
 }

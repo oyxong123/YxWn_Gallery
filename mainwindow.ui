@@ -363,6 +363,19 @@
          <string>Roll</string>
         </property>
        </widget>
+       <widget class="QPushButton" name="btnSettings">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>80</y>
+          <width>80</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Settings</string>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="page"/>
      </widget>
@@ -399,6 +412,31 @@
         </property>
         <property name="text">
          <string>Echoes of This Day ;;</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="chkAutoplay">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>40</y>
+          <width>131</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
+        <property name="toolTip">
+         <string>What This Day Once Carried</string>
+        </property>
+        <property name="accessibleName">
+         <string/>
+        </property>
+        <property name="accessibleDescription">
+         <string>Memories on This Date</string>
+        </property>
+        <property name="text">
+         <string>Autoplay</string>
         </property>
        </widget>
       </widget>

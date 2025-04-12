@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QMediaPlayer>
 #include <QAudioOutput>
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -33,6 +34,7 @@ private slots:
     void sliderMoved(int value);
     void sliderReleased();
     void chkEchoesThisDay_clicked(Qt::CheckState state);
+    void chkAutoplay_clicked(Qt::CheckState state);
 
 signals:
     // Any custom signals
@@ -48,5 +50,6 @@ private:  // Global variables
     QDir dirImages;
     QStringList pathList;
     QString pathRand;
+    QTimer autoplay;
 };
 #endif // MAINWINDOW_H
