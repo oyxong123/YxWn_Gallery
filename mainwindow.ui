@@ -402,7 +402,7 @@
          <enum>Qt::FocusPolicy::NoFocus</enum>
         </property>
         <property name="toolTip">
-         <string>What This Day Once Carried</string>
+         <string>what this day once carried...</string>
         </property>
         <property name="accessibleName">
          <string/>

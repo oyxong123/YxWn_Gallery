@@ -1,6 +1,7 @@
 #include "mainwindow.h"
-#include "qcustompushbutton.h"
 #include "ui_mainwindow.h"
+#include "settingswindow.h"
+#include "qcustompushbutton.h"
 #include <cstdio>
 #include <QDir>
 #include <QString>
@@ -40,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->chkEchoesThisDay, &QCheckBox::checkStateChanged, this, &MainWindow::chkEchoesThisDay_clicked);
     QObject::connect(ui->chkAutoplay, &QCheckBox::checkStateChanged, this, &MainWindow::chkAutoplay_clicked);
     QObject::connect(&autoplay, &QTimer::timeout, this, &MainWindow::btnGenerate_clicked);
+    QObject::connect(ui->btnSettings, &QPushButton::clicked, this, &MainWindow::btnSettings_clicked);
 
     // Initialize
     player.setVideoOutput(ui->vid);
@@ -279,11 +281,17 @@ void MainWindow::chkEchoesThisDay_clicked(Qt::CheckState state) {
     }
 }
 
-void MainWindow::chkAutoplay_clicked(Qt::CheckState state){
+void MainWindow::chkAutoplay_clicked(Qt::CheckState state) {
     if (state == Qt::Unchecked) {
         autoplay.stop();
     }
     else {
         autoplay.start();
     }
+}
+
+void MainWindow::btnSettings_clicked() {
+    SettingsWindow* sw = new SettingsWindow(this);
+    sw->setAttribute(Qt::WA_DeleteOnClose);
+    sw->exec();
 }

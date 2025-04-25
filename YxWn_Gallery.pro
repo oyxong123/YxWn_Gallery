@@ -1,4 +1,5 @@
 QT += core gui multimedia multimediawidgets
+RC_ICONS = resources/Terriermon.ico
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,14 +12,17 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    qcustompushbutton.cpp
+    qcustompushbutton.cpp \
+    settingswindow.cpp
 
 HEADERS += \
     mainwindow.h \
-    qcustompushbutton.h
+    qcustompushbutton.h \
+    settingswindow.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    settingswindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

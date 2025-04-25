@@ -20,6 +20,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    QTimer autoplay;
 
 private slots:
     void btnGenerate_clicked();
@@ -35,6 +36,7 @@ private slots:
     void sliderReleased();
     void chkEchoesThisDay_clicked(Qt::CheckState state);
     void chkAutoplay_clicked(Qt::CheckState state);
+    void btnSettings_clicked();
 
 signals:
     // Any custom signals
@@ -43,13 +45,12 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
 
-private:  // Global variables
+private:
     Ui::MainWindow *ui;
     QAudioOutput *audio = new QAudioOutput;
     QMediaPlayer player;  // This set of player + audio instances needs to be declared on top of the file to ensure it doesn't get destroyed when the runtime reaches the end of a function.
     QDir dirImages;
     QStringList pathList;
     QString pathRand;
-    QTimer autoplay;
 };
 #endif // MAINWINDOW_H
