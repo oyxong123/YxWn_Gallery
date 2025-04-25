@@ -44,22 +44,37 @@
     <rect>
      <x>20</x>
      <y>23</y>
-     <width>101</width>
+     <width>121</width>
      <height>16</height>
     </rect>
    </property>
    <property name="text">
-    <string>Autoplay Interval:</string>
+    <string>Autoplay Interval (sec):</string>
    </property>
   </widget>
-  <widget class="QSpinBox" name="inpAutoplayInterval">
+  <widget class="QDoubleSpinBox" name="inpAutoplayInterval">
    <property name="geometry">
     <rect>
-     <x>122</x>
-     <y>19</y>
-     <width>42</width>
+     <x>150</x>
+     <y>20</y>
+     <width>51</width>
      <height>25</height>
     </rect>
+   </property>
+   <property name="suffix">
+    <string/>
+   </property>
+   <property name="decimals">
+    <number>3</number>
+   </property>
+   <property name="minimum">
+    <double>0.001000000000000</double>
+   </property>
+   <property name="maximum">
+    <double>86400.000000000000000</double>
+   </property>
+   <property name="value">
+    <double>0.001000000000000</double>
    </property>
   </widget>
  </widget>
