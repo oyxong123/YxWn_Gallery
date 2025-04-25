@@ -39,24 +39,27 @@
     <string>Cancel</string>
    </property>
   </widget>
-  <widget class="QLabel" name="btnAutoplayInterval">
+  <widget class="QLabel" name="lblAutoplayInterval">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>23</y>
-     <width>121</width>
-     <height>16</height>
+     <width>131</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Autoplay Interval (sec):</string>
+    <string>Autoplay Interval (sec) :</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QDoubleSpinBox" name="inpAutoplayInterval">
    <property name="geometry">
     <rect>
      <x>150</x>
-     <y>20</y>
+     <y>22</y>
      <width>51</width>
      <height>25</height>
     </rect>
@@ -75,6 +78,44 @@
    </property>
    <property name="value">
     <double>0.001000000000000</double>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblMute">
+   <property name="geometry">
+    <rect>
+     <x>99</x>
+     <y>57</y>
+     <width>41</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::NoFrame</enum>
+   </property>
+   <property name="lineWidth">
+    <number>0</number>
+   </property>
+   <property name="text">
+    <string>Mute :</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chkMute">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>57</y>
+     <width>16</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
    </property>
   </widget>
  </widget>

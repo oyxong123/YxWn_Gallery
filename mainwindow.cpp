@@ -293,8 +293,10 @@ void MainWindow::chkAutoplay_clicked(Qt::CheckState state) {
 void MainWindow::btnSettings_clicked() {
     autoplay.stop();
     player.pause();
+    ui->btnPlayPause->setIcons(QIcon("resources/btnPlay.png"), QIcon("resources/btnPlayHover.png"), QIcon("resources/btnPlayPressed.png"));
     SettingsWindow* sw = new SettingsWindow(this);
     sw->setAttribute(Qt::WA_DeleteOnClose);
+    sw->setWindowTitle("Settings");
     sw->exec();
     chkAutoplay_clicked(ui->chkAutoplay->checkState());  // Resume autoplay if chkAutoplay is checked.
 }

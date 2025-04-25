@@ -21,6 +21,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     QTimer autoplay;
+    QMediaPlayer player;  // This set of player + audio instances needs to be declared on top of the file to ensure it doesn't get destroyed when the runtime reaches the end of a function.
+    QAudioOutput *audio = new QAudioOutput;
 
 private slots:
     void btnGenerate_clicked();
@@ -47,8 +49,6 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    QAudioOutput *audio = new QAudioOutput;
-    QMediaPlayer player;  // This set of player + audio instances needs to be declared on top of the file to ensure it doesn't get destroyed when the runtime reaches the end of a function.
     QDir dirImages;
     QStringList pathList;
     QString pathRand;
