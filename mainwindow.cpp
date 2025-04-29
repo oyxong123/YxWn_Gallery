@@ -109,7 +109,7 @@ void MainWindow::btnGenerate_clicked()
     }
     int indexRand = QRandomGenerator::global()->bounded(pathList.size());
     QString pathRandTemp = dirImages.absoluteFilePath(pathList[indexRand]);
-    if (pathRandTemp == pathRand) {  // Prevent the same media file from being generated.
+    if (pathRandTemp == pathRand && pathList.length() > 1) {  // Prevent the same media file from being generated. (Edge case: Needs to have at least 2 paths to prevent infinite loop)
         btnGenerate_clicked();
         return;
     }
