@@ -297,9 +297,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
 
 void MainWindow::chkEchoesThisDay_clicked(Qt::CheckState state) {
     if (state == Qt::Unchecked) {
-        if (!pathList.empty()) {
-            retrieveFiles();
-        }
+        retrieveFiles();
     }
     else {  // Qt::Checked or Qt::PartiallyChecked
         filterFiles();
