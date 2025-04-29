@@ -19,6 +19,7 @@
 #include <QScreen>
 #include <QKeyEvent>
 #include <QRegularExpression>
+#include <QSettings>
 
 // Page to reference for resizing GUI dynamically based on window size: https://doc.qt.io/qt-6/layout.html
 
@@ -49,7 +50,20 @@ MainWindow::MainWindow(QWidget *parent)
     ui->vid->hide();
     ui->img->hide();
     ui->contPlayerPanel->hide();
-    autoplay.setInterval(3000);  // Default autoplay time interval.
+
+    // Retrieve state/settings.
+    QSettings settings("YxWn", "YxWn_Gallery");
+    if (settings.contains("Settings")){
+        dirImages = settings.value("Current Directory").toString();
+        pathRand = settings.value("Current File").toString();
+        ui->chkEchoesThisDay->setCheckState(static_cast<Qt::CheckState>(settings.value("Echoes of This Day").toInt()));
+        ui->chkAutoplay->setCheckState(static_cast<Qt::CheckState>(settings.value("Autoplay").toInt()));
+        autoplay.setInterval(settings.value("Autoplay Interval").toInt());
+        audio->setMuted(settings.value("Mute").toBool());
+    }
+    else {
+        autoplay.setInterval(3000);  // Default autoplay time interval.
+    }
 
     ui->btnPlayPause->setIcons(QIcon("resources/btnPause.png"), QIcon("resources/btnPauseHover.png"), QIcon("resources/btnPausePressed.png"));
     ui->btnRewind->setIcons(QIcon("resources/btnRewind.png"), QIcon("resources/btnRewindHover.png"), QIcon("resources/btnRewindPressed.png"));
@@ -58,6 +72,17 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    // Save state/settings.
+    QSettings settings("YxWn", "YxWn_Gallery");
+    settings.setValue("Settings", "Created");
+    settings.setValue("Current Directory", dirImages.path());
+    settings.setValue("Current File", pathRand);
+    settings.setValue("Echoes of This Day", ui->chkEchoesThisDay->checkState());
+    settings.setValue("Autoplay", ui->chkAutoplay->checkState());
+    settings.setValue("Autoplay Interval", autoplay.interval());
+    settings.setValue("Mute", audio->isMuted());
+    settings.sync();
+
     delete ui;
     delete audio;
 }
