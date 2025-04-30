@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/system">
+        <file>resources/btnPause.png</file>
+        <file>resources/btnPauseHover.png</file>
+        <file>resources/btnPausePressed.png</file>
+        <file>resources/btnPlay.png</file>
+        <file>resources/btnPlayHover.png</file>
+        <file>resources/btnPlayPressed.png</file>
+        <file>resources/btnRewind.png</file>
+        <file>resources/btnRewindHover.png</file>
+        <file>resources/btnRewindPressed.png</file>
+        <file>resources/btnSkip.png</file>
+        <file>resources/btnSkipHover.png</file>
+        <file>resources/btnSkipPressed.png</file>
+        <file>resources/imgMusic.png</file>
+        <file>resources/ShiroNana.jpeg</file>
+        <file>resources/Terriermon.clip</file>
+        <file>resources/Terriermon.ico</file>
+        <file>resources/Terriermon16.png</file>
+        <file>resources/Terriermon32.png</file>
+        <file>resources/Terriermon64.png</file>
+        <file>resources/Terriermon128.png</file>
+        <file>resources/Terriermon256.png</file>
+    </qresource>
+</RCC>

@@ -65,9 +65,9 @@ MainWindow::MainWindow(QWidget *parent)
         autoplay.setInterval(3000);  // Default autoplay time interval.
     }
 
-    ui->btnPlayPause->setIcons(QIcon("resources/btnPause.png"), QIcon("resources/btnPauseHover.png"), QIcon("resources/btnPausePressed.png"));
-    ui->btnRewind->setIcons(QIcon("resources/btnRewind.png"), QIcon("resources/btnRewindHover.png"), QIcon("resources/btnRewindPressed.png"));
-    ui->btnSkip->setIcons(QIcon("resources/btnSkip.png"), QIcon("resources/btnSkipHover.png"), QIcon("resources/btnSkipPressed.png"));
+    ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
+    ui->btnRewind->setIcons(QIcon(":/system/resources/btnRewind.png"), QIcon(":/system/resources/btnRewindHover.png"), QIcon(":/system/resources/btnRewindPressed.png"));
+    ui->btnSkip->setIcons(QIcon(":/system/resources/btnSkip.png"), QIcon(":/system/resources/btnSkipHover.png"), QIcon(":/system/resources/btnSkipPressed.png"));
 }
 
 MainWindow::~MainWindow()
@@ -129,7 +129,7 @@ void MainWindow::btnGenerate_clicked()
     else if (fileExtension == "gif" || fileExtension == "mp4" || fileExtension == "mkv"){
         ui->img->hide();
         player.setSource(QUrl(pathRand));
-        ui->btnPlayPause->setIcons(QIcon("resources/btnPause.png"), QIcon("resources/btnPauseHover.png"), QIcon("resources/btnPausePressed.png"));
+        ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
         ui->vid->show();
         ui->contPlayerPanel->show();
         player.play();
@@ -137,12 +137,12 @@ void MainWindow::btnGenerate_clicked()
     else if (fileExtension == "mp3" || fileExtension == "wav"){
         ui->vid->hide();
         player.setSource(QUrl(pathRand));
-        QPixmap imgMusic("resources/imgMusic.png");
+        QPixmap imgMusic(":/system/resources/imgMusic.png");
         int width = ui->img->width();
         int height = ui->img->height();
         ui->img->setPixmap(imgMusic.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
         ui->img->setAlignment(Qt::AlignCenter);
-        ui->btnPlayPause->setIcons(QIcon("resources/btnPause.png"), QIcon("resources/btnPauseHover.png"), QIcon("resources/btnPausePressed.png"));
+        ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
         ui->img->show();
         ui->contPlayerPanel->show();
         player.play();
@@ -207,14 +207,14 @@ void MainWindow::btnPlayPause_clicked()
 {
     if (player.isPlaying()){
         player.pause();
-        ui->btnPlayPause->setIcons(QIcon("resources/btnPlay.png"), QIcon("resources/btnPlayHover.png"), QIcon("resources/btnPlayPressed.png"));
-        ui->btnPlayPause->setIcon(QIcon("resources/btnPlayHover.png"));
+        ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPlay.png"), QIcon(":/system/resources/btnPlayHover.png"), QIcon(":/system/resources/btnPlayPressed.png"));
+        ui->btnPlayPause->setIcon(QIcon(":/system/resources/btnPlayHover.png"));
     }
     else {
         if (player.duration() - player.position() < 100) player.setPosition(0);  // Restart the video if the almost ended. (Paused by program due to reached the last few frame of video)
         player.play();
-        ui->btnPlayPause->setIcons(QIcon("resources/btnPause.png"), QIcon("resources/btnPauseHover.png"), QIcon("resources/btnPausePressed.png"));
-        ui->btnPlayPause->setIcon(QIcon("resources/btnPauseHover.png"));
+        ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
+        ui->btnPlayPause->setIcon(QIcon(":/system/resources/btnPauseHover.png"));
     }
 }
 
@@ -243,7 +243,7 @@ void MainWindow::playerPositionChanged(qint64 position){
     qint64 duration = player.duration();
     if (duration - position < 100){
         player.pause();
-        ui->btnPlayPause->setIcons(QIcon("resources/btnPlay.png"), QIcon("resources/btnPlayHover.png"), QIcon("resources/btnPlayPressed.png"));
+        ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPlay.png"), QIcon(":/system/resources/btnPlayHover.png"), QIcon(":/system/resources/btnPlayPressed.png"));
     }
     ui->slrProgressBar->setMaximum(player.duration() - 100);  // Offset for last-frame pause.
     ui->slrProgressBar->setValue(position);
@@ -316,7 +316,7 @@ void MainWindow::chkAutoplay_clicked(Qt::CheckState state) {
 void MainWindow::btnSettings_clicked() {
     autoplay.stop();
     player.pause();
-    ui->btnPlayPause->setIcons(QIcon("resources/btnPlay.png"), QIcon("resources/btnPlayHover.png"), QIcon("resources/btnPlayPressed.png"));
+    ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPlay.png"), QIcon(":/system/resources/btnPlayHover.png"), QIcon(":/system/resources/btnPlayPressed.png"));
     SettingsWindow* sw = new SettingsWindow(this);
     sw->setAttribute(Qt::WA_DeleteOnClose);
     sw->setWindowTitle("Settings");
