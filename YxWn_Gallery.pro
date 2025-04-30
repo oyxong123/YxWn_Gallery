@@ -12,16 +12,19 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    progressbarwindow.cpp \
     qcustompushbutton.cpp \
     settingswindow.cpp
 
 HEADERS += \
     mainwindow.h \
+    progressbarwindow.h \
     qcustompushbutton.h \
     settingswindow.h
 
 FORMS += \
     mainwindow.ui \
+    progressbarwindow.ui \
     settingswindow.ui
 
 # Default rules for deployment.
