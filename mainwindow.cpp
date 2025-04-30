@@ -44,76 +44,80 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->chkAutoplay, &QCheckBox::checkStateChanged, this, &MainWindow::chkAutoplay_clicked);
     QObject::connect(&autoplay, &QTimer::timeout, this, &MainWindow::btnGenerate_clicked);
     QObject::connect(ui->btnSettings, &QPushButton::clicked, this, &MainWindow::btnSettings_clicked);
+    QObject::connect(&tray, &QSystemTrayIcon::activated, this, &MainWindow::tray_clicked);
 
-    // Initialize
+    // Initialize GUI.
     player.setVideoOutput(ui->vid);
     player.setAudioOutput(audio);
     ui->vid->hide();
     ui->img->hide();
     ui->contPlayerPanel->hide();
+    ui->btnRewind->setIcons(QIcon(":/system/resources/btnRewind.png"), QIcon(":/system/resources/btnRewindHover.png"), QIcon(":/system/resources/btnRewindPressed.png"));
+    ui->btnSkip->setIcons(QIcon(":/system/resources/btnSkip.png"), QIcon(":/system/resources/btnSkipHover.png"), QIcon(":/system/resources/btnSkipPressed.png"));
 
     // Retrieve state/settings.
     QSettings settings("YxWn", "YxWn_Gallery");
-    if (!settings.contains("Rmb Folder")) settings.setValue("Rmb Folder", false);  // Create entires for certain settings if they were not created before.
-    if (!settings.contains("Rmb File")) settings.setValue("Rmb File", false);
     if (settings.contains("Settings")){  // If settings were created.
         ui->chkEchoesThisDay->setCheckState(static_cast<Qt::CheckState>(settings.value("Echoes of This Day").toInt()));
         ui->chkAutoplay->setCheckState(static_cast<Qt::CheckState>(settings.value("Autoplay").toInt()));
         autoplay.setInterval(settings.value("Autoplay Interval").toInt());
         audio->setMuted(settings.value("Mute").toBool());
-        if (settings.value("RmbFolder").toBool()) {
+        if (settings.value("Rmb Folder").toBool()) {
             dirImages = QDir(settings.value("Current Directory").toString());
             ui->lblPath->setText("Path: " + dirImages.path());
             ui->lblPath->adjustSize();
             retrieveFiles();
             filterFiles();
-            // Only check whether to reopen file state if state of folder is retained.
-            if (settings.value("RmbFile").toBool()) {
-                pathRand = settings.value("Current File").toString();
-                QString pathFolder = QFileInfo(pathRand).path().remove(dirImages.path());
-                if (pathFolder.isEmpty()) pathFolder = "-";
-                else pathFolder.removeFirst();
-                ui->lblFilePath->setText("Folder: " + pathFolder);
-                ui->lblFilePath->adjustSize();
-                ui->lblFileName->setText("Name: " + QFileInfo(pathRand).fileName());
-                ui->lblFileName->adjustSize();
-                QString fileExtension = QFileInfo(pathRand).suffix().toLower();  // Change all letters lowercase. (eg. JPG to jpg)
-                if (fileExtension == "png" || fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "jfif"){
-                    QPixmap imgRand(pathRand);
-                    int width = ui->img->width();
-                    int height = ui->img->height();
-                    ui->img->setPixmap(imgRand.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-                    ui->img->setAlignment(Qt::AlignCenter);
-                    ui->img->show();
-                }
-                else if (fileExtension == "gif" || fileExtension == "mp4" || fileExtension == "mkv"){
-                    player.setSource(QUrl(pathRand));
-                    ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
-                    ui->vid->show();
-                    ui->contPlayerPanel->show();
-                    player.play();
-                }
-                else if (fileExtension == "mp3" || fileExtension == "wav"){
-                    player.setSource(QUrl(pathRand));
-                    QPixmap imgMusic(":/system/resources/imgMusic.png");
-                    int width = ui->img->width();
-                    int height = ui->img->height();
-                    ui->img->setPixmap(imgMusic.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-                    ui->img->setAlignment(Qt::AlignCenter);
-                    ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
-                    ui->img->show();
-                    ui->contPlayerPanel->show();
-                    player.play();
-                }
+        }
+        if (settings.value("Rmb Folder").toBool() && settings.value("Rmb File").toBool()) {  // Only check whether to reopen file state if state of folder is retained.
+            pathRand = settings.value("Current File").toString();
+            QString pathFolder = QFileInfo(pathRand).path().remove(dirImages.path());
+            if (pathFolder.isEmpty()) pathFolder = "-";
+            else pathFolder.removeFirst();
+            ui->lblFilePath->setText("Folder: " + pathFolder);
+            ui->lblFilePath->adjustSize();
+            ui->lblFileName->setText("Name: " + QFileInfo(pathRand).fileName());
+            ui->lblFileName->adjustSize();
+            QString fileExtension = QFileInfo(pathRand).suffix().toLower();  // Change all letters lowercase. (eg. JPG to jpg)
+            if (fileExtension == "png" || fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "jfif"){
+                QPixmap imgRand(pathRand);
+                int width = ui->img->width();
+                int height = ui->img->height();
+                ui->img->setPixmap(imgRand.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                ui->img->setAlignment(Qt::AlignCenter);
+                ui->img->show();
+            }
+            else if (fileExtension == "gif" || fileExtension == "mp4" || fileExtension == "mkv"){
+                player.setSource(QUrl(pathRand));
+                ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
+                ui->vid->show();
+                ui->contPlayerPanel->show();
+                player.play();
+            }
+            else if (fileExtension == "mp3" || fileExtension == "wav"){
+                player.setSource(QUrl(pathRand));
+                QPixmap imgMusic(":/system/resources/imgMusic.png");
+                int width = ui->img->width();
+                int height = ui->img->height();
+                ui->img->setPixmap(imgMusic.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                ui->img->setAlignment(Qt::AlignCenter);
+                ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
+                ui->img->show();
+                ui->contPlayerPanel->show();
+                player.play();
             }
         }
     }
     else {
         autoplay.setInterval(3000);  // Default autoplay time interval.
+        settings.setValue("Rmb Folder", false);
+        settings.setValue("Rmb File", false);
+        settings.setValue("Exit On Close", false);
     }
 
-    ui->btnRewind->setIcons(QIcon(":/system/resources/btnRewind.png"), QIcon(":/system/resources/btnRewindHover.png"), QIcon(":/system/resources/btnRewindPressed.png"));
-    ui->btnSkip->setIcons(QIcon(":/system/resources/btnSkip.png"), QIcon(":/system/resources/btnSkipHover.png"), QIcon(":/system/resources/btnSkipPressed.png"));
+    // Initialize system tray icon.
+    tray.setIcon(QIcon(":/system/resources/Terriermon16.png"));
+    tray.show();
 }
 
 MainWindow::~MainWindow()
@@ -121,8 +125,8 @@ MainWindow::~MainWindow()
     // Save state/settings.
     QSettings settings("YxWn", "YxWn_Gallery");
     settings.setValue("Settings", "Created");
-    if (settings.value("RmbFolder").toBool() == true) settings.setValue("Current Directory", dirImages.path());
-    if (settings.value("RmbFolder").toBool() == true && settings.value("RmbFile").toBool() == true) settings.setValue("Current File", pathRand);
+    if (settings.value("Rmb Folder").toBool()) settings.setValue("Current Directory", dirImages.path());
+    if (settings.value("Rmb Folder").toBool() && settings.value("Rmb File").toBool()) settings.setValue("Current File", pathRand);
     settings.setValue("Echoes of This Day", ui->chkEchoesThisDay->checkState());
     settings.setValue("Autoplay", ui->chkAutoplay->checkState());
     settings.sync();
@@ -366,4 +370,22 @@ void MainWindow::btnSettings_clicked() {
     sw->setWindowTitle("Settings");
     sw->exec();
     chkAutoplay_clicked(ui->chkAutoplay->checkState());  // Resume autoplay if chkAutoplay is checked.
+}
+
+
+void MainWindow::tray_clicked(QSystemTrayIcon::ActivationReason reason) {
+    if (reason == QSystemTrayIcon::Trigger) {  // The icon was clicked.
+        // Bring the applicaiton to the front.
+        show();
+        raise();
+        activateWindow();
+    }
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) {
+    QSettings settings("YxWn", "YxWn_Gallery");
+    if (!settings.value("Exit On Close").toBool()){
+        hide();
+        event->ignore();  // Prevent app from quitting.
+    }
 }

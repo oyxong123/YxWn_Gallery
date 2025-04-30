@@ -18,9 +18,10 @@ SettingsWindow::SettingsWindow(MainWindow* mainWindow, QWidget *parent)
     QSettings settings("YxWn", "YxWn_Gallery");
     ui->inpAutoplayInterval->setValue(mw->autoplay.interval() / 1000);
     if (mw->audio->isMuted()) ui->chkMute->setCheckState(Qt::Checked);
-    if (settings.value("RmbFolder").toBool() == true) ui->chkRmbFolder->setCheckState(Qt::Checked);
+    if (settings.value("Rmb Folder").toBool()) ui->chkRmbFolder->setCheckState(Qt::Checked);
     else ui->chkRmbFile->setEnabled(false);
-    if (settings.value("RmbFile").toBool() == true) ui->chkRmbFile->setCheckState(Qt::Checked);
+    if (settings.value("Rmb File").toBool()) ui->chkRmbFile->setCheckState(Qt::Checked);
+    if (settings.value("Exit On Close").toBool()) ui->chkExitOnClose->setCheckState(Qt::Checked);
 }
 
 SettingsWindow::~SettingsWindow()
@@ -57,17 +58,22 @@ void SettingsWindow::btnApply_clicked() {
         }
     }
     if (ui->chkRmbFolder->checkState() == Qt::Unchecked) {
-        if (settings.value("RmbFolder").toBool() == true) settings.setValue("RmbFolder", false);
+        if (settings.value("Rmb Folder").toBool() == true) settings.setValue("Rmb Folder", false);
     }
     else {
-        if (settings.value("RmbFolder").toBool() == false) settings.setValue("RmbFolder", true);
+        if (settings.value("Rmb Folder").toBool() == false) settings.setValue("Rmb Folder", true);
     }
-
     if (ui->chkRmbFile->checkState() == Qt::Unchecked) {
-        if (settings.value("RmbFile").toBool() == true) settings.setValue("RmbFile", false);
+        if (settings.value("Rmb File").toBool() == true) settings.setValue("Rmb File", false);
     }
     else {
-        if (settings.value("RmbFile").toBool() == false) settings.setValue("RmbFile", true);
+        if (settings.value("Rmb File").toBool() == false) settings.setValue("Rmb File", true);
+    }
+    if (ui->chkExitOnClose->checkState() == Qt::Unchecked) {
+        if (settings.value("Exit On Close").toBool() == true) settings.setValue("Exit On Close", false);
+    }
+    else {
+        if (settings.value("Exit On Close").toBool() == false) settings.setValue("Exit On Close", true);
     }
     settings.sync();
     accept();

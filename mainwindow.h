@@ -6,6 +6,7 @@
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QTimer>
+#include <QSystemTrayIcon>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -39,18 +40,20 @@ private slots:
     void chkEchoesThisDay_clicked(Qt::CheckState state);
     void chkAutoplay_clicked(Qt::CheckState state);
     void btnSettings_clicked();
+    void tray_clicked(QSystemTrayIcon::ActivationReason reason);
 
 signals:
-    // Any custom signals
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
+    void closeEvent(QCloseEvent *event) override;
 
 private:
     Ui::MainWindow *ui;
     QDir dirImages;
     QStringList pathList;
     QString pathRand;
+    QSystemTrayIcon tray;
 };
 #endif // MAINWINDOW_H
