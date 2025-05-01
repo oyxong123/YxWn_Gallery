@@ -1,5 +1,6 @@
 QT += core gui multimedia multimediawidgets
 RC_ICONS = resources/Terriermon.ico
+TARGET = YxWn-Gallery
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

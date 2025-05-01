@@ -120,6 +120,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Initialize system tray icon.
     tray.setIcon(QIcon(":/system/resources/Terriermon16.png"));
+    tray.setToolTip("YxWn-Gallery");
     tray.show();
 }
 
