@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->btnPlayPause, &QPushButton::clicked, this, &MainWindow::btnPlayPause_clicked);
     QObject::connect(ui->btnRewind, &QPushButton::clicked, this, &MainWindow::btnRewind_clicked);
     QObject::connect(ui->btnSkip, &QPushButton::clicked, this, &MainWindow::btnSkip_clicked);
+    QObject::connect(ui->btnRefresh, &QPushButton::clicked, this, &MainWindow::btnRefresh_clicked);
     QObject::connect(&player, &QMediaPlayer::positionChanged, this, &MainWindow::playerPositionChanged);
     QObject::connect(ui->slrProgressBar, &QAbstractSlider::sliderPressed, this, &MainWindow::sliderPressed);
     QObject::connect(ui->slrProgressBar, &QAbstractSlider::sliderMoved, this, &MainWindow::sliderMoved);
@@ -396,4 +397,10 @@ void MainWindow::closeEvent(QCloseEvent *event) {
         hide();  // Close the app window.
         event->ignore();  // Prevent app from quitting.
     }
+}
+
+void MainWindow::btnRefresh_clicked() {
+    retrieveFiles();
+    filterFiles();
+    tray.showMessage("Folder refreshed!", "", QSystemTrayIcon::Information, 5000);
 }

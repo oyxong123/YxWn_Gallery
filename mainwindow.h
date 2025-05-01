@@ -41,6 +41,7 @@ private slots:
     void chkAutoplay_clicked(Qt::CheckState state);
     void btnSettings_clicked();
     void tray_clicked(QSystemTrayIcon::ActivationReason reason);
+    void btnRefresh_clicked();
 
 signals:
 

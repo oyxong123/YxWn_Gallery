@@ -49,7 +49,7 @@
    </property>
    <property name="styleSheet">
     <string notr="true">QWidget#centralwidget {
-	border-image: url(C:/Users/Admin/Desktop/Coding  Tools/Qt/YxWn_Gallery/resources/ShiroNana.jpeg) 0 0 0 0 stretch stretch;
+	border-image: url(:/system/resources/ShiroNana.jpeg) 0 0 0 0 stretch stretch;
 /*
 	background-image: url(C:/Users/Admin/Downloads/qttestfolder/ShiroNana.jpeg) ;
 	background-position: center;
@@ -307,7 +307,7 @@
        <widget class="QLabel" name="lblFileName">
         <property name="geometry">
          <rect>
-          <x>130</x>
+          <x>150</x>
           <y>79</y>
           <width>49</width>
           <height>16</height>
@@ -320,7 +320,7 @@
        <widget class="QLabel" name="lblPath">
         <property name="geometry">
          <rect>
-          <x>130</x>
+          <x>150</x>
           <y>19</y>
           <width>91</width>
           <height>16</height>
@@ -339,7 +339,7 @@
        <widget class="QLabel" name="lblFilePath">
         <property name="geometry">
          <rect>
-          <x>130</x>
+          <x>150</x>
           <y>49</y>
           <width>49</width>
           <height>16</height>
@@ -360,7 +360,7 @@
          <rect>
           <x>20</x>
           <y>16</y>
-          <width>80</width>
+          <width>85</width>
           <height>24</height>
          </rect>
         </property>
@@ -375,8 +375,8 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>46</y>
-          <width>80</width>
+          <y>48</y>
+          <width>111</width>
           <height>24</height>
          </rect>
         </property>
@@ -392,7 +392,7 @@
          <rect>
           <x>20</x>
           <y>80</y>
-          <width>80</width>
+          <width>111</width>
           <height>24</height>
          </rect>
         </property>
@@ -401,6 +401,37 @@
         </property>
         <property name="text">
          <string>Settings</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnRefresh">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>108</x>
+          <y>16</y>
+          <width>24</width>
+          <height>24</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset theme="QIcon::ThemeIcon::ViewRefresh"/>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>10</width>
+          <height>10</height>
+         </size>
         </property>
        </widget>
       </widget>
