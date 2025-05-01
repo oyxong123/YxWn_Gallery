@@ -66,7 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
             dirImages = QDir(settings.value("Current Directory").toString());
             ui->lblPath->setText("Path: " + dirImages.path());
             ui->lblPath->adjustSize();
-            retrieveFiles();
+            pathList = settings.value("Path List").toStringList();  // Reduces computation from reindexing the directory.
             filterFiles();
         }
         if (settings.value("Rmb Folder").toBool() && settings.value("Rmb File").toBool()) {  // Only check whether to reopen file state if state of folder is retained.
@@ -126,6 +126,7 @@ MainWindow::~MainWindow()
     QSettings settings("YxWn", "YxWn_Gallery");
     settings.setValue("Settings", "Created");
     if (settings.value("Rmb Folder").toBool()) settings.setValue("Current Directory", dirImages.path());
+    if (settings.value("Rmb Folder").toBool()) settings.setValue("Path List", pathList);
     if (settings.value("Rmb Folder").toBool() && settings.value("Rmb File").toBool()) settings.setValue("Current File", pathRand);
     settings.setValue("Echoes of This Day", ui->chkEchoesThisDay->checkState());
     settings.setValue("Autoplay", ui->chkAutoplay->checkState());
@@ -162,6 +163,11 @@ void MainWindow::btnGenerate_clicked()
         return;
     }
     else pathRand = pathRandTemp;
+    if (!dirImages.exists(pathRand)) {  // Prevent missing media file from being accessed.
+        btnGenerate_clicked();
+        qDebug() << "Test success.";
+        return;
+    }
     QString fileExtension = QFileInfo(pathRand).suffix().toLower();  // Change all letters lowercase. (eg. JPG to jpg)
     if (fileExtension == "png" || fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "jfif"){
         player.stop();
