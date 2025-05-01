@@ -51,9 +51,10 @@ MainWindow::MainWindow(QWidget *parent)
     player.setAudioOutput(audio);
     ui->vid->hide();
     ui->img->hide();
-    ui->contPlayerPanel->hide();
+    ui->contPlayerPanel->setEnabled(false);
     ui->btnRewind->setIcons(QIcon(":/system/resources/btnRewind.png"), QIcon(":/system/resources/btnRewindHover.png"), QIcon(":/system/resources/btnRewindPressed.png"));
     ui->btnSkip->setIcons(QIcon(":/system/resources/btnSkip.png"), QIcon(":/system/resources/btnSkipHover.png"), QIcon(":/system/resources/btnSkipPressed.png"));
+    ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPlay.png"), QIcon(":/system/resources/btnPlayHover.png"), QIcon(":/system/resources/btnPlayPressed.png"));
 
     // Retrieve state/settings.
     QSettings settings("YxWn", "YxWn_Gallery");
@@ -85,13 +86,14 @@ MainWindow::MainWindow(QWidget *parent)
                 int height = ui->img->height();
                 ui->img->setPixmap(imgRand.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
                 ui->img->setAlignment(Qt::AlignCenter);
+                ui->contPlayerPanel->setEnabled(false);
                 ui->img->show();
             }
             else if (fileExtension == "gif" || fileExtension == "mp4" || fileExtension == "mkv"){
                 player.setSource(QUrl(pathRand));
                 ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
                 ui->vid->show();
-                ui->contPlayerPanel->show();
+                ui->contPlayerPanel->setEnabled(true);
                 player.play();
             }
             else if (fileExtension == "mp3" || fileExtension == "wav"){
@@ -103,7 +105,7 @@ MainWindow::MainWindow(QWidget *parent)
                 ui->img->setAlignment(Qt::AlignCenter);
                 ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
                 ui->img->show();
-                ui->contPlayerPanel->show();
+                ui->contPlayerPanel->setEnabled(true);
                 player.play();
             }
         }
@@ -177,7 +179,7 @@ void MainWindow::btnGenerate_clicked()
         ui->img->setPixmap(imgRand.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
         ui->img->setAlignment(Qt::AlignCenter);
         ui->vid->hide();
-        ui->contPlayerPanel->hide();
+        ui->contPlayerPanel->setEnabled(false);
         ui->img->show();
     }
     else if (fileExtension == "gif" || fileExtension == "mp4" || fileExtension == "mkv"){
@@ -185,7 +187,7 @@ void MainWindow::btnGenerate_clicked()
         player.setSource(QUrl(pathRand));
         ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
         ui->vid->show();
-        ui->contPlayerPanel->show();
+        ui->contPlayerPanel->setEnabled(true);
         player.play();
     }
     else if (fileExtension == "mp3" || fileExtension == "wav"){
@@ -198,7 +200,7 @@ void MainWindow::btnGenerate_clicked()
         ui->img->setAlignment(Qt::AlignCenter);
         ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
         ui->img->show();
-        ui->contPlayerPanel->show();
+        ui->contPlayerPanel->setEnabled(true);
         player.play();
     }
     QString pathFolder = QFileInfo(pathRand).path().remove(dirImages.path());
