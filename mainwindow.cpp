@@ -218,7 +218,7 @@ void MainWindow::filterFiles() {
         QString month = date.toString("MM");
         QString day = date.toString("dd");
         // QRegularExpression regex(QString(".*%1[-_]?%2[-_]?%3.*").arg(year, month, day));  // Production use
-        static QRegularExpression regex(QString(".*2025[-_]?04[-_]?06.*"));  // Debug Use: Use on Precious Moments.
+        static QRegularExpression regex(QString(".*2025[-_]?04[-_]?06.*"));  // Debug Use: Use on qttestfolder.
         QStringList filteredPaths;
         for (QStringList::const_iterator it = pathList.cbegin(); it != pathList.cend(); ++it) {
             if (regex.match(*it).hasMatch()) {
@@ -391,7 +391,7 @@ void MainWindow::tray_clicked(QSystemTrayIcon::ActivationReason reason) {
 void MainWindow::closeEvent(QCloseEvent *event) {
     QSettings settings("YxWn", "YxWn_Gallery");
     if (!settings.value("Exit On Close").toBool()){
-        hide();
+        hide();  // Close the app window.
         event->ignore();  // Prevent app from quitting.
     }
 }
