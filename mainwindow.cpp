@@ -247,9 +247,10 @@ void MainWindow::filterFiles() {
     if (!pathList.empty() && ui->chkEchoesThisDay->isChecked()){
         QDate date = QDate::currentDate();
         QString year = date.toString("yyyy");
+        QString decade = year.first(2);
         QString month = date.toString("MM");
         QString day = date.toString("dd");
-        QRegularExpression regex(QString(".*%1[-_]?%2[-_]?%3.*").arg(year, month, day));  // Production use
+        QRegularExpression regex(QString(".*%1\\d{2}[-_]?%2[-_]?%3.*").arg(decade, month, day));  // Production use
         // static QRegularExpression regex(QString(".*2025[-_]?04[-_]?06.*"));  // Debug Use: Use on qttestfolder.
         QStringList filteredPaths;
         for (QStringList::const_iterator it = pathList.cbegin(); it != pathList.cend(); ++it) {
