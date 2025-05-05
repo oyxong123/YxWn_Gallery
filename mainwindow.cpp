@@ -21,6 +21,7 @@
 #include <QRegularExpression>
 #include <QSettings>
 #include <QSystemTrayIcon>
+#include <QElapsedTimer>
 
 // Page to reference for resizing GUI dynamically based on window size: https://doc.qt.io/qt-6/layout.html
 
@@ -28,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    QElapsedTimer perf;
+    perf.start();
+
     ui->setupUi(this);
     ui->slrProgressBar->installEventFilter(this);
     setFocusPolicy(Qt::StrongFocus);
@@ -66,48 +70,62 @@ MainWindow::MainWindow(QWidget *parent)
         audio->setMuted(settings.value("Mute").toBool());
         if (settings.value("Rmb Folder").toBool()) {
             dirImages = QDir(settings.value("Current Directory").toString());
-            ui->lblPath->setText("Path: " + dirImages.path());
-            ui->lblPath->adjustSize();
-            pathList = settings.value("Path List").toStringList();  // Reduces computation from reindexing the directory.
-            filterFiles();
+            if (dirImages.exists()){  // Prevent missing directory from being accessed.
+                ui->lblPath->setText("Path: " + dirImages.path());
+                ui->lblPath->adjustSize();
+                pathList = settings.value("Path List").toStringList();  // Reduces computation from reindexing the directory.
+                filterFiles();
+            }
+            else {
+                ui->lblPath->setText("Path: ");
+                ui->lblPath->adjustSize();
+            }
         }
         if (settings.value("Rmb Folder").toBool() && settings.value("Rmb File").toBool()) {  // Only check whether to reopen file state if state of folder is retained.
             pathRand = settings.value("Current File").toString();
-            QString pathFolder = QFileInfo(pathRand).path().remove(dirImages.path());
-            if (pathFolder.isEmpty()) pathFolder = "-";
-            else pathFolder.removeFirst();
-            ui->lblFilePath->setText("Folder: " + pathFolder);
-            ui->lblFilePath->adjustSize();
-            ui->lblFileName->setText("Name: " + QFileInfo(pathRand).fileName());
-            ui->lblFileName->adjustSize();
-            QString fileExtension = QFileInfo(pathRand).suffix().toLower();  // Change all letters lowercase. (eg. JPG to jpg)
-            if (fileExtension == "png" || fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "jfif"){
-                QPixmap imgRand(pathRand);
-                int width = ui->img->width();
-                int height = ui->img->height();
-                ui->img->setPixmap(imgRand.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-                ui->img->setAlignment(Qt::AlignCenter);
-                ui->contPlayerPanel->setEnabled(false);
-                ui->img->show();
+            if (dirImages.exists(pathRand)) {  // Prevent missing media file from being accessed.
+                QString pathFolder = QFileInfo(pathRand).path().remove(dirImages.path());
+                if (pathFolder.isEmpty()) pathFolder = "-";
+                else pathFolder.removeFirst();
+                ui->lblFilePath->setText("Folder: " + pathFolder);
+                ui->lblFilePath->adjustSize();
+                ui->lblFileName->setText("Name: " + QFileInfo(pathRand).fileName());
+                ui->lblFileName->adjustSize();
+                QString fileExtension = QFileInfo(pathRand).suffix().toLower();  // Change all letters lowercase. (eg. JPG to jpg)
+                if (fileExtension == "png" || fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "jfif"){
+                    QPixmap imgRand(pathRand);
+                    int width = ui->img->width();
+                    int height = ui->img->height();
+                    ui->img->setPixmap(imgRand.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                    ui->img->setAlignment(Qt::AlignCenter);
+                    ui->contPlayerPanel->setEnabled(false);
+                    ui->img->show();
+                }
+                else if (fileExtension == "gif" || fileExtension == "mp4" || fileExtension == "mkv"){
+                    player.setSource(QUrl(pathRand));
+                    ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
+                    ui->vid->show();
+                    ui->contPlayerPanel->setEnabled(true);
+                    player.play();
+                }
+                else if (fileExtension == "mp3" || fileExtension == "wav"){
+                    player.setSource(QUrl(pathRand));
+                    QPixmap imgMusic(":/system/resources/imgMusic.png");
+                    int width = ui->img->width();
+                    int height = ui->img->height();
+                    ui->img->setPixmap(imgMusic.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                    ui->img->setAlignment(Qt::AlignCenter);
+                    ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
+                    ui->img->show();
+                    ui->contPlayerPanel->setEnabled(true);
+                    player.play();
+                }
             }
-            else if (fileExtension == "gif" || fileExtension == "mp4" || fileExtension == "mkv"){
-                player.setSource(QUrl(pathRand));
-                ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
-                ui->vid->show();
-                ui->contPlayerPanel->setEnabled(true);
-                player.play();
-            }
-            else if (fileExtension == "mp3" || fileExtension == "wav"){
-                player.setSource(QUrl(pathRand));
-                QPixmap imgMusic(":/system/resources/imgMusic.png");
-                int width = ui->img->width();
-                int height = ui->img->height();
-                ui->img->setPixmap(imgMusic.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-                ui->img->setAlignment(Qt::AlignCenter);
-                ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPause.png"), QIcon(":/system/resources/btnPauseHover.png"), QIcon(":/system/resources/btnPausePressed.png"));
-                ui->img->show();
-                ui->contPlayerPanel->setEnabled(true);
-                player.play();
+            else {
+                ui->lblFilePath->setText("Folder: ");
+                ui->lblFilePath->adjustSize();
+                ui->lblFileName->setText("Name: ");
+                ui->lblFileName->adjustSize();
             }
         }
     }
@@ -122,6 +140,8 @@ MainWindow::MainWindow(QWidget *parent)
     tray.setIcon(QIcon(":/system/resources/Terriermon16.png"));
     tray.setToolTip("YxWn-Gallery");
     tray.show();
+
+    qDebug() << "Initialize: " << perf.elapsed() << "ms";
 }
 
 MainWindow::~MainWindow()
@@ -149,6 +169,10 @@ void MainWindow::btnGenerate_clicked()
      * 4. Display the file based on file extension. (Only open image, video, and audio file)
      * Note: Can't display .webp files.
     **/
+
+    QElapsedTimer perf;
+    perf.start();
+
     ui->img->clear();  // Clear opened media before opening the next one.
     player.stop();
     player.setSource(QUrl());
@@ -169,7 +193,6 @@ void MainWindow::btnGenerate_clicked()
     else pathRand = pathRandTemp;
     if (!dirImages.exists(pathRand)) {  // Prevent missing media file from being accessed.
         btnGenerate_clicked();
-        qDebug() << "Test success.";
         return;
     }
     QString fileExtension = QFileInfo(pathRand).suffix().toLower();  // Change all letters lowercase. (eg. JPG to jpg)
@@ -213,16 +236,21 @@ void MainWindow::btnGenerate_clicked()
     ui->lblFileName->setText("Name: " + QFileInfo(pathRand).fileName());
     ui->lblFileName->adjustSize();
     ui->contPlayerPanel->setCurrentIndex(1);
+
+    qDebug() << "Generate File: " << perf.elapsed() << "ms";
 }
 
 void MainWindow::filterFiles() {
+    QElapsedTimer perf;
+    perf.start();
+
     if (!pathList.empty() && ui->chkEchoesThisDay->isChecked()){
         QDate date = QDate::currentDate();
         QString year = date.toString("yyyy");
         QString month = date.toString("MM");
         QString day = date.toString("dd");
-        // QRegularExpression regex(QString(".*%1[-_]?%2[-_]?%3.*").arg(year, month, day));  // Production use
-        static QRegularExpression regex(QString(".*2025[-_]?04[-_]?06.*"));  // Debug Use: Use on qttestfolder.
+        QRegularExpression regex(QString(".*%1[-_]?%2[-_]?%3.*").arg(year, month, day));  // Production use
+        // static QRegularExpression regex(QString(".*2025[-_]?04[-_]?06.*"));  // Debug Use: Use on qttestfolder.
         QStringList filteredPaths;
         for (QStringList::const_iterator it = pathList.cbegin(); it != pathList.cend(); ++it) {
             if (regex.match(*it).hasMatch()) {
@@ -231,9 +259,14 @@ void MainWindow::filterFiles() {
         }
         pathList = filteredPaths;
     }
+
+    qDebug() << "Filter Files: " << perf.elapsed() << "ms";
 }
 
 void MainWindow::retrieveFiles() {
+    QElapsedTimer perf;
+    perf.start();
+
     QStringList filters;
     filters << "*.png" << "*.jpg" << "*.jfif" << "*.jpeg" << "*.mp4" << "*.gif" << "*.mkv" << "*.mp3" << "*.wav";  // Specify the file extensions to accept. (Case insensitive, eg. jpg = JPG)
     pathList.clear();  // Clear off buffer of files from previously selected dir.
@@ -241,6 +274,8 @@ void MainWindow::retrieveFiles() {
     while (iterator.hasNext()){
         pathList.append(iterator.next());
     }
+
+    qDebug() << "Retrieve Files: " << perf.elapsed() << "ms";
 }
 
 void MainWindow::btnSelectFolder_clicked()
