@@ -13,7 +13,6 @@ int main(int argc, char *argv[])
     screenGeo.setTop(screenGeo.top() + 30);
     w.setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, w.size(), screenGeo));
     // w.setWindowState(Qt::WindowFullScreen);
-    w.show();
 
     return a.exec();
 }

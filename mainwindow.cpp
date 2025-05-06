@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "settingswindow.h"
+#include "progressbarwindow.h"
 #include "qcustompushbutton.h"
 #include <cstdio>
 #include <QDir>
