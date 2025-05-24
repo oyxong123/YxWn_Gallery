@@ -22,6 +22,9 @@ SettingsWindow::SettingsWindow(MainWindow* mainWindow, QWidget *parent)
     else ui->chkRmbFile->setEnabled(false);
     if (settings.value("Rmb File").toBool()) ui->chkRmbFile->setCheckState(Qt::Checked);
     if (settings.value("Exit On Close").toBool()) ui->chkExitOnClose->setCheckState(Qt::Checked);
+    if (settings.value("Include Picture").toBool()) ui->chkIncludePic->setCheckState(Qt::Checked);
+    if (settings.value("Include Video").toBool()) ui->chkIncludeVid->setCheckState(Qt::Checked);
+    if (settings.value("Include Audio").toBool()) ui->chkIncludeAud->setCheckState(Qt::Checked);
 }
 
 SettingsWindow::~SettingsWindow()
@@ -74,6 +77,24 @@ void SettingsWindow::btnApply_clicked() {
     }
     else {
         if (settings.value("Exit On Close").toBool() == false) settings.setValue("Exit On Close", true);
+    }
+    if (ui->chkIncludePic->checkState() == Qt::Unchecked) {
+        if (settings.value("Include Picture").toBool() == true) settings.setValue("Include Picture", false);
+    }
+    else {
+        if (settings.value("Include Picture").toBool() == false) settings.setValue("Include Picture", true);
+    }
+    if (ui->chkIncludeVid->checkState() == Qt::Unchecked) {
+        if (settings.value("Include Video").toBool() == true) settings.setValue("Include Video", false);
+    }
+    else {
+        if (settings.value("Include Video").toBool() == false) settings.setValue("Include Video", true);
+    }
+    if (ui->chkIncludeAud->checkState() == Qt::Unchecked) {
+        if (settings.value("Include Audio").toBool() == true) settings.setValue("Include Audio", false);
+    }
+    else {
+        if (settings.value("Include Audio").toBool() == false) settings.setValue("Include Audio", true);
     }
     settings.sync();
     accept();

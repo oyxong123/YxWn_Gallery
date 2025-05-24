@@ -23,6 +23,7 @@
 #include <QSettings>
 #include <QSystemTrayIcon>
 #include <QElapsedTimer>
+#include <QMessageBox>
 
 // Page to reference for resizing GUI dynamically based on window size: https://doc.qt.io/qt-6/layout.html
 
@@ -135,6 +136,9 @@ MainWindow::MainWindow(QWidget *parent)
         settings.setValue("Rmb Folder", false);
         settings.setValue("Rmb File", false);
         settings.setValue("Exit On Close", false);
+        settings.setValue("Include Picture", true);
+        settings.setValue("Include Video", true);
+        settings.setValue("Include Audio", true);
     }
 
     // Initialize system tray icon.
@@ -269,8 +273,20 @@ void MainWindow::retrieveFiles() {
     QElapsedTimer perf;
     perf.start();
 
+    QSettings settings("YxWn", "YxWn_Gallery");
     QStringList filters;
-    filters << "*.png" << "*.jpg" << "*.jfif" << "*.jpeg" << "*.mp4" << "*.gif" << "*.mkv" << "*.mp3" << "*.wav";  // Specify the file extensions to accept. (Case insensitive, eg. jpg = JPG)
+    // filters << "*.png" << "*.jpg" << "*.jfif" << "*.jpeg" << "*.mp4" << "*.gif" << "*.mkv" << "*.mp3" << "*.wav";  // Specify the file extensions to accept. (Case insensitive, eg. jpg = JPG)
+    if (settings.value("Include Picture").toBool()) {
+        filters << "*.png" << "*.jpg" << "*.jfif" << "*.jpeg";
+    }
+
+    if (settings.value("Include Video").toBool()) {
+        filters << "*.gif" << "*.mp4" << "*.mkv";
+    }
+
+    if (settings.value("Include Audio").toBool()) {
+        filters << "*.mp3" << "*.wav";
+    }
     pathList.clear();  // Clear off buffer of files from previously selected dir.
     QDirIterator iterator(dirImages.path(), filters, QDir::Files, QDirIterator::Subdirectories);  // Automatically ignores "." and ".."
     while (iterator.hasNext()){
@@ -419,7 +435,6 @@ void MainWindow::btnSettings_clicked() {
     chkAutoplay_clicked(ui->chkAutoplay->checkState());  // Resume autoplay if chkAutoplay is checked.
 }
 
-
 void MainWindow::tray_clicked(QSystemTrayIcon::ActivationReason reason) {
     if (reason == QSystemTrayIcon::Trigger) {  // The icon was clicked.
         // Bring the applicaiton to the front.
@@ -440,5 +455,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 void MainWindow::btnRefresh_clicked() {
     retrieveFiles();
     filterFiles();
-    tray.showMessage("Folder refreshed!", "", QSystemTrayIcon::Information, 5000);
+    QMessageBox msgBox;
+    msgBox.setText("Folder refreshed.");
+    msgBox.exec();
 }
