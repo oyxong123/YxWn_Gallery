@@ -64,6 +64,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->btnSkip->setIcons(QIcon(":/system/resources/btnSkip.png"), QIcon(":/system/resources/btnSkipHover.png"), QIcon(":/system/resources/btnSkipPressed.png"));
     ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPlay.png"), QIcon(":/system/resources/btnPlayHover.png"), QIcon(":/system/resources/btnPlayPressed.png"));
 
+    // Save previous wallpaper.
+    wchar_t path[MAX_PATH];
+    SystemParametersInfoW(SPI_GETDESKWALLPAPER, MAX_PATH, path, 0);
+    previousWallpaperPath = QString::fromWCharArray(path);
+
     // Retrieve state/settings.
     QSettings settings("YxWn", "YxWn_Gallery");
     if (settings.contains("Settings")){  // If settings were created.
@@ -131,12 +136,7 @@ MainWindow::MainWindow(QWidget *parent)
                 ui->lblFileName->adjustSize();
             }
         }
-        if (settings.value("Run as Wallpaper on Startup").toBool()) {
-            // Save previous wallpaper.
-            wchar_t path[MAX_PATH];
-            SystemParametersInfoW(SPI_GETDESKWALLPAPER, MAX_PATH, path, 0);
-            previousWallpaperPath = QString::fromWCharArray(path);
-
+        if (settings.value("Desktop Wallpaper").toBool() && settings.value("Run as Wallpaper on Startup").toBool()) {
             // Attach Qt window to the desktop wallpaper.
             HWND hwnd = (HWND)winId();
             HWND workerw = getDesktopWorkerW();
@@ -149,6 +149,7 @@ MainWindow::MainWindow(QWidget *parent)
         settings.setValue("Rmb Folder", false);
         settings.setValue("Rmb File", false);
         settings.setValue("Exit On Close", false);
+        settings.setValue("Desktop Wallpaper", false);
         settings.setValue("Run as Wallpaper on Startup", false);
         settings.setValue("Include Picture", true);
         settings.setValue("Include Video", true);

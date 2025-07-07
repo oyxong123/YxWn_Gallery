@@ -12,6 +12,7 @@ SettingsWindow::SettingsWindow(MainWindow* mainWindow, QWidget *parent)
 {
     ui->setupUi(this);
     QObject::connect(ui->chkRmbFolder, &QCheckBox::clicked, this, &SettingsWindow::chkRmbFolder_clicked);
+    QObject::connect(ui->chkDesktopWallpaper, &QCheckBox::clicked, this, &SettingsWindow::chkDesktopWallpaper_clicked);
     QObject::connect(ui->btnApply, &QPushButton::clicked, this, &SettingsWindow::btnApply_clicked);
     QObject::connect(ui->btnCancel, &QPushButton::clicked, this, &SettingsWindow::reject);
 
@@ -22,6 +23,7 @@ SettingsWindow::SettingsWindow(MainWindow* mainWindow, QWidget *parent)
     else ui->chkRmbFile->setEnabled(false);
     if (settings.value("Rmb File").toBool()) ui->chkRmbFile->setCheckState(Qt::Checked);
     if (settings.value("Exit On Close").toBool()) ui->chkExitOnClose->setCheckState(Qt::Checked);
+    if (settings.value("Desktop Wallpaper").toBool()) ui->chkDesktopWallpaper->setCheckState(Qt::Checked);
     if (settings.value("Run as Wallpaper on Startup").toBool()) ui->chkRunAsWallpaper->setCheckState(Qt::Checked);
     if (settings.value("Include Picture").toBool()) ui->chkIncludePic->setCheckState(Qt::Checked);
     if (settings.value("Include Video").toBool()) ui->chkIncludeVid->setCheckState(Qt::Checked);
@@ -42,6 +44,14 @@ void SettingsWindow::chkRmbFolder_clicked() {
     }
 }
 
+void SettingsWindow::chkDesktopWallpaper_clicked() {
+    if (ui->chkDesktopWallpaper->checkState() == Qt::Unchecked) {
+        ui->chkRunAsWallpaper->setEnabled(false);
+    }
+    else {
+        ui->chkRunAsWallpaper->setEnabled(true);
+    }
+}
 
 void SettingsWindow::btnApply_clicked() {
     QSettings settings("YxWn", "YxWn_Gallery");
@@ -79,6 +89,12 @@ void SettingsWindow::btnApply_clicked() {
     }
     else {
         if (settings.value("Exit On Close").toBool() == false) settings.setValue("Exit On Close", true);
+    }
+    if (ui->chkDesktopWallpaper->checkState() == Qt::Unchecked) {
+        if (settings.value("Desktop Wallpaper").toBool() == true) settings.setValue("Desktop Wallpaper", false);
+    }
+    else {
+        if (settings.value("Desktop Wallpaper").toBool() == false) settings.setValue("Desktop Wallpaper", true);
     }
     if (ui->chkRunAsWallpaper->checkState() == Qt::Unchecked) {
         if (settings.value("Run as Wallpaper on Startup").toBool() == true) settings.setValue("Run as Wallpaper on Startup", false);

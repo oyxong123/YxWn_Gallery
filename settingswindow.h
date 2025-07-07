@@ -19,6 +19,7 @@ public:
 private slots:
     void btnApply_clicked();
     void chkRmbFolder_clicked();
+    void chkDesktopWallpaper_clicked();
 
 private:
     Ui::SettingsWindow *ui;
