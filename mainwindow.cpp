@@ -24,6 +24,7 @@
 #include <QSystemTrayIcon>
 #include <QElapsedTimer>
 #include <QMessageBox>
+#include <QApplication>
 #include <windows.h>
 
 // Page to reference for resizing GUI dynamically based on window size: https://doc.qt.io/qt-6/layout.html
@@ -475,6 +476,16 @@ void MainWindow::btnSettings_clicked() {
 
 void MainWindow::tray_clicked(QSystemTrayIcon::ActivationReason reason) {
     if (reason == QSystemTrayIcon::Trigger) {  // The icon was clicked.
+        // Disable running application as wallpaper.
+        HWND hwnd = (HWND)winId();
+        SetParent(hwnd, NULL);
+        SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (PVOID)previousWallpaperPath.utf16(), SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);  // Reset desktop wallpaper to specific img.
+        QScreen *screen = qApp->primaryScreen();
+        QRect screenGeo = screen->availableGeometry();
+        screenGeo.setTop(screenGeo.top() - 50);  // Add window margin.
+        setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), screenGeo));
+        setWindowFlags(Qt::Window);  // Need to call 'show()' function to apply.
+
         // Bring the applicaiton to the front.
         show();
         raise();
