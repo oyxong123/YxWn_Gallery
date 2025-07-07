@@ -58,5 +58,6 @@ private:
     QSystemTrayIcon tray;
     QString previousWallpaperPath;
     HWND getDesktopWorkerW();
+    void attachAppAsWallpaper();
 };
 #endif // MAINWINDOW_H

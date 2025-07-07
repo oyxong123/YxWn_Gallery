@@ -138,11 +138,7 @@ MainWindow::MainWindow(QWidget *parent)
             }
         }
         if (settings.value("Desktop Wallpaper").toBool() && settings.value("Run as Wallpaper on Startup").toBool()) {
-            // Attach Qt window to the desktop wallpaper.
-            HWND hwnd = (HWND)winId();
-            HWND workerw = getDesktopWorkerW();
-            SetParent(hwnd, workerw);
-            setWindowFlag(Qt::FramelessWindowHint);
+            attachAppAsWallpaper();
         }
     }
     else {
@@ -477,14 +473,14 @@ void MainWindow::btnSettings_clicked() {
 void MainWindow::tray_clicked(QSystemTrayIcon::ActivationReason reason) {
     if (reason == QSystemTrayIcon::Trigger) {  // The icon was clicked.
         // Disable running application as wallpaper.
+        setWindowFlags(Qt::Window);  // Need to call 'show()' function to apply.
+        QScreen *screen = qApp->primaryScreen();
+        QRect screenGeo = screen->geometry();
+        screenGeo.setTop(screenGeo.top() - 10);  // Add window margin.
+        setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), screenGeo));  // Should be set after the set window flags (type) to prevent false position calculation.
         HWND hwnd = (HWND)winId();
         SetParent(hwnd, NULL);
         SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (PVOID)previousWallpaperPath.utf16(), SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);  // Reset desktop wallpaper to specific img.
-        QScreen *screen = qApp->primaryScreen();
-        QRect screenGeo = screen->availableGeometry();
-        screenGeo.setTop(screenGeo.top() - 50);  // Add window margin.
-        setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), screenGeo));
-        setWindowFlags(Qt::Window);  // Need to call 'show()' function to apply.
 
         // Bring the applicaiton to the front.
         show();
@@ -497,6 +493,14 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     QSettings settings("YxWn", "YxWn_Gallery");
     if (!settings.value("Exit On Close").toBool()){
         hide();  // Close the app window.
+        if (settings.value("Desktop Wallpaper").toBool()) {
+            attachAppAsWallpaper();
+            QScreen *screen = qApp->primaryScreen();
+            QRect screenGeo = screen->geometry();
+            screenGeo.setTop(screenGeo.top() - 40);  // Add window margin.
+            setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), screenGeo));  // Should be set after the set window flags (type) to prevent false position calculation.
+            show();
+        }
         event->ignore();  // Prevent app from quitting.
     }
 }
@@ -507,4 +511,12 @@ void MainWindow::btnRefresh_clicked() {
     QMessageBox msgBox;
     msgBox.setText("Folder refreshed.");
     msgBox.exec();
+}
+
+
+void MainWindow::attachAppAsWallpaper(){  // Will only be applied when 'show()' function is called.
+    HWND hwnd = (HWND)winId();
+    HWND workerw = getDesktopWorkerW();
+    SetParent(hwnd, workerw);  // Application position (geometry) needs to be set before this function call.
+    setWindowFlag(Qt::FramelessWindowHint);
 }
