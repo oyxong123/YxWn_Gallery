@@ -7,6 +7,7 @@
 #include <QAudioOutput>
 #include <QTimer>
 #include <QSystemTrayIcon>
+#include <QMenu>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -42,6 +43,9 @@ private slots:
     void btnSettings_clicked();
     void tray_clicked(QSystemTrayIcon::ActivationReason reason);
     void btnRefresh_clicked();
+    void trayExitAction_clicked(bool checked);
+    void trayWallpaperModeAction_clicked(bool checked);
+    void trayWindowModeAction_clicked(bool checked);
 
 signals:
 
@@ -55,9 +59,12 @@ private:
     QDir dirImages;
     QStringList pathList;
     QString pathRand;
+    bool forceExit = false;
     QSystemTrayIcon tray;
+    QMenu trayMenu;
     QString previousWallpaperPath;
     HWND getDesktopWorkerW();
     void attachAppAsWallpaper();
+    void restoreAppAsWindow();
 };
 #endif // MAINWINDOW_H

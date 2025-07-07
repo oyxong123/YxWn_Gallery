@@ -154,8 +154,16 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     // Initialize system tray icon.
+    QAction *wallpaperModeAction = trayMenu.addAction("Wallpaper Mode");
+    QAction *windowModeAction = trayMenu.addAction("Window Mode");
+    trayMenu.addSeparator();
+    QAction *exitAction = trayMenu.addAction("Exit");
+    QObject::connect(wallpaperModeAction, &QAction::triggered, this, &MainWindow::trayWallpaperModeAction_clicked);
+    QObject::connect(windowModeAction, &QAction::triggered, this, &MainWindow::trayWindowModeAction_clicked);
+    QObject::connect(exitAction, &QAction::triggered, this, &MainWindow::trayExitAction_clicked);
     tray.setIcon(QIcon(":/system/resources/Terriermon16.png"));
     tray.setToolTip("YxWn-Gallery");
+    tray.setContextMenu(&trayMenu);
     tray.show();
 
     // Display app.
@@ -473,14 +481,7 @@ void MainWindow::btnSettings_clicked() {
 void MainWindow::tray_clicked(QSystemTrayIcon::ActivationReason reason) {
     if (reason == QSystemTrayIcon::Trigger) {  // The icon was clicked.
         // Disable running application as wallpaper.
-        setWindowFlags(Qt::Window);  // Need to call 'show()' function to apply.
-        QScreen *screen = qApp->primaryScreen();
-        QRect screenGeo = screen->geometry();
-        screenGeo.setTop(screenGeo.top() - 10);  // Add window margin.
-        setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), screenGeo));  // Should be set after the set window flags (type) to prevent false position calculation.
-        HWND hwnd = (HWND)winId();
-        SetParent(hwnd, NULL);
-        SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (PVOID)previousWallpaperPath.utf16(), SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);  // Reset desktop wallpaper to specific img.
+        restoreAppAsWindow();
 
         // Bring the applicaiton to the front.
         show();
@@ -491,14 +492,11 @@ void MainWindow::tray_clicked(QSystemTrayIcon::ActivationReason reason) {
 
 void MainWindow::closeEvent(QCloseEvent *event) {
     QSettings settings("YxWn", "YxWn_Gallery");
-    if (!settings.value("Exit On Close").toBool()){
+    if (!forceExit && !settings.value("Exit On Close").toBool()){
+        qDebug() << "hi";
         hide();  // Close the app window.
         if (settings.value("Desktop Wallpaper").toBool()) {
             attachAppAsWallpaper();
-            QScreen *screen = qApp->primaryScreen();
-            QRect screenGeo = screen->geometry();
-            screenGeo.setTop(screenGeo.top() - 40);  // Add window margin.
-            setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), screenGeo));  // Should be set after the set window flags (type) to prevent false position calculation.
             show();
         }
         event->ignore();  // Prevent app from quitting.
@@ -514,9 +512,42 @@ void MainWindow::btnRefresh_clicked() {
 }
 
 
-void MainWindow::attachAppAsWallpaper(){  // Will only be applied when 'show()' function is called.
+void MainWindow::attachAppAsWallpaper() {  // Will only be applied when 'show()' function is called.
     HWND hwnd = (HWND)winId();
     HWND workerw = getDesktopWorkerW();
     SetParent(hwnd, workerw);  // Application position (geometry) needs to be set before this function call.
     setWindowFlag(Qt::FramelessWindowHint);
+    QScreen *screen = qApp->primaryScreen();
+    QRect screenGeo = screen->geometry();
+    screenGeo.setTop(screenGeo.top() - 40);  // Add window margin.
+    setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), screenGeo));  // Should be set after the set window flags (type) to prevent false position calculation.
+}
+
+void MainWindow::restoreAppAsWindow() {
+    setWindowFlags(Qt::Window);  // Need to call 'show()' function to apply.
+    QScreen *screen = qApp->primaryScreen();
+    QRect screenGeo = screen->geometry();
+    screenGeo.setTop(screenGeo.top() - 10);  // Add window margin.
+    setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), screenGeo));  // Should be set after the set window flags (type) to prevent false position calculation.
+    HWND hwnd = (HWND)winId();
+    SetParent(hwnd, NULL);
+    SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (PVOID)previousWallpaperPath.utf16(), SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);  // Reset desktop wallpaper to specific img.
+}
+
+void MainWindow::trayExitAction_clicked(bool checked) {
+    Q_UNUSED(checked);
+    forceExit = true;
+    qApp -> quit();
+}
+
+void MainWindow::trayWallpaperModeAction_clicked(bool checked) {
+    Q_UNUSED(checked);
+    attachAppAsWallpaper();
+    show();
+}
+
+void MainWindow::trayWindowModeAction_clicked(bool checked) {
+    Q_UNUSED(checked);
+    restoreAppAsWindow();
+    show();
 }
