@@ -131,12 +131,20 @@ MainWindow::MainWindow(QWidget *parent)
                 ui->lblFileName->adjustSize();
             }
         }
+        if (settings.value("Run as Wallpaper on Startup").toBool()) {
+            // Attach Qt window to the desktop wallpaper.
+            HWND hwnd = (HWND)winId();
+            HWND workerw = getDesktopWorkerW();
+            SetParent(hwnd, workerw);
+            setWindowFlag(Qt::FramelessWindowHint);
+        }
     }
     else {
         autoplay.setInterval(3000);  // Default autoplay time interval.
         settings.setValue("Rmb Folder", false);
         settings.setValue("Rmb File", false);
         settings.setValue("Exit On Close", false);
+        settings.setValue("Run as Wallpaper on Startup", false);
         settings.setValue("Include Picture", true);
         settings.setValue("Include Video", true);
         settings.setValue("Include Audio", true);
@@ -146,12 +154,6 @@ MainWindow::MainWindow(QWidget *parent)
     tray.setIcon(QIcon(":/system/resources/Terriermon16.png"));
     tray.setToolTip("YxWn-Gallery");
     tray.show();
-
-    // Attach Qt window to the desktop wallpaper.
-    HWND hwnd = (HWND)winId();
-    HWND workerw = getDesktopWorkerW();
-    SetParent(hwnd, workerw);
-    setWindowFlag(Qt::FramelessWindowHint);
 
     // Display app.
     show();

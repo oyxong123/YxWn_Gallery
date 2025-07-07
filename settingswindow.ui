@@ -42,7 +42,7 @@
   <widget class="QLabel" name="lblAutoplayInterval">
    <property name="geometry">
     <rect>
-     <x>15</x>
+     <x>31</x>
      <y>23</y>
      <width>131</width>
      <height>20</height>
@@ -58,7 +58,7 @@
   <widget class="QDoubleSpinBox" name="inpAutoplayInterval">
    <property name="geometry">
     <rect>
-     <x>155</x>
+     <x>171</x>
      <y>22</y>
      <width>51</width>
      <height>25</height>
@@ -83,8 +83,8 @@
   <widget class="QLabel" name="lblMute">
    <property name="geometry">
     <rect>
-     <x>104</x>
-     <y>55</y>
+     <x>120</x>
+     <y>56</y>
      <width>41</width>
      <height>20</height>
     </rect>
@@ -105,8 +105,8 @@
   <widget class="QCheckBox" name="chkMute">
    <property name="geometry">
     <rect>
-     <x>155</x>
-     <y>55</y>
+     <x>171</x>
+     <y>56</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -121,8 +121,8 @@
   <widget class="QCheckBox" name="chkRmbFolder">
    <property name="geometry">
     <rect>
-     <x>155</x>
-     <y>81</y>
+     <x>171</x>
+     <y>82</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -137,8 +137,8 @@
   <widget class="QLabel" name="lblRmbFolder">
    <property name="geometry">
     <rect>
-     <x>4</x>
-     <y>81</y>
+     <x>20</x>
+     <y>82</y>
      <width>141</width>
      <height>20</height>
     </rect>
@@ -159,8 +159,8 @@
   <widget class="QCheckBox" name="chkRmbFile">
    <property name="geometry">
     <rect>
-     <x>155</x>
-     <y>106</y>
+     <x>171</x>
+     <y>108</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -175,8 +175,8 @@
   <widget class="QLabel" name="lblRmbFile">
    <property name="geometry">
     <rect>
-     <x>4</x>
-     <y>106</y>
+     <x>20</x>
+     <y>108</y>
      <width>141</width>
      <height>20</height>
     </rect>
@@ -197,8 +197,8 @@
   <widget class="QLabel" name="lblExitOnClose">
    <property name="geometry">
     <rect>
-     <x>4</x>
-     <y>131</y>
+     <x>20</x>
+     <y>135</y>
      <width>141</width>
      <height>20</height>
     </rect>
@@ -219,8 +219,8 @@
   <widget class="QCheckBox" name="chkExitOnClose">
    <property name="geometry">
     <rect>
-     <x>155</x>
-     <y>131</y>
+     <x>171</x>
+     <y>135</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -235,8 +235,8 @@
   <widget class="QLabel" name="lblInclude">
    <property name="geometry">
     <rect>
-     <x>4</x>
-     <y>206</y>
+     <x>20</x>
+     <y>190</y>
      <width>141</width>
      <height>20</height>
     </rect>
@@ -257,8 +257,8 @@
   <widget class="QCheckBox" name="chkIncludePic">
    <property name="geometry">
     <rect>
-     <x>156</x>
-     <y>206</y>
+     <x>172</x>
+     <y>190</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -273,8 +273,8 @@
   <widget class="QLabel" name="lblIncludePic">
    <property name="geometry">
     <rect>
-     <x>171</x>
-     <y>207</y>
+     <x>187</x>
+     <y>191</y>
      <width>41</width>
      <height>20</height>
     </rect>
@@ -295,8 +295,8 @@
   <widget class="QCheckBox" name="chkIncludeVid">
    <property name="geometry">
     <rect>
-     <x>224</x>
-     <y>206</y>
+     <x>240</x>
+     <y>190</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -311,8 +311,8 @@
   <widget class="QLabel" name="lblIncludeVid">
    <property name="geometry">
     <rect>
-     <x>233</x>
-     <y>207</y>
+     <x>249</x>
+     <y>191</y>
      <width>41</width>
      <height>20</height>
     </rect>
@@ -333,8 +333,8 @@
   <widget class="QCheckBox" name="chkIncludeAud">
    <property name="geometry">
     <rect>
-     <x>285</x>
-     <y>207</y>
+     <x>301</x>
+     <y>191</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -349,8 +349,8 @@
   <widget class="QLabel" name="lblIncludeAud">
    <property name="geometry">
     <rect>
-     <x>296</x>
-     <y>207</y>
+     <x>312</x>
+     <y>191</y>
      <width>41</width>
      <height>20</height>
     </rect>
@@ -368,11 +368,11 @@
     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QCheckBox" name="chkSetAsDesktop">
+  <widget class="QCheckBox" name="chkRunAsWallpaper">
    <property name="geometry">
     <rect>
-     <x>155</x>
-     <y>156</y>
+     <x>171</x>
+     <y>162</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -384,12 +384,12 @@
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="lblSetAsDesktop">
+  <widget class="QLabel" name="lblRunAsWallpaper">
    <property name="geometry">
     <rect>
-     <x>4</x>
-     <y>156</y>
-     <width>141</width>
+     <x>0</x>
+     <y>162</y>
+     <width>161</width>
      <height>20</height>
     </rect>
    </property>
@@ -400,48 +400,10 @@
     <number>0</number>
    </property>
    <property name="text">
-    <string>Set as Desktop on Startup :</string>
+    <string>Run as Wallpaper on Startup :</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lblInteractableDesktop">
-   <property name="geometry">
-    <rect>
-     <x>4</x>
-     <y>181</y>
-     <width>141</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::Shape::NoFrame</enum>
-   </property>
-   <property name="lineWidth">
-    <number>0</number>
-   </property>
-   <property name="text">
-    <string>Interactable Desktop :</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QCheckBox" name="chkInteractableDesktop">
-   <property name="geometry">
-    <rect>
-     <x>155</x>
-     <y>181</y>
-     <width>16</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
    </property>
   </widget>
  </widget>

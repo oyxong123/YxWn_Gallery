@@ -22,6 +22,7 @@ SettingsWindow::SettingsWindow(MainWindow* mainWindow, QWidget *parent)
     else ui->chkRmbFile->setEnabled(false);
     if (settings.value("Rmb File").toBool()) ui->chkRmbFile->setCheckState(Qt::Checked);
     if (settings.value("Exit On Close").toBool()) ui->chkExitOnClose->setCheckState(Qt::Checked);
+    if (settings.value("Run as Wallpaper on Startup").toBool()) ui->chkRunAsWallpaper->setCheckState(Qt::Checked);
     if (settings.value("Include Picture").toBool()) ui->chkIncludePic->setCheckState(Qt::Checked);
     if (settings.value("Include Video").toBool()) ui->chkIncludeVid->setCheckState(Qt::Checked);
     if (settings.value("Include Audio").toBool()) ui->chkIncludeAud->setCheckState(Qt::Checked);
@@ -31,6 +32,7 @@ SettingsWindow::~SettingsWindow()
 {
     delete ui;
 }
+
 void SettingsWindow::chkRmbFolder_clicked() {
     if (ui->chkRmbFolder->checkState() == Qt::Unchecked) {
         ui->chkRmbFile->setEnabled(false);
@@ -77,6 +79,12 @@ void SettingsWindow::btnApply_clicked() {
     }
     else {
         if (settings.value("Exit On Close").toBool() == false) settings.setValue("Exit On Close", true);
+    }
+    if (ui->chkRunAsWallpaper->checkState() == Qt::Unchecked) {
+        if (settings.value("Run as Wallpaper on Startup").toBool() == true) settings.setValue("Run as Wallpaper on Startup", false);
+    }
+    else {
+        if (settings.value("Run as Wallpaper on Startup").toBool() == false) settings.setValue("Run as Wallpaper on Startup", true);
     }
     if (ui->chkIncludePic->checkState() == Qt::Unchecked) {
         if (settings.value("Include Picture").toBool() == true) settings.setValue("Include Picture", false);
