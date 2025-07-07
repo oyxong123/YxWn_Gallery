@@ -132,6 +132,11 @@ MainWindow::MainWindow(QWidget *parent)
             }
         }
         if (settings.value("Run as Wallpaper on Startup").toBool()) {
+            // Save previous wallpaper.
+            wchar_t path[MAX_PATH];
+            SystemParametersInfoW(SPI_GETDESKWALLPAPER, MAX_PATH, path, 0);
+            previousWallpaperPath = QString::fromWCharArray(path);
+
             // Attach Qt window to the desktop wallpaper.
             HWND hwnd = (HWND)winId();
             HWND workerw = getDesktopWorkerW();
@@ -176,7 +181,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete audio;
 
-    SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (PVOID)L"C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg", SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);  // Reset desktop wallpaper to specific img.
+    SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (PVOID)previousWallpaperPath.utf16(), SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);  // Reset desktop wallpaper to specific img.
 }
 
 HWND MainWindow::getDesktopWorkerW() {
