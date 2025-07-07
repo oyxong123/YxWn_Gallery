@@ -296,7 +296,7 @@
        <rect>
         <x>0</x>
         <y>30</y>
-        <width>491</width>
+        <width>481</width>
         <height>121</height>
        </rect>
       </property>
@@ -485,13 +485,13 @@
          <enum>Qt::FocusPolicy::NoFocus</enum>
         </property>
         <property name="toolTip">
-         <string>What This Day Once Carried</string>
+         <string/>
         </property>
         <property name="accessibleName">
          <string/>
         </property>
         <property name="accessibleDescription">
-         <string>Memories on This Date</string>
+         <string/>
         </property>
         <property name="text">
          <string>Autoplay</string>

@@ -10,9 +10,8 @@ int main(int argc, char *argv[])
     MainWindow w;
     QScreen *screen = a.primaryScreen();
     QRect screenGeo = screen->availableGeometry();
-    screenGeo.setTop(screenGeo.top() + 30);
+    screenGeo.setTop(screenGeo.top() + 0);  // Add window margin
     w.setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, w.size(), screenGeo));
-    // w.setWindowState(Qt::WindowFullScreen);
 
     return a.exec();
 }

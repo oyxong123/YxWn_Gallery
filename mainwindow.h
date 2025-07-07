@@ -56,5 +56,6 @@ private:
     QStringList pathList;
     QString pathRand;
     QSystemTrayIcon tray;
+    HWND getDesktopWorkerW();
 };
 #endif // MAINWINDOW_H

@@ -24,6 +24,7 @@
 #include <QSystemTrayIcon>
 #include <QElapsedTimer>
 #include <QMessageBox>
+#include <windows.h>
 
 // Page to reference for resizing GUI dynamically based on window size: https://doc.qt.io/qt-6/layout.html
 
@@ -146,6 +147,15 @@ MainWindow::MainWindow(QWidget *parent)
     tray.setToolTip("YxWn-Gallery");
     tray.show();
 
+    // Attach Qt window to the desktop wallpaper.
+    HWND hwnd = (HWND)winId();
+    HWND workerw = getDesktopWorkerW();
+    SetParent(hwnd, workerw);
+    setWindowFlag(Qt::FramelessWindowHint);
+
+    // Display app.
+    show();
+
     qDebug() << "Initialize: " << perf.elapsed() << "ms";
 }
 
@@ -163,6 +173,26 @@ MainWindow::~MainWindow()
 
     delete ui;
     delete audio;
+
+    SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (PVOID)L"C:\\Windows\\Web\\Wallpaper\\Windows\\img0.jpg", SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);  // Reset desktop wallpaper to specific img.
+}
+
+HWND MainWindow::getDesktopWorkerW() {
+    HWND progman = FindWindow(L"Progman", NULL);
+    SendMessageTimeout(progman, 0x052C, 0, 0, SMTO_NORMAL, 1000, nullptr);
+
+    HWND workerw = NULL;
+    EnumWindows([](HWND hwnd, LPARAM lParam) -> BOOL {
+        HWND defview = FindWindowEx(hwnd, NULL, L"SHELLDLL_DefView", NULL);
+        if (defview != NULL) {
+            HWND* ret = reinterpret_cast<HWND*>(lParam);
+            *ret = FindWindowEx(NULL, hwnd, L"WorkerW", NULL);
+            return FALSE; // stop enumerating
+        }
+        return TRUE;
+    }, reinterpret_cast<LPARAM>(&workerw));
+
+    return workerw;
 }
 
 void MainWindow::btnGenerate_clicked()

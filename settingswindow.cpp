@@ -31,7 +31,6 @@ SettingsWindow::~SettingsWindow()
 {
     delete ui;
 }
-
 void SettingsWindow::chkRmbFolder_clicked() {
     if (ui->chkRmbFolder->checkState() == Qt::Unchecked) {
         ui->chkRmbFile->setEnabled(false);
@@ -40,6 +39,7 @@ void SettingsWindow::chkRmbFolder_clicked() {
         ui->chkRmbFile->setEnabled(true);
     }
 }
+
 
 void SettingsWindow::btnApply_clicked() {
     QSettings settings("YxWn", "YxWn_Gallery");
