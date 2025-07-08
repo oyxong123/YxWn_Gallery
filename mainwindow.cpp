@@ -95,6 +95,7 @@ MainWindow::MainWindow(QWidget *parent)
             if (dirImages.exists()){  // Prevent missing directory from being accessed.
                 ui->lblPath->setText("Path: " + dirImages.path());
                 ui->lblPath->adjustSize();
+                ui->lblPath->setToolTip(dirImages.path());
                 pathList = settings.value("Path List").toStringList();  // Reduces computation from reindexing the directory.
                 filterFiles();
             }
@@ -287,8 +288,10 @@ void MainWindow::btnGenerate_clicked()
     else pathFolder.removeFirst();
     ui->lblFilePath->setText("Folder: " + pathFolder);
     ui->lblFilePath->adjustSize();
+    ui->lblFilePath->setToolTip(pathFolder);
     ui->lblFileName->setText("Name: " + QFileInfo(pathRand).fileName());
     ui->lblFileName->adjustSize();
+    ui->lblFileName->setToolTip(QFileInfo(pathRand).fileName());
     ui->contPlayerPanel->setCurrentIndex(1);
 
     qDebug() << "Generate File: " << perf.elapsed() << "ms";
@@ -359,6 +362,7 @@ void MainWindow::btnSelectFolder_clicked()
     dirImages.setPath(dir);
     ui->lblPath->setText("Path: " + dirImages.path());
     ui->lblPath->adjustSize();
+    ui->lblPath->setToolTip(dirImages.path());
     retrieveFiles();
     filterFiles();
 }
