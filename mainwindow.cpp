@@ -480,8 +480,13 @@ void MainWindow::btnSettings_clicked() {
 
 void MainWindow::tray_clicked(QSystemTrayIcon::ActivationReason reason) {
     if (reason == QSystemTrayIcon::Trigger) {  // The icon was clicked.
-        // Disable running application as wallpaper.
-        restoreAppAsWindow();
+        qDebug() << windowFlags();
+        if (windowFlags() == (Qt::Window | Qt::FramelessWindowHint)) {  // All window flags that are implicitly set when 'Qt::FramelessWindowHint' is set.
+            restoreAppAsWindow();
+        }
+        else if (windowFlags() == (Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint | Qt::WindowFullscreenButtonHint)) {  // All window flags that are implicitly set when 'Qt::Window' is set.
+            attachAppAsWallpaper();
+        }
 
         // Bring the applicaiton to the front.
         show();
@@ -493,7 +498,6 @@ void MainWindow::tray_clicked(QSystemTrayIcon::ActivationReason reason) {
 void MainWindow::closeEvent(QCloseEvent *event) {
     QSettings settings("YxWn", "YxWn_Gallery");
     if (!forceExit && !settings.value("Exit On Close").toBool()){
-        qDebug() << "hi";
         hide();  // Close the app window.
         if (settings.value("Desktop Wallpaper").toBool()) {
             attachAppAsWallpaper();
@@ -516,7 +520,7 @@ void MainWindow::attachAppAsWallpaper() {  // Will only be applied when 'show()'
     HWND hwnd = (HWND)winId();
     HWND workerw = getDesktopWorkerW();
     SetParent(hwnd, workerw);  // Application position (geometry) needs to be set before this function call.
-    setWindowFlag(Qt::FramelessWindowHint);
+    setWindowFlags(Qt::FramelessWindowHint);
     QScreen *screen = qApp->primaryScreen();
     QRect screenGeo = screen->geometry();
     screenGeo.setTop(screenGeo.top() - 40);  // Add window margin.
