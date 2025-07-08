@@ -91,10 +91,20 @@ void SettingsWindow::btnApply_clicked() {
         if (settings.value("Exit On Close").toBool() == false) settings.setValue("Exit On Close", true);
     }
     if (ui->chkDesktopWallpaper->checkState() == Qt::Unchecked) {
-        if (settings.value("Desktop Wallpaper").toBool() == true) settings.setValue("Desktop Wallpaper", false);
+        if (settings.value("Desktop Wallpaper").toBool() == true) {
+            settings.setValue("Desktop Wallpaper", false);
+            mw->trayMenu.removeAction(mw->wallpaperModeAction);
+            QObject::disconnect(mw->wallpaperModeAction, &QAction::triggered, mw, &MainWindow::trayWallpaperModeAction_clicked);
+        }
     }
     else {
-        if (settings.value("Desktop Wallpaper").toBool() == false) settings.setValue("Desktop Wallpaper", true);
+        if (settings.value("Desktop Wallpaper").toBool() == false) {
+            settings.setValue("Desktop Wallpaper", true);
+            mw->wallpaperModeAction = mw->trayMenu.addAction("Wallpaper Mode");
+            mw->wallpaperModeAction->setCheckable(true);
+            QObject::connect(mw->wallpaperModeAction, &QAction::triggered, mw, &MainWindow::trayWallpaperModeAction_clicked);
+            mw->trayMenu.insertAction(mw->windowModeAction, mw->wallpaperModeAction);
+        }
     }
     if (ui->chkRunAsWallpaper->checkState() == Qt::Unchecked) {
         if (settings.value("Run as Wallpaper on Startup").toBool() == true) settings.setValue("Run as Wallpaper on Startup", false);

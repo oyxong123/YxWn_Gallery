@@ -55,6 +55,23 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->btnSettings, &QPushButton::clicked, this, &MainWindow::btnSettings_clicked);
     QObject::connect(&tray, &QSystemTrayIcon::activated, this, &MainWindow::tray_clicked);
 
+    // Save previous wallpaper.
+    wchar_t path[MAX_PATH];
+    SystemParametersInfoW(SPI_GETDESKWALLPAPER, MAX_PATH, path, 0);
+    previousWallpaperPath = QString::fromWCharArray(path);
+
+    // Initialize system tray icon.
+    windowModeAction = trayMenu.addAction("Window Mode");
+    windowModeAction->setCheckable(true);
+    QObject::connect(windowModeAction, &QAction::triggered, this, &MainWindow::trayWindowModeAction_clicked);
+    trayMenu.addSeparator();
+    exitAction = trayMenu.addAction("Exit");
+    QObject::connect(exitAction, &QAction::triggered, this, &MainWindow::trayExitAction_clicked);
+    tray.setIcon(QIcon(":/system/resources/Terriermon16.png"));
+    tray.setToolTip("YxWn-Gallery");
+    tray.setContextMenu(&trayMenu);
+    tray.show();
+
     // Initialize GUI.
     player.setVideoOutput(ui->vid);
     player.setAudioOutput(audio);
@@ -64,11 +81,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->btnRewind->setIcons(QIcon(":/system/resources/btnRewind.png"), QIcon(":/system/resources/btnRewindHover.png"), QIcon(":/system/resources/btnRewindPressed.png"));
     ui->btnSkip->setIcons(QIcon(":/system/resources/btnSkip.png"), QIcon(":/system/resources/btnSkipHover.png"), QIcon(":/system/resources/btnSkipPressed.png"));
     ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPlay.png"), QIcon(":/system/resources/btnPlayHover.png"), QIcon(":/system/resources/btnPlayPressed.png"));
-
-    // Save previous wallpaper.
-    wchar_t path[MAX_PATH];
-    SystemParametersInfoW(SPI_GETDESKWALLPAPER, MAX_PATH, path, 0);
-    previousWallpaperPath = QString::fromWCharArray(path);
+    restoreAppAsWindow();  // Needs to be after system tray icon is initialized and previous wallpaper is saved.
 
     // Retrieve state/settings.
     QSettings settings("YxWn", "YxWn_Gallery");
@@ -137,6 +150,12 @@ MainWindow::MainWindow(QWidget *parent)
                 ui->lblFileName->adjustSize();
             }
         }
+        if (settings.value("Desktop Wallpaper").toBool()) {
+            wallpaperModeAction = trayMenu.addAction("Wallpaper Mode");
+            wallpaperModeAction->setCheckable(true);
+            QObject::connect(wallpaperModeAction, &QAction::triggered, this, &MainWindow::trayWallpaperModeAction_clicked);
+            trayMenu.insertAction(windowModeAction, wallpaperModeAction);
+        }
         if (settings.value("Desktop Wallpaper").toBool() && settings.value("Run as Wallpaper on Startup").toBool()) {
             attachAppAsWallpaper();
         }
@@ -152,19 +171,6 @@ MainWindow::MainWindow(QWidget *parent)
         settings.setValue("Include Video", true);
         settings.setValue("Include Audio", true);
     }
-
-    // Initialize system tray icon.
-    QAction *wallpaperModeAction = trayMenu.addAction("Wallpaper Mode");
-    QAction *windowModeAction = trayMenu.addAction("Window Mode");
-    trayMenu.addSeparator();
-    QAction *exitAction = trayMenu.addAction("Exit");
-    QObject::connect(wallpaperModeAction, &QAction::triggered, this, &MainWindow::trayWallpaperModeAction_clicked);
-    QObject::connect(windowModeAction, &QAction::triggered, this, &MainWindow::trayWindowModeAction_clicked);
-    QObject::connect(exitAction, &QAction::triggered, this, &MainWindow::trayExitAction_clicked);
-    tray.setIcon(QIcon(":/system/resources/Terriermon16.png"));
-    tray.setToolTip("YxWn-Gallery");
-    tray.setContextMenu(&trayMenu);
-    tray.show();
 
     // Display app.
     show();
@@ -517,6 +523,8 @@ void MainWindow::btnRefresh_clicked() {
 
 
 void MainWindow::attachAppAsWallpaper() {  // Will only be applied when 'show()' function is called.
+    wallpaperModeAction->setChecked(true);
+    windowModeAction->setChecked(false);
     HWND hwnd = (HWND)winId();
     HWND workerw = getDesktopWorkerW();
     SetParent(hwnd, workerw);  // Application position (geometry) needs to be set before this function call.
@@ -528,6 +536,8 @@ void MainWindow::attachAppAsWallpaper() {  // Will only be applied when 'show()'
 }
 
 void MainWindow::restoreAppAsWindow() {
+    wallpaperModeAction->setChecked(false);
+    windowModeAction->setChecked(true);
     setWindowFlags(Qt::Window);  // Need to call 'show()' function to apply.
     QScreen *screen = qApp->primaryScreen();
     QRect screenGeo = screen->geometry();

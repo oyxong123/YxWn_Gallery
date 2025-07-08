@@ -25,6 +25,11 @@ public:
     QTimer autoplay;
     QMediaPlayer player;  // This set of player + audio instances needs to be declared on top of the file to ensure it doesn't get destroyed when the runtime reaches the end of a function.
     QAudioOutput *audio = new QAudioOutput;
+    QSystemTrayIcon tray;
+    QMenu trayMenu;
+    QAction *wallpaperModeAction = new QAction;
+    QAction *windowModeAction = new QAction;
+    QAction *exitAction = new QAction;
 
 private slots:
     void btnGenerate_clicked();
@@ -44,8 +49,10 @@ private slots:
     void tray_clicked(QSystemTrayIcon::ActivationReason reason);
     void btnRefresh_clicked();
     void trayExitAction_clicked(bool checked);
-    void trayWallpaperModeAction_clicked(bool checked);
     void trayWindowModeAction_clicked(bool checked);
+
+public slots:
+    void trayWallpaperModeAction_clicked(bool checked);
 
 signals:
 
@@ -59,12 +66,10 @@ private:
     QDir dirImages;
     QStringList pathList;
     QString pathRand;
-    bool forceExit = false;
-    QSystemTrayIcon tray;
-    QMenu trayMenu;
     QString previousWallpaperPath;
     HWND getDesktopWorkerW();
     void attachAppAsWallpaper();
     void restoreAppAsWindow();
+    bool forceExit = false;
 };
 #endif // MAINWINDOW_H
