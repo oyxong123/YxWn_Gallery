@@ -523,16 +523,17 @@ void MainWindow::btnRefresh_clicked() {
 
 
 void MainWindow::attachAppAsWallpaper() {  // Will only be applied when 'show()' function is called.
+    if (isMinimized()) showNormal();  // Restore from minimized state.
     wallpaperModeAction->setChecked(true);
     windowModeAction->setChecked(false);
-    HWND hwnd = (HWND)winId();
-    HWND workerw = getDesktopWorkerW();
-    SetParent(hwnd, workerw);  // Application position (geometry) needs to be set before this function call.
     setWindowFlags(Qt::FramelessWindowHint);
     QScreen *screen = qApp->primaryScreen();
     QRect screenGeo = screen->geometry();
     screenGeo.setTop(screenGeo.top() - 40);  // Add window margin.
     setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, size(), screenGeo));  // Should be set after the set window flags (type) to prevent false position calculation.
+    HWND hwnd = (HWND)winId();
+    HWND workerw = getDesktopWorkerW();
+    SetParent(hwnd, workerw);  // Application position (geometry) needs to be set before this function call.
 }
 
 void MainWindow::restoreAppAsWindow() {
