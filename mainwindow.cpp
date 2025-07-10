@@ -96,7 +96,8 @@ MainWindow::MainWindow(QWidget *parent)
                 ui->lblPath->setText("Path: " + dirImages.path());
                 ui->lblPath->adjustSize();
                 ui->lblPath->setToolTip(dirImages.path());
-                pathList = settings.value("Path List").toStringList();  // Reduces computation from reindexing the directory.
+                if (settings.value("Refresh Folder on Startup").toBool()) retrieveFiles();
+                else pathList = settings.value("Path List").toStringList();  // Reduces computation from reindexing the directory.
                 filterFiles();
             }
             else {
@@ -164,6 +165,7 @@ MainWindow::MainWindow(QWidget *parent)
     else {
         autoplay.setInterval(3000);  // Default autoplay time interval.
         settings.setValue("Rmb Folder", false);
+        settings.setValue("Refresh Folder on Startup", false);
         settings.setValue("Rmb File", false);
         settings.setValue("Exit On Close", false);
         settings.setValue("Desktop Wallpaper", false);

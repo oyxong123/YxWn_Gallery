@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>338</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>260</y>
+     <y>297</y>
      <width>80</width>
      <height>24</height>
     </rect>
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>260</y>
+     <y>297</y>
      <width>80</width>
      <height>24</height>
     </rect>
@@ -128,7 +128,7 @@
     </rect>
    </property>
    <property name="text">
-    <string/>
+    <string>Folder</string>
    </property>
    <property name="checked">
     <bool>false</bool>
@@ -160,7 +160,7 @@
    <property name="geometry">
     <rect>
      <x>171</x>
-     <y>108</y>
+     <y>136</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -176,7 +176,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>108</y>
+     <y>136</y>
      <width>141</width>
      <height>20</height>
     </rect>
@@ -198,7 +198,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>135</y>
+     <y>163</y>
      <width>141</width>
      <height>20</height>
     </rect>
@@ -220,7 +220,7 @@
    <property name="geometry">
     <rect>
      <x>171</x>
-     <y>135</y>
+     <y>163</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -236,7 +236,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>214</y>
+     <y>248</y>
      <width>141</width>
      <height>20</height>
     </rect>
@@ -258,7 +258,7 @@
    <property name="geometry">
     <rect>
      <x>172</x>
-     <y>214</y>
+     <y>248</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -274,7 +274,7 @@
    <property name="geometry">
     <rect>
      <x>187</x>
-     <y>215</y>
+     <y>249</y>
      <width>41</width>
      <height>20</height>
     </rect>
@@ -296,7 +296,7 @@
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>214</y>
+     <y>248</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -312,7 +312,7 @@
    <property name="geometry">
     <rect>
      <x>249</x>
-     <y>215</y>
+     <y>249</y>
      <width>41</width>
      <height>20</height>
     </rect>
@@ -334,7 +334,7 @@
    <property name="geometry">
     <rect>
      <x>301</x>
-     <y>215</y>
+     <y>249</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -350,7 +350,7 @@
    <property name="geometry">
     <rect>
      <x>312</x>
-     <y>215</y>
+     <y>249</y>
      <width>41</width>
      <height>20</height>
     </rect>
@@ -372,7 +372,7 @@
    <property name="geometry">
     <rect>
      <x>171</x>
-     <y>186</y>
+     <y>218</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -388,7 +388,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>186</y>
+     <y>218</y>
      <width>161</width>
      <height>20</height>
     </rect>
@@ -410,7 +410,7 @@
    <property name="geometry">
     <rect>
      <x>171</x>
-     <y>160</y>
+     <y>191</y>
      <width>16</width>
      <height>22</height>
     </rect>
@@ -426,7 +426,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>160</y>
+     <y>191</y>
      <width>141</width>
      <height>20</height>
     </rect>
@@ -439,6 +439,44 @@
    </property>
    <property name="text">
     <string>Desktop Wallpaper :</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chkRefreshFolderOnStartup">
+   <property name="geometry">
+    <rect>
+     <x>171</x>
+     <y>109</y>
+     <width>16</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lblRefreshFolderOnStartup">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>109</y>
+     <width>161</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::NoFrame</enum>
+   </property>
+   <property name="lineWidth">
+    <number>0</number>
+   </property>
+   <property name="text">
+    <string>Refresh Folder on Startup :</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>

@@ -20,7 +20,11 @@ SettingsWindow::SettingsWindow(MainWindow* mainWindow, QWidget *parent)
     ui->inpAutoplayInterval->setValue(mw->autoplay.interval() / 1000);
     if (mw->audio->isMuted()) ui->chkMute->setCheckState(Qt::Checked);
     if (settings.value("Rmb Folder").toBool()) ui->chkRmbFolder->setCheckState(Qt::Checked);
-    else ui->chkRmbFile->setEnabled(false);
+    else {
+        ui->chkRmbFile->setEnabled(false);
+        ui->chkRefreshFolderOnStartup->setEnabled(false);
+    }
+    if (settings.value("Refresh Folder on Startup").toBool()) ui->chkRefreshFolderOnStartup->setCheckState(Qt::Checked);
     if (settings.value("Rmb File").toBool()) ui->chkRmbFile->setCheckState(Qt::Checked);
     if (settings.value("Exit On Close").toBool()) ui->chkExitOnClose->setCheckState(Qt::Checked);
     if (settings.value("Desktop Wallpaper").toBool()) ui->chkDesktopWallpaper->setCheckState(Qt::Checked);
@@ -38,9 +42,11 @@ SettingsWindow::~SettingsWindow()
 void SettingsWindow::chkRmbFolder_clicked() {
     if (ui->chkRmbFolder->checkState() == Qt::Unchecked) {
         ui->chkRmbFile->setEnabled(false);
+        ui->chkRefreshFolderOnStartup->setEnabled(false);
     }
     else {
         ui->chkRmbFile->setEnabled(true);
+        ui->chkRefreshFolderOnStartup->setEnabled(true);
     }
 }
 
@@ -77,6 +83,12 @@ void SettingsWindow::btnApply_clicked() {
     }
     else {
         if (settings.value("Rmb Folder").toBool() == false) settings.setValue("Rmb Folder", true);
+    }
+    if (ui->chkRefreshFolderOnStartup->checkState() == Qt::Unchecked) {
+        if (settings.value("Refresh Folder on Startup").toBool() == true) settings.setValue("Refresh Folder on Startup", false);
+    }
+    else {
+        if (settings.value("Refresh Folder on Startup").toBool() == false) settings.setValue("Refresh Folder on Startup", true);
     }
     if (ui->chkRmbFile->checkState() == Qt::Unchecked) {
         if (settings.value("Rmb File").toBool() == true) settings.setValue("Rmb File", false);
