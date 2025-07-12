@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->chkEchoesThisDay, &QCheckBox::checkStateChanged, this, &MainWindow::chkEchoesThisDay_clicked);
     QObject::connect(ui->chkAutoplay, &QCheckBox::checkStateChanged, this, &MainWindow::chkAutoplay_clicked);
     QObject::connect(ui->chkYxHdd, &QCheckBox::checkStateChanged, this, &MainWindow::chkYxHdd_clicked);
+    QObject::connect(ui->chkWinnie, &QCheckBox::checkStateChanged, this, &MainWindow::chkWinnie_clicked);
     QObject::connect(&autoplay, &QTimer::timeout, this, &MainWindow::btnGenerate_clicked);
     QObject::connect(ui->btnSettings, &QPushButton::clicked, this, &MainWindow::btnSettings_clicked);
     QObject::connect(&tray, &QSystemTrayIcon::activated, this, &MainWindow::tray_clicked);
@@ -511,7 +512,7 @@ void MainWindow::retrieveYxHddFiles() {
     QElapsedTimer perf;
     perf.start();
 
-    QDir drivePath = QDir(findDriveByDeviceName("Seagate Yx 2t") + "YuXuanFiles");
+    QDir drivePath = getSeagateDrivePath();
     if (!drivePath.exists()) return;
     dirImages.setPath(drivePath.path());
     ui->lblPath->setText("Path: " + dirImages.path());
@@ -535,6 +536,11 @@ void MainWindow::retrieveYxHddFiles() {
     qDebug() << "Retrieve Files: " << perf.elapsed() << "ms";
 }
 
+QDir MainWindow::getSeagateDrivePath() {
+    QDir drivePath = QDir(findDriveByDeviceName("Seagate Yx 2t") + "YuXuanFiles");
+    return drivePath;
+}
+
 QString MainWindow::findDriveByDeviceName(const QString &deviceName) {
     foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
         if (storage.isValid() && storage.isReady()) {
@@ -546,6 +552,28 @@ QString MainWindow::findDriveByDeviceName(const QString &deviceName) {
         }
     }
     return QString(); // If no drive found.
+}
+
+void MainWindow::chkWinnie_clicked(Qt::CheckState state) {
+    if (state == Qt::Unchecked) {
+        dirImages = previousDirImages;
+        pathList = previousPathList;
+        ui->lblPath->setText("Path: " + dirImages.path());
+        ui->lblPath->adjustSize();
+        btnGenerate_clicked();
+    }
+    else {
+        ui->chkYxHdd->setCheckState(Qt::Unchecked);
+        previousDirImages = dirImages;
+        previousPathList = pathList;
+        QDir drivePath = getSeagateDrivePath();
+        if (!drivePath.exists()) return;
+        QString partialDir = "个人project/Winnie Lo 罗玲玲";
+        QString fullDir = QDir(drivePath.path()).filePath(partialDir);
+        dirImages.setPath(fullDir);
+        retrieveFiles();
+        filterFiles();
+    }
 }
 
 void MainWindow::btnSettings_clicked() {

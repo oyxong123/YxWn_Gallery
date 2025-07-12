@@ -46,6 +46,7 @@ private slots:
     void chkEchoesThisDay_clicked(Qt::CheckState state);
     void chkAutoplay_clicked(Qt::CheckState state);
     void chkYxHdd_clicked(Qt::CheckState state);
+    void chkWinnie_clicked(Qt::CheckState state);
     void btnSettings_clicked();
     void tray_clicked(QSystemTrayIcon::ActivationReason reason);
     void btnRefresh_clicked();
@@ -76,6 +77,7 @@ private:
     void attachAppAsWallpaper();
     void restoreAppAsWindow();
     void retrieveYxHddFiles();
+    QDir getSeagateDrivePath();
     QString findDriveByDeviceName(const QString &deviceName);
     bool forceExit = false;
 };
