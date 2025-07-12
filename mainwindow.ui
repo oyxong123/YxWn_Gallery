@@ -460,7 +460,7 @@
          <enum>Qt::FocusPolicy::NoFocus</enum>
         </property>
         <property name="toolTip">
-         <string>what this day once carried...</string>
+         <string>What this day once carried...</string>
         </property>
         <property name="accessibleName">
          <string/>
@@ -500,8 +500,8 @@
        <widget class="QCheckBox" name="chkYxHdd">
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>70</y>
+          <x>190</x>
+          <y>10</y>
           <width>131</width>
           <height>22</height>
          </rect>
@@ -520,6 +520,31 @@
         </property>
         <property name="text">
          <string>Yu Xuan HDD</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="chkWinnie">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>40</y>
+          <width>131</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="accessibleName">
+         <string/>
+        </property>
+        <property name="accessibleDescription">
+         <string/>
+        </property>
+        <property name="text">
+         <string>Winnie :'3</string>
         </property>
        </widget>
       </widget>

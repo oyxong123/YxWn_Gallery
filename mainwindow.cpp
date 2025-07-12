@@ -25,6 +25,7 @@
 #include <QElapsedTimer>
 #include <QMessageBox>
 #include <QApplication>
+#include <QStorageInfo>
 #include <windows.h>
 
 // Page to reference for resizing GUI dynamically based on window size: https://doc.qt.io/qt-6/layout.html
@@ -51,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->slrProgressBar, &QAbstractSlider::sliderReleased, this, &MainWindow::sliderReleased);
     QObject::connect(ui->chkEchoesThisDay, &QCheckBox::checkStateChanged, this, &MainWindow::chkEchoesThisDay_clicked);
     QObject::connect(ui->chkAutoplay, &QCheckBox::checkStateChanged, this, &MainWindow::chkAutoplay_clicked);
+    QObject::connect(ui->chkYxHdd, &QCheckBox::checkStateChanged, this, &MainWindow::chkYxHdd_clicked);
     QObject::connect(&autoplay, &QTimer::timeout, this, &MainWindow::btnGenerate_clicked);
     QObject::connect(ui->btnSettings, &QPushButton::clicked, this, &MainWindow::btnSettings_clicked);
     QObject::connect(&tray, &QSystemTrayIcon::activated, this, &MainWindow::tray_clicked);
@@ -88,6 +90,7 @@ MainWindow::MainWindow(QWidget *parent)
     if (settings.contains("Settings")){  // If settings were created.
         ui->chkEchoesThisDay->setCheckState(static_cast<Qt::CheckState>(settings.value("Echoes of This Day").toInt()));
         ui->chkAutoplay->setCheckState(static_cast<Qt::CheckState>(settings.value("Autoplay").toInt()));
+        ui->chkYxHdd->setCheckState(static_cast<Qt::CheckState>(settings.value("Yu Xuan HDD").toInt()));
         autoplay.setInterval(settings.value("Autoplay Interval").toInt());
         audio->setMuted(settings.value("Mute").toBool());
         if (settings.value("Rmb Folder").toBool()) {
@@ -191,6 +194,7 @@ MainWindow::~MainWindow()
     if (settings.value("Rmb Folder").toBool() && settings.value("Rmb File").toBool()) settings.setValue("Current File", pathRand);
     settings.setValue("Echoes of This Day", ui->chkEchoesThisDay->checkState());
     settings.setValue("Autoplay", ui->chkAutoplay->checkState());
+    settings.setValue("Yu Xuan HDD", ui->chkYxHdd->checkState());
     settings.sync();
 
     delete ui;
@@ -327,27 +331,34 @@ void MainWindow::retrieveFiles() {
     QElapsedTimer perf;
     perf.start();
 
+    QStringList filters = retrieveFiles_getFilters();
+    pathList.clear();  // Clear off buffer of files from previously selected dir.
+    retrieveFiles_iterate(dirImages.path(), filters);
+
+    qDebug() << "Retrieve Files: " << perf.elapsed() << "ms";
+}
+
+QStringList MainWindow::retrieveFiles_getFilters() {
     QSettings settings("YxWn", "YxWn_Gallery");
     QStringList filters;
     // filters << "*.png" << "*.jpg" << "*.jfif" << "*.jpeg" << "*.mp4" << "*.gif" << "*.mkv" << "*.mp3" << "*.wav";  // Specify the file extensions to accept. (Case insensitive, eg. jpg = JPG)
     if (settings.value("Include Picture").toBool()) {
         filters << "*.png" << "*.jpg" << "*.jfif" << "*.jpeg";
     }
-
     if (settings.value("Include Video").toBool()) {
         filters << "*.gif" << "*.mp4" << "*.mkv";
     }
-
     if (settings.value("Include Audio").toBool()) {
         filters << "*.mp3" << "*.wav";
     }
-    pathList.clear();  // Clear off buffer of files from previously selected dir.
-    QDirIterator iterator(dirImages.path(), filters, QDir::Files, QDirIterator::Subdirectories);  // Automatically ignores "." and ".."
+    return filters;
+}
+
+void MainWindow::retrieveFiles_iterate(QString dirPath, QStringList filters) {
+    QDirIterator iterator(dirPath, filters, QDir::Files, QDirIterator::Subdirectories);  // Automatically ignores "." and ".."
     while (iterator.hasNext()){
         pathList.append(iterator.next());
     }
-
-    qDebug() << "Retrieve Files: " << perf.elapsed() << "ms";
 }
 
 void MainWindow::btnSelectFolder_clicked()
@@ -477,6 +488,64 @@ void MainWindow::chkAutoplay_clicked(Qt::CheckState state) {
     else {
         autoplay.start();
     }
+}
+
+void MainWindow::chkYxHdd_clicked(Qt::CheckState state) {
+    if (state == Qt::Unchecked) {
+        dirImages = previousDirImages;
+        pathList = previousPathList;
+        ui->lblPath->setText("Path: " + dirImages.path());
+        ui->lblPath->adjustSize();
+        btnGenerate_clicked();
+    }
+    else {
+        ui->chkWinnie->setCheckState(Qt::Unchecked);
+        previousDirImages = dirImages;
+        previousPathList = pathList;
+        retrieveYxHddFiles();
+        filterFiles();
+    }
+}
+
+void MainWindow::retrieveYxHddFiles() {
+    QElapsedTimer perf;
+    perf.start();
+
+    QDir drivePath = QDir(findDriveByDeviceName("Seagate Yx 2t") + "YuXuanFiles");
+    if (!drivePath.exists()) return;
+    dirImages.setPath(drivePath.path());
+    ui->lblPath->setText("Path: " + dirImages.path());
+    ui->lblPath->adjustSize();
+    ui->lblPath->setToolTip(dirImages.path());
+
+    QStringList dirList = {
+        "Random files/Since 2023/2025",  // Media 2025
+        "个人project/Precious Moments",  // Precious Moments
+        "个人project/Life",  // Life
+        "个人project/Programming Life",  // Programming
+        "个人project/Artwork Room",  // Art
+        "个人project/Music Square",  // Music
+    };
+    QStringList filters = retrieveFiles_getFilters();
+    for (const QString &partialDir : dirList){
+        QString fullDir = QDir(dirImages.path()).filePath(partialDir);
+        retrieveFiles_iterate(fullDir, filters);
+    }
+
+    qDebug() << "Retrieve Files: " << perf.elapsed() << "ms";
+}
+
+QString MainWindow::findDriveByDeviceName(const QString &deviceName) {
+    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
+        if (storage.isValid() && storage.isReady()) {
+            QString label = storage.displayName(); // Or storage.name().
+
+            if (label.contains(deviceName, Qt::CaseInsensitive)) {
+                return storage.rootPath(); // The mount point or drive letter.
+            }
+        }
+    }
+    return QString(); // If no drive found.
 }
 
 void MainWindow::btnSettings_clicked() {

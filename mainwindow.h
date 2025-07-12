@@ -45,6 +45,7 @@ private slots:
     void sliderReleased();
     void chkEchoesThisDay_clicked(Qt::CheckState state);
     void chkAutoplay_clicked(Qt::CheckState state);
+    void chkYxHdd_clicked(Qt::CheckState state);
     void btnSettings_clicked();
     void tray_clicked(QSystemTrayIcon::ActivationReason reason);
     void btnRefresh_clicked();
@@ -66,10 +67,16 @@ private:
     QDir dirImages;
     QStringList pathList;
     QString pathRand;
+    QDir previousDirImages;
+    QStringList previousPathList;
     QString previousWallpaperPath;
     HWND getDesktopWorkerW();
+    QStringList retrieveFiles_getFilters();
+    void retrieveFiles_iterate(QString dirPath, QStringList filters);
     void attachAppAsWallpaper();
     void restoreAppAsWindow();
+    void retrieveYxHddFiles();
+    QString findDriveByDeviceName(const QString &deviceName);
     bool forceExit = false;
 };
 #endif // MAINWINDOW_H
