@@ -92,6 +92,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->chkEchoesThisDay->setCheckState(static_cast<Qt::CheckState>(settings.value("Echoes of This Day").toInt()));
         ui->chkAutoplay->setCheckState(static_cast<Qt::CheckState>(settings.value("Autoplay").toInt()));
         ui->chkYxHdd->setCheckState(static_cast<Qt::CheckState>(settings.value("Yu Xuan HDD").toInt()));
+        ui->chkWinnie->setCheckState(static_cast<Qt::CheckState>(settings.value("Winnie").toInt()));
         autoplay.setInterval(settings.value("Autoplay Interval").toInt());
         audio->setMuted(settings.value("Mute").toBool());
         if (settings.value("Rmb Folder").toBool()) {
@@ -196,6 +197,7 @@ MainWindow::~MainWindow()
     settings.setValue("Echoes of This Day", ui->chkEchoesThisDay->checkState());
     settings.setValue("Autoplay", ui->chkAutoplay->checkState());
     settings.setValue("Yu Xuan HDD", ui->chkYxHdd->checkState());
+    settings.setValue("Winnie", ui->chkWinnie->checkState());
     settings.sync();
 
     delete ui;
@@ -373,6 +375,8 @@ void MainWindow::btnSelectFolder_clicked()
     **/
     QString dir = QFileDialog::getExistingDirectory();
     if (dir.isEmpty()) return;
+    ui->chkYxHdd->setCheckState(Qt::Unchecked);
+    ui->chkWinnie->setCheckState(Qt::Unchecked);
     dirImages.setPath(dir);
     ui->lblPath->setText("Path: " + dirImages.path());
     ui->lblPath->adjustSize();
@@ -475,7 +479,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
 
 void MainWindow::chkEchoesThisDay_clicked(Qt::CheckState state) {
     if (state == Qt::Unchecked) {
-        retrieveFiles();
+        if (ui->chkYxHdd->checkState() != Qt::Unchecked) retrieveYxHddFiles();
+        else retrieveFiles();
     }
     else {  // Qt::Checked or Qt::PartiallyChecked
         filterFiles();
@@ -493,6 +498,16 @@ void MainWindow::chkAutoplay_clicked(Qt::CheckState state) {
 
 void MainWindow::chkYxHdd_clicked(Qt::CheckState state) {
     if (state == Qt::Unchecked) {
+        if (!previousDirImages.exists() || previousDirImages.path() == '.'){
+            dirImages = QDir();
+            ui->lblPath->setText("Path: ");
+            ui->lblPath->adjustSize();
+            ui->lblFilePath->setText("Folder: ");
+            ui->lblFilePath->adjustSize();
+            ui->lblFileName->setText("Name: ");
+            ui->lblFileName->adjustSize();
+            return;
+        }
         dirImages = previousDirImages;
         pathList = previousPathList;
         ui->lblPath->setText("Path: " + dirImages.path());
@@ -503,6 +518,11 @@ void MainWindow::chkYxHdd_clicked(Qt::CheckState state) {
         ui->chkWinnie->setCheckState(Qt::Unchecked);
         previousDirImages = dirImages;
         previousPathList = pathList;
+        dirImages = QDir();
+        ui->lblFilePath->setText("Folder: ");
+        ui->lblFilePath->adjustSize();
+        ui->lblFileName->setText("Name: ");
+        ui->lblFileName->adjustSize();
         retrieveYxHddFiles();
         filterFiles();
     }
@@ -518,6 +538,7 @@ void MainWindow::retrieveYxHddFiles() {
     ui->lblPath->setText("Path: " + dirImages.path());
     ui->lblPath->adjustSize();
     ui->lblPath->setToolTip(dirImages.path());
+    pathList.clear();
 
     QStringList dirList = {
         "Random files/Since 2023/2025",  // Media 2025
@@ -556,6 +577,16 @@ QString MainWindow::findDriveByDeviceName(const QString &deviceName) {
 
 void MainWindow::chkWinnie_clicked(Qt::CheckState state) {
     if (state == Qt::Unchecked) {
+        if (!previousDirImages.exists() || previousDirImages.path() == '.'){
+            dirImages = QDir();
+            ui->lblPath->setText("Path: ");
+            ui->lblPath->adjustSize();
+            ui->lblFilePath->setText("Folder: ");
+            ui->lblFilePath->adjustSize();
+            ui->lblFileName->setText("Name: ");
+            ui->lblFileName->adjustSize();
+            return;
+        }
         dirImages = previousDirImages;
         pathList = previousPathList;
         ui->lblPath->setText("Path: " + dirImages.path());
@@ -566,11 +597,19 @@ void MainWindow::chkWinnie_clicked(Qt::CheckState state) {
         ui->chkYxHdd->setCheckState(Qt::Unchecked);
         previousDirImages = dirImages;
         previousPathList = pathList;
+        dirImages = QDir();
+        ui->lblFilePath->setText("Folder: ");
+        ui->lblFilePath->adjustSize();
+        ui->lblFileName->setText("Name: ");
+        ui->lblFileName->adjustSize();
         QDir drivePath = getSeagateDrivePath();
         if (!drivePath.exists()) return;
         QString partialDir = "个人project/Winnie Lo 罗玲玲";
         QString fullDir = QDir(drivePath.path()).filePath(partialDir);
         dirImages.setPath(fullDir);
+        ui->lblPath->setText("Path: " + dirImages.path());
+        ui->lblPath->adjustSize();
+        ui->lblPath->setToolTip(dirImages.path());
         retrieveFiles();
         filterFiles();
     }
@@ -617,7 +656,8 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 void MainWindow::btnRefresh_clicked() {
-    retrieveFiles();
+    if (ui->chkYxHdd->checkState() != Qt::Unchecked) retrieveYxHddFiles();
+    else retrieveFiles();
     filterFiles();
     QMessageBox msgBox;
     msgBox.setText("Folder refreshed.");
