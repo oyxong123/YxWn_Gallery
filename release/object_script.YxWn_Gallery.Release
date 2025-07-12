@@ -1,0 +1,10 @@
+release/main.o
+release/mainwindow.o
+release/progressbarwindow.o
+release/qcustompushbutton.o
+release/settingswindow.o
+release/qrc_resources.o
+release/moc_mainwindow.o
+release/moc_progressbarwindow.o
+release/moc_qcustompushbutton.o
+release/moc_settingswindow.o
