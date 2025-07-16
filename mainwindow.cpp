@@ -99,7 +99,7 @@ MainWindow::MainWindow(QWidget *parent)
         audio->setMuted(settings.value("Mute").toBool());
         if (settings.value("Rmb Folder").toBool()) {
             dirImages = QDir(settings.value("Current Directory").toString());
-            if (dirImages.exists()){  // Prevent missing directory from being accessed.
+            if (dirImages.exists() && dirImages.path() != '.'){  // Prevent missing directory from being accessed.
                 ui->lblPath->setText("Path: " + dirImages.path());
                 ui->lblPath->adjustSize();
                 ui->lblPath->setToolTip(dirImages.path());
@@ -244,6 +244,7 @@ void MainWindow::btnGenerate_clicked()
     player.stop();
     player.setSource(QUrl());
     if (pathList.isEmpty()) {
+        pathRand.clear();
         ui->img->clear();
         ui->lblFilePath->setText("Folder: ");
         ui->lblFilePath->adjustSize();
@@ -506,6 +507,7 @@ void MainWindow::chkYxHdd_clicked(Qt::CheckState state) {
         if (!previousDirImages.exists() || previousDirImages.path() == '.'){
             dirImages = QDir();
             pathList.clear();
+            pathRand.clear();
             ui->lblPath->setText("Path: ");
             ui->lblPath->adjustSize();
             ui->lblFilePath->setText("Folder: ");
@@ -526,6 +528,7 @@ void MainWindow::chkYxHdd_clicked(Qt::CheckState state) {
         previousDirImages = dirImages;
         previousPathList = pathList;
         dirImages = QDir();
+        pathRand.clear();
         ui->lblFilePath->setText("Folder: ");
         ui->lblFilePath->adjustSize();
         ui->lblFileName->setText("Name: ");
@@ -587,6 +590,7 @@ void MainWindow::chkYxLaptop_clicked(Qt::CheckState state) {
         if (!previousDirImages.exists() || previousDirImages.path() == '.'){
             dirImages = QDir();
             pathList.clear();
+            pathRand.clear();
             ui->lblPath->setText("Path: ");
             ui->lblPath->adjustSize();
             ui->lblFilePath->setText("Folder: ");
@@ -607,6 +611,7 @@ void MainWindow::chkYxLaptop_clicked(Qt::CheckState state) {
         previousDirImages = dirImages;
         previousPathList = pathList;
         dirImages = QDir();
+        pathRand.clear();
         ui->lblFilePath->setText("Folder: ");
         ui->lblFilePath->adjustSize();
         ui->lblFileName->setText("Name: ");
@@ -650,6 +655,7 @@ void MainWindow::chkWinnie_clicked(Qt::CheckState state) {
         if (!previousDirImages.exists() || previousDirImages.path() == '.'){
             dirImages = QDir();
             pathList.clear();
+            pathRand.clear();
             ui->lblPath->setText("Path: ");
             ui->lblPath->adjustSize();
             ui->lblFilePath->setText("Folder: ");
@@ -670,6 +676,7 @@ void MainWindow::chkWinnie_clicked(Qt::CheckState state) {
         previousDirImages = dirImages;
         previousPathList = pathList;
         dirImages = QDir();
+        pathRand.clear();
         ui->lblFilePath->setText("Folder: ");
         ui->lblFilePath->adjustSize();
         ui->lblFileName->setText("Name: ");
