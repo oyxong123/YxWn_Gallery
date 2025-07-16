@@ -494,10 +494,35 @@
          <string/>
         </property>
         <property name="text">
-         <string>Autoplay</string>
+         <string>Autoplay :&gt;</string>
         </property>
        </widget>
        <widget class="QCheckBox" name="chkYxHdd">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>40</y>
+          <width>141</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::FocusPolicy::NoFocus</enum>
+        </property>
+        <property name="toolTip">
+         <string/>
+        </property>
+        <property name="accessibleName">
+         <string/>
+        </property>
+        <property name="accessibleDescription">
+         <string/>
+        </property>
+        <property name="text">
+         <string>Yu Xuan HDD (⁠´⁠；⁠ω⁠；⁠｀⁠)</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="chkWinnie">
         <property name="geometry">
          <rect>
           <x>190</x>
@@ -519,15 +544,15 @@
          <string/>
         </property>
         <property name="text">
-         <string>Yu Xuan HDD</string>
+         <string>Winnie :'3</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="chkWinnie">
+       <widget class="QCheckBox" name="chkYxLaptop">
         <property name="geometry">
          <rect>
           <x>190</x>
-          <y>40</y>
-          <width>131</width>
+          <y>70</y>
+          <width>161</width>
           <height>22</height>
          </rect>
         </property>
@@ -544,7 +569,7 @@
          <string/>
         </property>
         <property name="text">
-         <string>Winnie :'3</string>
+         <string>Yu Xuan Laptop (⁠*⁠´⁠ω⁠｀ ⁠*⁠)</string>
         </property>
        </widget>
       </widget>
