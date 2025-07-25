@@ -103,9 +103,11 @@ MainWindow::MainWindow(QWidget *parent)
                 ui->lblPath->setText("Path: " + dirImages.path());
                 ui->lblPath->adjustSize();
                 ui->lblPath->setToolTip(dirImages.path());
-                if (settings.value("Refresh Folder on Startup").toBool()) retrieveFiles();
+                if (settings.value("Refresh Folder on Startup").toBool() && ui->chkYxHdd->checkState() == Qt::Unchecked && ui->chkYxLaptop->checkState() == Qt::Unchecked && ui->chkWinnie->checkState() == Qt::Unchecked) {
+                    retrieveFiles();
+                    filterFiles();
+                }
                 else pathList = settings.value("Path List").toStringList();  // Reduces computation from reindexing the directory.
-                filterFiles();
             }
             else {
                 ui->lblPath->setText("Path: ");
