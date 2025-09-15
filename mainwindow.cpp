@@ -261,8 +261,7 @@ void MainWindow::btnGenerate_clicked()
         return;
     }
     else pathRand = pathRandTemp;
-    if (!dirImages.exists(pathRand)) {  // Prevent missing media file from being accessed.
-        btnGenerate_clicked();
+    if (!QFile::exists(pathRand)) {  // Prevent missing media file from being accessed.
         return;
     }
     QString fileExtension = QFileInfo(pathRand).suffix().toLower();  // Change all letters lowercase. (eg. JPG to jpg)
