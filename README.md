@@ -19,8 +19,8 @@ Contributions, issues, and pull requests are welcomed!
 
 ## Installation
 ### Method 1: Build from Source
-1. Download **Qt Online Installer** from the **Qt Official Website**.
-2. Install **Qt 6.8.2** (or above, not tested), **latest MinGW**, and **Qt Creator** through **Qt Online Installer**.
+1. Download the **Qt Online Installer** application from the **Qt Official Website**.
+2. Install **Qt 6.8.2** (or above, not tested), the latest **MinGW**, and **Qt Creator** application through the **Qt Online Installer** application.
 3. Download this repository.
 4. Launch **Qt Creator**.
 5. Open the repository folder in **Qt Creator**.
