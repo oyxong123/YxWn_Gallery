@@ -6,7 +6,6 @@
 *.a
 *.core
 *.moc
-*.o
 *.obj
 *.orig
 *.rej
@@ -14,7 +13,6 @@
 *.so.*
 *_pch.h.cpp
 *_resource.rc
-*.qm
 .#*
 *.*#
 core
@@ -70,8 +68,6 @@ CMakeLists.txt.user*
 
 # Binaries
 # --------
-*.dll
-*.exe
 
 # Directories with generated files
 .moc/

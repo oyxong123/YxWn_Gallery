@@ -1,0 +1,317 @@
+[33mcommit ef91b26c0acea1eb072a0e60538ac50c0c2b9c0b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Mon Oct 13 17:51:01 2025 +0800
+
+    Include release
+
+[33mcommit 941254db1debdae67baac98d0949c89e1e5db947[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Mon Sep 15 19:46:06 2025 +0800
+
+    Bug fix for missing path
+
+[33mcommit 88a15660c9233e72ddc2758ad58eae2a22a48835[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Fri Jul 25 13:55:13 2025 +0800
+
+    Fix initialization duplicated processes and bugs
+
+[33mcommit eeb7d459054e54da6e29535e00bc10ea76113980[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Wed Jul 16 08:49:39 2025 +0800
+
+    Fix weird bugs due to pathRand not cleared properly and missing '.' check for empty dirImages during initialization
+
+[33mcommit 26feaf2b6d80827032cd7c9e02ae5694f461ef7b[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Wed Jul 16 08:24:41 2025 +0800
+
+    Add Yu Xuan Laptop chk + Update GUI with our communication tools flair + Fix previous chk bugs
+
+[33mcommit c01f3348042e43367dae5d43cda2551907a9dd5d[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Sat Jul 12 22:31:17 2025 +0800
+
+    Include release folder in git + github
+
+[33mcommit afd2d00db353ec8c001422a28491eebbcd062506[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Sat Jul 12 22:27:35 2025 +0800
+
+    Regression testing + debugging on the YuXuanHDD and Winnie chk functions
+
+[33mcommit 90f8e725f3051a208a3c82695b50d9bfd95a6d9a[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Sat Jul 12 19:11:29 2025 +0800
+
+    Add function to tick checkbox to access winnie folder in seagate directly :>
+
+[33mcommit 017c35e27ce11c28183254c73f4a4277b26b3676[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Sat Jul 12 18:34:34 2025 +0800
+
+    Add function to read specific seagate HDD folders directly
+
+[33mcommit a94af74be3f9252d782d305ba127382400ef29cb[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Fri Jul 11 00:02:54 2025 +0800
+
+    Add function + setting to refresh folder automatically on startup
+
+[33mcommit a41aecb4612f7686f8287b88f0984e33e174f081[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Tue Jul 8 15:24:17 2025 +0800
+
+    Add tool tip to file and folder name in case of text that are too long
+
+[33mcommit c4199f09cbe5dc9e5d4469fb901aa1273fefd915[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Tue Jul 8 15:14:24 2025 +0800
+
+    Set edge case where app bugs out if switch to wallpaper mode while app is minimized
+
+[33mcommit 55ddbcf168fbc4ea0cff0a35bc031d6981c4f3a5[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Tue Jul 8 15:04:43 2025 +0800
+
+    Connect settings configuration flow to the appearance of tray icon menu checkbox
+
+[33mcommit 8d5531f1d4708095c3986354cd3c1982f0521ba2[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Tue Jul 8 13:54:53 2025 +0800
+
+    Add functionality to click on tray icon to toggle between wallpaper and window mode
+
+[33mcommit 4974fad50f9ee913de59875fb7e3dc27ba25b526[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Tue Jul 8 01:16:59 2025 +0800
+
+    Set up tray icon and actions
+
+[33mcommit 05f61ab067d4f06b40056b7e0b67358bf6d096a6[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Mon Jul 7 23:21:08 2025 +0800
+
+    Implemented correct working of switching between window and wallpaper mode of the app and aligned the windows properly while switching
+
+[33mcommit 8089f4ed7f5c5964bc9c13e0502d2e0c275fb793[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Mon Jul 7 20:03:07 2025 +0800
+
+    Add option to restore application as normal window from being a desktop wallpaper
+
+[33mcommit 6d15a4825ac50b66362bd2dffb888ce3f2e2c713[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Mon Jul 7 19:19:07 2025 +0800
+
+    Added toggle on desktop wallpaper functionality
+
+[33mcommit b3c68447960cef064fcb427102fedd599230fb13[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Mon Jul 7 18:07:16 2025 +0800
+
+    Save previous wallpaper img path before running application as wallpaper + set back previous wallpaper when app closes
+
+[33mcommit d9eca4258a9027bb713a525471a0bd2fd4bff7c8[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Mon Jul 7 17:53:17 2025 +0800
+
+    Add settings to that toggles whether to run app as wallpaper on startup
+
+[33mcommit ee97f717586711d3163c65c59bbdfed0b159460c[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Mon Jul 7 17:38:55 2025 +0800
+
+    Make application run as desktop background + Add a few settings planned for future functions that will be implemented
+
+[33mcommit 13f3fd3e5ede8daefaca7e256132cca96e9375e9[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Sat May 24 14:38:44 2025 +0800
+
+    Added ability to select included file extensions (application unable to run for some reason due to random factor)
+
+[33mcommit 859a061fcb326de5d548778a158ca96e2a987ade[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Tue May 6 10:32:55 2025 +0800
+
+    Added hide on startup
+
+[33mcommit 7938680e8d08c435f068184ee0a09cc84b552530[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Mon May 5 23:19:59 2025 +0800
+
+    Fix regex to work correctly with echoes of this day
+
+[33mcommit dd08632936cf45fa13e3606c2f8da8077c3a3ef8[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Mon May 5 23:02:07 2025 +0800
+
+    Fix missing media or directory while initiating issue
+
+[33mcommit 3b1dba30bddab43fe20ce1b487c722e678924286[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Thu May 1 11:07:04 2025 +0800
+
+    Set application name
+
+[33mcommit 1baa71eeb79f6369ea91a5689050bbad99379f0d[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Thu May 1 10:54:05 2025 +0800
+
+    Add refresh button
+
+[33mcommit 807d9ea6fdb534fd0e473b30192f2b91d1c0d947[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Thu May 1 09:09:54 2025 +0800
+
+    Change cont player panel behaviour
+
+[33mcommit d7d8a7dad6f7e5807cb9ea7308e7b49a23e86b56[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Thu May 1 09:00:05 2025 +0800
+
+    Realize regex in generate function is already taking directory name into consideration
+
+[33mcommit f41a4f79e246cec169860856eb93c940f4cf3848[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Thu May 1 08:33:28 2025 +0800
+
+    Save path list state to reduce computation of reindexing state-saved directory
+
+[33mcommit 342a3264a6adb0e7c286804d8866df6f3c9e3c22[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Wed Apr 30 19:51:33 2025 +0800
+
+    Create system tray icon + Exit on close option
+
+[33mcommit dfa9fa2935308b79232321259610b2c017cec94f[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Wed Apr 30 18:43:53 2025 +0800
+
+    Added remember folder and file states (settings) checkboxes
+
+[33mcommit e8ca8143eb3f6c8a50ab7c15c2d5adf94771dc3d[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Wed Apr 30 09:58:28 2025 +0800
+
+    Utilize qrc
+
+[33mcommit a854ccce671a97224c42acf428a43e225b27cbf9[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Tue Apr 29 13:32:31 2025 +0800
+
+    Fixed 'only one file in folder' infinite recursive loop crash
+
+[33mcommit 8ffaa1b5cdcfcc722200ad9b1a3b10f1845da0e3[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Tue Apr 29 13:27:34 2025 +0800
+
+    Fixed echoes of this day bug
+
+[33mcommit 91e675d1b1c77ec1ae8cdbf3eb0130c3769c0420[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Tue Apr 29 13:13:57 2025 +0800
+
+    Added autosaved application state/settings
+
+[33mcommit 1033864592de67e998df86f4f656961ccc305b3d[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Sun Apr 27 19:26:03 2025 +0800
+
+    Set non-resizable
+
+[33mcommit c02e886a9597876fcd6a8ab78218a78b7815322e[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Sat Apr 26 02:15:11 2025 +0800
+
+    Implement mute functionality
+
+[33mcommit 409564c7d1dbd90f56801aa6592e4e3bc1260e6e[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Sat Apr 26 01:41:33 2025 +0800
+
+    Settings window + autoplay interval settings
+
+[33mcommit 73398bf9d30ee9a4d6de9641d4b553b257269d96[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Fri Apr 25 20:36:12 2025 +0800
+
+    Set up application icon
+
+[33mcommit f6b9e8baa95b1f3fc165def170a9c91c909acfd7[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Sat Apr 12 11:07:53 2025 +0800
+
+    Implement autoplay
+
+[33mcommit f4ba03bd01548e0e9840b0275c57b59a7ca737f2[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Tue Apr 8 22:55:23 2025 +0800
+
+    Implement echoes of this day function (media from this day from previous years)
+
+[33mcommit 2880edddb831296fc9dd3d441c300d46639f0da2[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Fri Apr 4 17:33:49 2025 +0800
+
+    Implement hover and pressed media player buttons
+
+[33mcommit 0da42d7855745364aa5a9d17519b89fed7b91030[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Fri Apr 4 00:22:56 2025 +0800
+
+    Flesh out file details
+
+[33mcommit 869787192b08a87e709f7e954436944f1be488a8[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Thu Apr 3 22:25:42 2025 +0800
+
+    Press space to roll
+
+[33mcommit 3d15f4908092319d8c4262fc261bcda2c7390597[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Thu Apr 3 21:18:46 2025 +0800
+
+    Add media player control icons
+
+[33mcommit 0cf1833ff7d8a6e7bf89f8f2e9ed37fb2cbacfcc[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Wed Apr 2 00:38:42 2025 +0800
+
+    Implement media player controls
+
+[33mcommit 16abebeb1cccc9528c6e006378662d1e068f65e9[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Tue Apr 1 16:16:23 2025 +0800
+
+    Set up base player layout + add containers
+
+[33mcommit 492b4e111aa46afd43f7a30e42bcaca2df538aae[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Tue Apr 1 15:47:47 2025 +0800
+
+    Add container + solve btnGenerate duplicate name issue
+
+[33mcommit 5a7b2921f3a6b91d4cc2a2ff3344466f4fe4a74b[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Tue Apr 1 14:45:06 2025 +0800
+
+    Use safer signals and slots connection
+
+[33mcommit 6afa1baa8ca0f61d0159eacdfb7502fce312a332[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Tue Apr 1 12:56:08 2025 +0800
+
+    Player Mechanism + UI Changes
+
+[33mcommit 9b978ee8df2dfdfca2414af9d6304a69b467cd54[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Wed Mar 26 23:35:35 2025 +0800
+
+    Update GUI
+
+[33mcommit 9e573c9f35d55a531934da2b4892d18f42526101[m
+Author: yuxuan <xuanyuong@gmail.com>
+Date:   Wed Mar 26 22:48:33 2025 +0800
+
+    Init + Center window on screen
