@@ -47,11 +47,11 @@ Contributions, issues, and pull requests are welcomed!
 - As of now, the **End Time** GUI element does not reset back to 00:00:00 after the app showed a video or music file.
 - The current application window uses fixed size and will not scaled properly to different desktop sizes.
 
-## Cool Tidbits
+## Trivia
 - The app icon is a fan drawing of Terriermon from Digimon!
   It was drawn by my close friend Winnie!
-  I love it very much!
+  I love it very much! (⁠｡⁠ﾉ⁠ω⁠＼⁠｡⁠)
 - The background of the app is filled with the drawing of Shiro and Nana from the movie "Crayon Shin-chan the Movie: Our Dinosaur Diary", which was also drawn by Winnie!
   Shiro and Nana each represent one of us. Watching this movie was the last activity we did together before we ended our university days.
-  It carries heavy meaning for our relationship.
-- The pixel art of the playback buttons are drawn by me! Pixel art is another connection that me and Winnie shared!
+  It carries heavy meaning for our relationship. (⁠´⁠；⁠ω⁠；⁠｀⁠)
+- The pixel art of the playback buttons are drawn by me! Pixel art is another connection that me and Winnie shared! (⁠*⁠´⁠ω⁠｀⁠ *⁠)
