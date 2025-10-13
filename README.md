@@ -18,14 +18,14 @@ Contributions, issues, and pull requests are welcomed!
 - Windows 10 (or above, not tested)
 
 ## Installation
-### Method 1: Build from Source
+#### Method 1: Build from Source
 1. Download the **Qt Online Installer** application from the **Qt Official Website**.
 2. Install **Qt 6.8.2** (or above, not tested), the latest **MinGW**, and **Qt Creator** application through the **Qt Online Installer** application.
 3. Download this repository.
 4. Launch **Qt Creator**.
 5. Open the repository folder in **Qt Creator**.
 
-### Method 2: Use Pre-Built Executable
+#### Method 2: Use Pre-Built Executable
 1. Download this directory.
    ```
    YxWn-Gallery\release
@@ -40,10 +40,10 @@ Contributions, issues, and pull requests are welcomed!
 (Use case overview. To be updated.)
 
 ## Future Roadmap
-### Possible new features:
+#### Possible new features:
 - The ability to select the amount of previous years to include beside the **Echoes of This Day ;;** checkbox.
 
-### Possible improvements and bug fixes:
+#### Possible improvements and bug fixes:
 - As of now, the **End Time** GUI element does not reset back to 00:00:00 after the app showed a video or music file.
 - The current application window uses fixed size and will not scaled properly to different desktop sizes.
 
