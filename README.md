@@ -24,11 +24,11 @@ Contributions, issues, and pull requests are welcomed!
 
 ## Installation
 #### Method 1: Build from Source
-1. Download the **Qt Online Installer** application from the **Qt Official Website**.
-2. Install **Qt 6.8.2** (or above, not tested), the latest **MinGW**, and **Qt Creator** application through the **Qt Online Installer** application.
+1. Download **Qt Online Installer** from the **Qt Official Website**.
+2. Install **Qt 6.8.2** (or above, not tested), the latest **MinGW**, and **Qt Creator** through **Qt Online Installer**.
 3. Download this repository.
 4. Launch **Qt Creator**.
-5. Open the repository folder in **Qt Creator**.
+5. Open the repo in **Qt Creator**.
 
 #### Method 2: Use Pre-Built Executable
 1. Download this directory.
@@ -36,20 +36,21 @@ Contributions, issues, and pull requests are welcomed!
    YxWn-Gallery\release
    ```
 2. Place the folder anywhere in your computer.
-3. Start the app by running the **YxWn-Gallery.exe** file.
+3. Start the app by running the `YxWn-Gallery.exe` file.
 4. Rename the folder to whatever name you want. (Optional) 
-5. Create a shortcut for the **YxWn-Gallery.exe** file. (Optional)
-6. Press **Win+R** and type **shell:startup** to open the startup folder of the computer, then paste the created shortcut in it. This allows the app to run automatically every time the computer boots up. (Optional)
+5. Create a shortcut for the `YxWn-Gallery.exe` file. (Optional)
+6. Press `Win+R` and type `shell:startup` to open the startup folder of the computer, then paste the created shortcut in it.
+   This allows the app to run automatically every time the computer boots up. (Optional)
 
 ## Usage
 (Use case overview. To be updated.)
 
 ## Future Roadmap
 #### Possible new features:
-- The ability to select the amount of previous years to include beside the **Echoes of This Day ;;** checkbox.
+- The ability to select the amount of previous years to include beside the ***Echoes of This Day ;;*** checkbox.
 
 #### Possible improvements and bug fixes:
-- As of now, the **End Time** GUI element does not reset back to 00:00:00 after the app showed a video or music file.
+- As of now, the ***End Time*** GUI element does not reset back to 00:00:00 after the app showed a video or music file.
 - The current application window uses fixed size and will not scaled properly to different desktop sizes.
 
 ## Trivia
