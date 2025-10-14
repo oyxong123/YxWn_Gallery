@@ -1,4 +1,8 @@
 # YxWn-Gallery
+<p align="center">
+   <img width="256" height="256" alt="Terriermon256" src="https://github.com/user-attachments/assets/3dd42f54-fdbd-4444-bd8b-6f5830453d0b" />
+</p>
+
 YxWn-Gallery is a minimalist desktop application for viewing and displaying media file folders easily and interestingly. 
 It displays random media files from the folder that you selected. 
 It is similar to a digital photo frame, but omits all the bloat features and UI elements that I deemed unecessary in third party software and hardware offerings and includes additional advanced functionalities tailored to my own file management ecosystem. 
