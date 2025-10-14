@@ -8,7 +8,8 @@ It is an app built for me and my very close friend to reminiscence our dear memo
 Elements that represent our bond can be seen from every little corner of the application. 
 I personally use the app daily as part of my routine to revisit the pictures, videos, and screenshots that I have taken on the same day in previous years. 
 Moreover, it runs on my laptop 24/7 and shows me the pictures, videos, and screenshots that I have taken and stored in my laptop recently. 
-It is a very important piece of software in my life.
+It is a very important piece of software in my life. 
+It, along with the other programs and applications I have built, integrates into one large ecosystem. 
 
 Feel to to try it out, share it with others, and let me know if the app personally helped you in any way!
 
