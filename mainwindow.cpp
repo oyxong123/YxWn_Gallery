@@ -259,6 +259,9 @@ void MainWindow::btnGenerate_clicked()
     ui->img->clear();  // Clear opened media before opening the next one.
     player.stop();
     player.setSource(QUrl());
+    ui->lblCurrentTime->setText("00:00:00");
+    ui->lblRemainingTime->setText("00:00:00");
+    ui->slrProgressBar->setValue(0);
     if (pathList.isEmpty()) {
         pathRand.clear();
         ui->img->clear();
