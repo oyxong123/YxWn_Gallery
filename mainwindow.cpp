@@ -617,14 +617,15 @@ void MainWindow::retrieveYxHddFiles() {
 
     QStringList dirList = {
         "Media files",  // Media Files
-        "个人project/Precious Moments",  // Precious Moments
-        "个人project/Life",  // Life
-        "个人project/Programming Life",  // Programming
+        "Career", // Career
         "个人project/Artwork Room",  // Art
-        "个人project/Music Square",  // Music
         "个人project/Gaming Cafe",  // Games
         "个人project/Language Cottage",  // Language
+        "个人project/Life",  // Life
+        "个人project/Music Square",  // Music
         "个人project/Pets",  // Pets
+        "个人project/Precious Moments",  // Precious Moments
+        "个人project/Programming Life",  // Programming
     };
     QStringList filters = retrieveFiles_getFilters();
     for (const QString &partialDir : dirList){
@@ -703,12 +704,12 @@ void MainWindow::retrieveYxLaptopFiles() {
     pathList.clear();
 
     QStringList dirList = {
-        "Precious Moments",  // Precious Moments
         "Life",  // Life
-        "Language Cottage", // Language
         "Programming Life",  // Programming
-        "Artwork Room",  // Art
         "Music Square",  // Music
+        "Artwork Room",  // Art
+        "Language Cottage", // Language
+        "Precious Moments",  // Precious Moments
         "Pending Uploads"  // Pending Uploads
     };
     QStringList filters = retrieveFiles_getFilters();
@@ -753,15 +754,24 @@ void MainWindow::chkWinnie_clicked(Qt::CheckState state) {
         ui->lblFilePath->adjustSize();
         ui->lblFileName->setText("Name: ");
         ui->lblFileName->adjustSize();
+
         QDir drivePath = getSeagateDrivePath();
         if (!drivePath.exists()) return;
-        QString partialDir = "个人project/Winnie Lo 罗玲玲";
-        QString fullDir = QDir(drivePath.path()).filePath(partialDir);
-        dirImages.setPath(fullDir);
+        dirImages.setPath(drivePath.path());
         ui->lblPath->setText("Path: " + dirImages.path());
         ui->lblPath->adjustSize();
         ui->lblPath->setToolTip(dirImages.path());
-        retrieveFiles();
+        pathList.clear();
+
+        QStringList dirList = {
+            "个人project/Winnie Lo 罗玲玲",
+            "个人project/Beatbreak Trio"
+        };
+        QStringList filters = retrieveFiles_getFilters();
+        for (const QString &partialDir : dirList){
+            QString fullDir = QDir(dirImages.path()).filePath(partialDir);
+            retrieveFiles_iterate(fullDir, filters);
+        }
         filterFiles();
     }
 }
