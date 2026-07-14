@@ -1,4 +1,4 @@
-QT += core gui multimedia multimediawidgets
+QT += core gui multimedia multimediawidgets concurrent
 RC_ICONS = resources/Terriermon.ico
 TARGET = YxWn-Gallery
 

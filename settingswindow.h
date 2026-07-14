@@ -18,6 +18,7 @@ public:
 
 private slots:
     void btnApply_clicked();
+    void chkMute_clicked();
     void chkRmbFolder_clicked();
     void chkDesktopWallpaper_clicked();
 

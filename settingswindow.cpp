@@ -11,6 +11,7 @@ SettingsWindow::SettingsWindow(MainWindow* mainWindow, QWidget *parent)
     , mw(mainWindow)
 {
     ui->setupUi(this);
+    QObject::connect(ui->chkMute, &QCheckBox::clicked, this, &SettingsWindow::chkMute_clicked);
     QObject::connect(ui->chkRmbFolder, &QCheckBox::clicked, this, &SettingsWindow::chkRmbFolder_clicked);
     QObject::connect(ui->chkDesktopWallpaper, &QCheckBox::clicked, this, &SettingsWindow::chkDesktopWallpaper_clicked);
     QObject::connect(ui->btnApply, &QPushButton::clicked, this, &SettingsWindow::btnApply_clicked);
@@ -18,7 +19,9 @@ SettingsWindow::SettingsWindow(MainWindow* mainWindow, QWidget *parent)
 
     QSettings settings("YxWn", "YxWn_Gallery");
     ui->inpAutoplayInterval->setValue(mw->autoplay.interval() / 1000);
-    if (mw->audio->isMuted()) ui->chkMute->setCheckState(Qt::Checked);
+    if (settings.value("Mute").toBool()) ui->chkMute->setCheckState(Qt::Checked);
+    if (settings.value("Mute in Wallpaper").toBool()) ui->chkMuteInWallpaper->setCheckState(Qt::Checked);
+    if (ui->chkMute->checkState() == Qt::Checked) ui->chkMuteInWallpaper->setEnabled(false);
     if (settings.value("Rmb Folder").toBool()) ui->chkRmbFolder->setCheckState(Qt::Checked);
     else {
         ui->chkRmbFile->setEnabled(false);
@@ -37,6 +40,15 @@ SettingsWindow::SettingsWindow(MainWindow* mainWindow, QWidget *parent)
 SettingsWindow::~SettingsWindow()
 {
     delete ui;
+}
+
+void SettingsWindow::chkMute_clicked() {
+    if (ui->chkMute->checkState() == Qt::Checked) {
+        ui->chkMuteInWallpaper->setEnabled(false);
+    }
+    else {
+        ui->chkMuteInWallpaper->setEnabled(true);
+    }
 }
 
 void SettingsWindow::chkRmbFolder_clicked() {
@@ -76,6 +88,16 @@ void SettingsWindow::btnApply_clicked() {
         {
             mw->audio->setMuted(true);
             settings.setValue("Mute", true);
+        }
+    }
+    if (ui->chkMuteInWallpaper->checkState() == Qt::Unchecked) {
+        if (settings.value("Mute in Wallpaper").toBool() == true) {
+            settings.setValue("Mute in Wallpaper", false);
+        }
+    }
+    else {
+        if (settings.value("Mute in Wallpaper").toBool() == false) {
+            settings.setValue("Mute in Wallpaper", true);
         }
     }
     if (ui->chkRmbFolder->checkState() == Qt::Unchecked) {

@@ -27,6 +27,7 @@
 #include <QApplication>
 #include <QStorageInfo>
 #include <windows.h>
+#include <QLineEdit>
 
 // Page to reference for resizing GUI dynamically based on window size: https://doc.qt.io/qt-6/layout.html
 
@@ -58,6 +59,9 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(&autoplay, &QTimer::timeout, this, &MainWindow::btnGenerate_clicked);
     QObject::connect(ui->btnSettings, &QPushButton::clicked, this, &MainWindow::btnSettings_clicked);
     QObject::connect(&tray, &QSystemTrayIcon::activated, this, &MainWindow::tray_clicked);
+    QObject::connect(ui->spnEchoesThisDay, &QSpinBox::valueChanged, this, [this]() {
+        QTimer::singleShot(0, ui->spnEchoesThisDay->findChild<QLineEdit*>(), &QLineEdit::deselect); // Prevent text highlighting of spnEchoesThisDay.
+    });
 
     // Save previous wallpaper.
     wchar_t path[MAX_PATH];
@@ -85,18 +89,26 @@ MainWindow::MainWindow(QWidget *parent)
     ui->btnRewind->setIcons(QIcon(":/system/resources/btnRewind.png"), QIcon(":/system/resources/btnRewindHover.png"), QIcon(":/system/resources/btnRewindPressed.png"));
     ui->btnSkip->setIcons(QIcon(":/system/resources/btnSkip.png"), QIcon(":/system/resources/btnSkipHover.png"), QIcon(":/system/resources/btnSkipPressed.png"));
     ui->btnPlayPause->setIcons(QIcon(":/system/resources/btnPlay.png"), QIcon(":/system/resources/btnPlayHover.png"), QIcon(":/system/resources/btnPlayPressed.png"));
+    int currentYear = QDate::currentDate().year();
+    ui->spnEchoesThisDay->setValue(currentYear);
+    ui->spnEchoesThisDay->setMaximum(currentYear);
     restoreAppAsWindow();  // Needs to be after system tray icon is initialized and previous wallpaper is saved.
 
     // Retrieve state/settings.
     QSettings settings("YxWn", "YxWn_Gallery");
     if (settings.contains("Settings")){  // If settings were created.
         ui->chkEchoesThisDay->setCheckState(static_cast<Qt::CheckState>(settings.value("Echoes of This Day").toInt()));
+        ui->spnEchoesThisDay->setEnabled(static_cast<Qt::CheckState>(settings.value("Echoes of This Day").toInt()));
         ui->chkAutoplay->setCheckState(static_cast<Qt::CheckState>(settings.value("Autoplay").toInt()));
         ui->chkYxHdd->setCheckState(static_cast<Qt::CheckState>(settings.value("Yu Xuan HDD").toInt()));
         ui->chkYxLaptop->setCheckState(static_cast<Qt::CheckState>(settings.value("Yu Xuan Laptop").toInt()));
         ui->chkWinnie->setCheckState(static_cast<Qt::CheckState>(settings.value("Winnie").toInt()));
         autoplay.setInterval(settings.value("Autoplay Interval").toInt());
-        audio->setMuted(settings.value("Mute").toBool());
+        if (settings.value("Mute").toBool() || (settings.value("Desktop Wallpaper").toBool() && settings.value("Run as Wallpaper on Startup").toBool() && settings.value("Mute in Wallpaper").toBool())) {
+            audio->setMuted(true);
+        } else {
+            audio->setMuted(false);
+        }
         if (settings.value("Rmb Folder").toBool()) {
             dirImages = QDir(settings.value("Current Directory").toString());
             if (dirImages.exists() && dirImages.path() != '.'){  // Prevent missing directory from being accessed.
@@ -173,6 +185,8 @@ MainWindow::MainWindow(QWidget *parent)
     }
     else {
         autoplay.setInterval(3000);  // Default autoplay time interval.
+        settings.setValue("Mute", false);
+        settings.setValue("Mute in Wallpaper", true);
         settings.setValue("Rmb Folder", false);
         settings.setValue("Refresh Folder on Startup", false);
         settings.setValue("Rmb File", false);
@@ -317,11 +331,10 @@ void MainWindow::filterFiles() {
 
     if (!pathList.empty() && ui->chkEchoesThisDay->isChecked()){
         QDate date = QDate::currentDate();
-        QString year = date.toString("yyyy");
-        QString decade = year.first(2);
+        QString selectedYear = QString::number(ui->spnEchoesThisDay->value());
         QString month = date.toString("MM");
         QString day = date.toString("dd");
-        QRegularExpression regex(QString(".*%1\\d{2}[-_]?%2[-_]?%3.*").arg(decade, month, day));  // Production use
+        QRegularExpression regex(QString(".*%1[-_]?%2[-_]?%3.*").arg(selectedYear, month, day));  // Production use
         // static QRegularExpression regex(QString(".*2025[-_]?04[-_]?06.*"));  // Debug Use: Use on qttestfolder.
         QStringList filteredPaths;
         for (QStringList::const_iterator it = pathList.cbegin(); it != pathList.cend(); ++it) {
@@ -477,19 +490,34 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
-    if (event->key() == Qt::Key_Space) {
-        btnGenerate_clicked();
+    if (event->key() == Qt::Key_Space) btnGenerate_clicked();
+    else if (ui->chkEchoesThisDay->checkState() != Qt::Unchecked && (event->key() == Qt::Key_Up || event->key() == Qt::Key_Down)) {
+        if (event->key() == Qt::Key_Up) {
+            ui->spnEchoesThisDay->stepUp();
+        } else {
+            ui->spnEchoesThisDay->stepDown();
+        }
+        // Prevent text highlighting of spnEchoesThisDay.
+        QLineEdit *lineEdit = ui->spnEchoesThisDay->findChild<QLineEdit*>();
+        if (lineEdit) {
+            QTimer::singleShot(0, lineEdit, &QLineEdit::deselect);
+        }
     }
     QWidget::keyPressEvent(event);
 }
 
 void MainWindow::chkEchoesThisDay_clicked(Qt::CheckState state) {
+    if (ui->chkYxHdd->checkState() != Qt::Unchecked || ui->chkWinnie->checkState() != Qt::Unchecked) spnEchoesThisDay_setPreviousYear();
+    else spnEchoesThisDay_setCurrentYear();
+
     if (state == Qt::Unchecked) {
+        ui->spnEchoesThisDay->setEnabled(false);
         if (ui->chkYxHdd->checkState() != Qt::Unchecked) retrieveYxHddFiles();
         else if (ui->chkYxLaptop->checkState() != Qt::Unchecked) retrieveYxLaptopFiles();
         else retrieveFiles();
     }
     else {  // Qt::Checked or Qt::PartiallyChecked
+        ui->spnEchoesThisDay->setEnabled(true);
         filterFiles();
     }
 }
@@ -505,6 +533,7 @@ void MainWindow::chkAutoplay_clicked(Qt::CheckState state) {
 
 void MainWindow::chkYxHdd_clicked(Qt::CheckState state) {
     if (state == Qt::Unchecked) {
+        spnEchoesThisDay_setCurrentYear();
         if (!previousDirImages.exists() || previousDirImages.path() == '.'){
             dirImages = QDir();
             pathList.clear();
@@ -524,13 +553,14 @@ void MainWindow::chkYxHdd_clicked(Qt::CheckState state) {
         btnGenerate_clicked();
     }
     else {
+        spnEchoesThisDay_setPreviousYear();
         ui->chkWinnie->setCheckState(Qt::Unchecked);
         ui->chkYxLaptop->setCheckState(Qt::Unchecked);
         previousDirImages = dirImages;
         previousPathList = pathList;
         dirImages = QDir();
         pathRand.clear();
-        ui->lblFilePath->setText("Folder: ");
+        ui->lblFilePath->setText("FoldIer: ");
         ui->lblFilePath->adjustSize();
         ui->lblFileName->setText("Name: ");
         ui->lblFileName->adjustSize();
@@ -552,12 +582,15 @@ void MainWindow::retrieveYxHddFiles() {
     pathList.clear();
 
     QStringList dirList = {
-        "Random files/Since 2023/2025",  // Media 2025
+        "Media files",  // Media Files
         "个人project/Precious Moments",  // Precious Moments
         "个人project/Life",  // Life
         "个人project/Programming Life",  // Programming
         "个人project/Artwork Room",  // Art
         "个人project/Music Square",  // Music
+        "个人project/Gaming Cafe",  // Games
+        "个人project/Language Cottage",  // Language
+        "个人project/Pets",  // Pets
     };
     QStringList filters = retrieveFiles_getFilters();
     for (const QString &partialDir : dirList){
@@ -569,7 +602,7 @@ void MainWindow::retrieveYxHddFiles() {
 }
 
 QDir MainWindow::getSeagateDrivePath() {
-    QDir drivePath = QDir(findDriveByDeviceName("Seagate Yx 2t") + "YuXuanFiles");
+    QDir drivePath = QDir(findDriveByDeviceName("SeagateYx4t") + "YuXuanFiles");
     return drivePath;
 }
 
@@ -587,6 +620,7 @@ QString MainWindow::findDriveByDeviceName(const QString &deviceName) {
 }
 
 void MainWindow::chkYxLaptop_clicked(Qt::CheckState state) {
+    spnEchoesThisDay_setCurrentYear();
     if (state == Qt::Unchecked) {
         if (!previousDirImages.exists() || previousDirImages.path() == '.'){
             dirImages = QDir();
@@ -637,10 +671,11 @@ void MainWindow::retrieveYxLaptopFiles() {
     QStringList dirList = {
         "Precious Moments",  // Precious Moments
         "Life",  // Life
+        "Language Cottage", // Language
         "Programming Life",  // Programming
         "Artwork Room",  // Art
         "Music Square",  // Music
-        // "Pending Uploads"  // Pending Uploads
+        "Pending Uploads"  // Pending Uploads
     };
     QStringList filters = retrieveFiles_getFilters();
     for (const QString &partialDir : dirList){
@@ -653,6 +688,7 @@ void MainWindow::retrieveYxLaptopFiles() {
 
 void MainWindow::chkWinnie_clicked(Qt::CheckState state) {
     if (state == Qt::Unchecked) {
+        spnEchoesThisDay_setCurrentYear();
         if (!previousDirImages.exists() || previousDirImages.path() == '.'){
             dirImages = QDir();
             pathList.clear();
@@ -672,6 +708,7 @@ void MainWindow::chkWinnie_clicked(Qt::CheckState state) {
         btnGenerate_clicked();
     }
     else {
+        spnEchoesThisDay_setPreviousYear();
         ui->chkYxHdd->setCheckState(Qt::Unchecked);
         ui->chkYxLaptop->setCheckState(Qt::Unchecked);
         previousDirImages = dirImages;
@@ -704,6 +741,12 @@ void MainWindow::btnSettings_clicked() {
     sw->setWindowTitle("Settings");
     sw->exec();
     chkAutoplay_clicked(ui->chkAutoplay->checkState());  // Resume autoplay if chkAutoplay is checked.
+    QSettings settings("YxWn", "YxWn_Gallery");
+    if (windowFlags() == Qt::FramelessWindowHint && settings.value("Mute in Wallpaper").toBool()) {
+        audio->setMuted(true);
+    } else {
+        audio->setMuted(settings.value("Mute").toBool());
+    }
 }
 
 void MainWindow::tray_clicked(QSystemTrayIcon::ActivationReason reason) {
@@ -757,6 +800,10 @@ void MainWindow::attachAppAsWallpaper() {  // Will only be applied when 'show()'
     HWND hwnd = (HWND)winId();
     HWND workerw = getDesktopWorkerW();
     SetParent(hwnd, workerw);  // Application position (geometry) needs to be set before this function call.
+    QSettings settings("YxWn", "YxWn_Gallery");
+    if (settings.value("Mute in Wallpaper").toBool()) {
+        audio->setMuted(true);
+    }
 }
 
 void MainWindow::restoreAppAsWindow() {
@@ -770,6 +817,8 @@ void MainWindow::restoreAppAsWindow() {
     HWND hwnd = (HWND)winId();
     SetParent(hwnd, NULL);
     SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, (PVOID)previousWallpaperPath.utf16(), SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);  // Reset desktop wallpaper to specific img.
+    QSettings settings("YxWn", "YxWn_Gallery");
+    audio->setMuted(settings.value("Mute").toBool());
 }
 
 void MainWindow::trayExitAction_clicked(bool checked) {
@@ -788,4 +837,16 @@ void MainWindow::trayWindowModeAction_clicked(bool checked) {
     Q_UNUSED(checked);
     restoreAppAsWindow();
     show();
+}
+
+void MainWindow::spnEchoesThisDay_setPreviousYear()
+{
+    int currentYear = QDate::currentDate().year();
+    ui->spnEchoesThisDay->setValue(currentYear);
+}
+
+void MainWindow::spnEchoesThisDay_setCurrentYear()
+{
+    int currentYear = QDate::currentDate().year();
+    ui->spnEchoesThisDay->setValue(currentYear);
 }

@@ -82,5 +82,7 @@ private:
     QDir getSeagateDrivePath();
     QString findDriveByDeviceName(const QString &deviceName);
     bool forceExit = false;
+    void spnEchoesThisDay_setPreviousYear();
+    void spnEchoesThisDay_setCurrentYear();
 };
 #endif // MAINWINDOW_H
