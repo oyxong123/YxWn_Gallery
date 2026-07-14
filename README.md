@@ -47,10 +47,9 @@ Contributions, issues, and pull requests are welcomed!
 
 ## Future Roadmap
 #### Possible new features:
-- The ability to select the amount of previous years to include beside the ***Echoes of This Day ;;*** checkbox.
+- Feature - Custom Preset (User-Created Preset Reading Custom-Selected Directories)
 
 #### Possible improvements and bug fixes:
-- As of now, the ***End Time*** GUI element does not reset back to 00:00:00 after the app showed a video or music file.
 - The current application window uses fixed size and will not scaled properly to different desktop sizes.
 
 ## Trivia
