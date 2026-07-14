@@ -288,7 +288,6 @@ void MainWindow::btnGenerate_clicked()
     // This will only pop up if loading the media blocks the thread for more than 4 seconds (default minimum time for progress bar).
     QProgressDialog progress("Loading media from disk...", "Cancel", 0, 0, this);
     progress.setWindowModality(Qt::WindowModal);
-    QCoreApplication::processEvents(); // Flushes the UI event queue to register the setup
 
     QString fileExtension = QFileInfo(pathRand).suffix().toLower();  // Change all letters lowercase. (eg. JPG to jpg)
     if (fileExtension == "png" || fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "jfif"){
@@ -358,7 +357,6 @@ void MainWindow::filterFiles() {
         for (int i = 0; i < numFiles; i++) {
             progress.setValue(i);
 
-            QCoreApplication::processEvents();
             if (progress.wasCanceled()) {
                 break;
             }
@@ -409,7 +407,6 @@ void MainWindow::retrieveFiles_iterate(QString dirPath, QStringList filters) {
     while (iterator.hasNext()){
         pathList.append(iterator.next());
 
-        QCoreApplication::processEvents();
         if (progress.wasCanceled()) {
             break;
         }

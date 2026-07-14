@@ -84,6 +84,5 @@ private:
     bool forceExit = false;
     void spnEchoesThisDay_setPreviousYear();
     void spnEchoesThisDay_setCurrentYear();
-    void progressBar_run(int numFiles);
 };
 #endif // MAINWINDOW_H
