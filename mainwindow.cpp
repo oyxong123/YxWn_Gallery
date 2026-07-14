@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "settingswindow.h"
-#include "progressbarwindow.h"
 #include "qcustompushbutton.h"
 #include <cstdio>
 #include <QDir>
@@ -701,13 +700,13 @@ void MainWindow::retrieveYxLaptopFiles() {
     pathList.clear();
 
     QStringList dirList = {
-        "Life",  // Life
-        "Programming Life",  // Programming
-        "Music Square",  // Music
         "Artwork Room",  // Art
         "Language Cottage", // Language
-        "Precious Moments",  // Precious Moments
+        "Life",  // Life
+        "Music Square",  // Music
         "Pending Uploads"  // Pending Uploads
+        "Precious Moments",  // Precious Moments
+        "Programming Life",  // Programming
     };
     QStringList filters = retrieveFiles_getFilters();
     for (const QString &partialDir : dirList){
