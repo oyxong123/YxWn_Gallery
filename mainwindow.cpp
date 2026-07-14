@@ -28,6 +28,8 @@
 #include <QStorageInfo>
 #include <windows.h>
 #include <QLineEdit>
+#include <QProgressDialog>
+#include <QThread>
 
 // Page to reference for resizing GUI dynamically based on window size: https://doc.qt.io/qt-6/layout.html
 
@@ -271,6 +273,7 @@ void MainWindow::btnGenerate_clicked()
         ui->lblFileName->adjustSize();
         return;
     }
+
     int indexRand = QRandomGenerator::global()->bounded(pathList.size());
     QString pathRandTemp = dirImages.absoluteFilePath(pathList[indexRand]);
     if (pathRandTemp == pathRand && pathList.length() > 1) {  // Prevent the same media file from being generated. (Edge case: Needs to have at least 2 paths to prevent infinite loop)
@@ -281,6 +284,12 @@ void MainWindow::btnGenerate_clicked()
     if (!QFile::exists(pathRand)) {  // Prevent missing media file from being accessed.
         return;
     }
+
+    // This will only pop up if loading the media blocks the thread for more than 4 seconds (default minimum time for progress bar).
+    QProgressDialog progress("Loading media from disk...", "Cancel", 0, 0, this);
+    progress.setWindowModality(Qt::WindowModal);
+    QCoreApplication::processEvents(); // Flushes the UI event queue to register the setup
+
     QString fileExtension = QFileInfo(pathRand).suffix().toLower();  // Change all letters lowercase. (eg. JPG to jpg)
     if (fileExtension == "png" || fileExtension == "jpg" || fileExtension == "jpeg" || fileExtension == "jfif"){
         player.stop();
@@ -325,6 +334,8 @@ void MainWindow::btnGenerate_clicked()
     ui->lblFileName->setToolTip(QFileInfo(pathRand).fileName());
     ui->contPlayerPanel->setCurrentIndex(1);
 
+    progress.reset();
+
     qDebug() << "Generate File: " << perf.elapsed() << "ms";
 }
 
@@ -339,12 +350,24 @@ void MainWindow::filterFiles() {
         QString day = date.toString("dd");
         QRegularExpression regex(QString(".*%1[-_]?%2[-_]?%3.*").arg(selectedYear, month, day));  // Production use
         // static QRegularExpression regex(QString(".*2025[-_]?04[-_]?06.*"));  // Debug Use: Use on qttestfolder.
+
         QStringList filteredPaths;
-        for (QStringList::const_iterator it = pathList.cbegin(); it != pathList.cend(); ++it) {
-            if (regex.match(*it).hasMatch()) {
-                filteredPaths.append(*it);  // Add paths that match the regex
+        int numFiles = pathList.size();
+        QProgressDialog progress("Filtering files...", "Cancel", 0, numFiles, this);
+        progress.setWindowModality(Qt::WindowModal);
+        for (int i = 0; i < numFiles; i++) {
+            progress.setValue(i);
+
+            QCoreApplication::processEvents();
+            if (progress.wasCanceled()) {
+                break;
+            }
+
+            if (regex.match(pathList[i]).hasMatch()) {
+                filteredPaths.append(pathList[i]);  // Add paths that match the regex
             }
         }
+        progress.setValue(numFiles);
         pathList = filteredPaths;
     }
 
@@ -380,8 +403,16 @@ QStringList MainWindow::retrieveFiles_getFilters() {
 
 void MainWindow::retrieveFiles_iterate(QString dirPath, QStringList filters) {
     QDirIterator iterator(dirPath, filters, QDir::Files, QDirIterator::Subdirectories);  // Automatically ignores "." and ".."
+    QProgressDialog progress("Scanning directories...", "Cancel", 0, 0, this);
+    progress.setWindowModality(Qt::WindowModal);
+
     while (iterator.hasNext()){
         pathList.append(iterator.next());
+
+        QCoreApplication::processEvents();
+        if (progress.wasCanceled()) {
+            break;
+        }
     }
 }
 
