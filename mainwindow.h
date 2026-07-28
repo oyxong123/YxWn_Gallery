@@ -32,25 +32,25 @@ public:
     QAction *exitAction = new QAction;
 
 private slots:
+    void generateMedia();
     void btnGenerate_clicked();
-    void filterFiles();
-    void retrieveFiles();
     void btnSelectFolder_clicked();
+    void btnRefresh_clicked();
+    void btnSettings_clicked();
     void btnPlayPause_clicked();
     void btnRewind_clicked();
     void btnSkip_clicked();
-    void playerPositionChanged(qint64 position);
-    void sliderPressed();
-    void sliderMoved(int value);
-    void sliderReleased();
-    void chkEchoesThisDay_clicked(Qt::CheckState state);
+    void player_positionChanged(qint64 position);
+    void slrProgressBar_pressed();
+    void slrProgressBar_moved(int value);
+    void slrProgressBar_released();
     void chkAutoplay_clicked(Qt::CheckState state);
+    void chkEchoesThisDay_clicked(Qt::CheckState state);
+    void chkWinnie_clicked(Qt::CheckState state);
     void chkYxHdd_clicked(Qt::CheckState state);
     void chkYxLaptop_clicked(Qt::CheckState state);
-    void chkWinnie_clicked(Qt::CheckState state);
-    void btnSettings_clicked();
+    void spnEchoesThisDay_valueChanged();
     void tray_clicked(QSystemTrayIcon::ActivationReason reason);
-    void btnRefresh_clicked();
     void trayExitAction_clicked(bool checked);
     void trayWindowModeAction_clicked(bool checked);
 
@@ -65,24 +65,33 @@ protected:
     void closeEvent(QCloseEvent *event) override;
 
 private:
+    QString displayFilePath;
+    QStringList completeFilePathList;
+    QStringList filteredFilePathList; // new
+    QStringList prevCompleteFilePathList;
+    QDir rootDirPath;
+    QDir prevRootDirPath;
+    void retrieveSelectFolder();
+    void retrieveWinnie();
+    void retrieveYxHdd();
+    void retrieveYxLaptop();
+    void retrievePreset(QStringList partialDirList); // new
+    void retrieveFiles(QStringList partialDirList);
+    void filterFiles();
+    QStringList filterFiles_userFileExt(QStringList filePathList); // new
+    QStringList filterFiles_year(QStringList filePathList); // new
+    QStringList fileExtFilters_full();
+    QStringList fileExtFilters_user();
+
     Ui::MainWindow *ui;
-    QDir dirImages;
-    QStringList pathList;
-    QString pathRand;
-    QDir previousDirImages;
-    QStringList previousPathList;
-    QString previousWallpaperPath;
-    HWND getDesktopWorkerW();
-    QStringList retrieveFiles_getFilters();
-    void retrieveFiles_iterate(QString dirPath, QStringList filters);
+    bool forceExit = false;
+    QString prevWallpaperPath;
+    void displayMedia();
     void attachAppAsWallpaper();
     void restoreAppAsWindow();
-    void retrieveYxHddFiles();
-    void retrieveYxLaptopFiles();
+    HWND getDesktopWorkerW();
     QDir getSeagateDrivePath();
+    QString formatTime(qint64 ms);
     QString findDriveByDeviceName(const QString &deviceName);
-    bool forceExit = false;
-    void spnEchoesThisDay_setPreviousYear();
-    void spnEchoesThisDay_setCurrentYear();
 };
 #endif // MAINWINDOW_H

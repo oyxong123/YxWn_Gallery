@@ -2,7 +2,6 @@
 <p align="center">
    <img width="256" height="256" alt="Terriermon256" src="https://github.com/user-attachments/assets/3dd42f54-fdbd-4444-bd8b-6f5830453d0b" />
 </p>
-
 YxWn-Gallery is a minimalist desktop application for viewing and displaying media file folders easily and interestingly. 
 It displays random media files from the folder that you selected. 
 It is similar to a digital photo frame, but omits all the bloat features and UI elements that I deemed unecessary in third party software and hardware offerings and includes additional advanced functionalities tailored to my own file management ecosystem. 
@@ -25,7 +24,7 @@ Contributions, issues, and pull requests are welcomed!
 ## Installation
 #### Method 1: Build from Source
 1. Download **Qt Online Installer** from the **Qt Official Website**.
-2. Install **Qt 6.8.2** (or above, not tested), the latest **MinGW**, and **Qt Creator** through **Qt Online Installer**.
+2. Install **Qt 6.8.3** (or above, not tested), the latest **MinGW**, **Qt Multimedia** and **Qt Image Formats** additional libraries, and **Qt Creator** through **Qt Online Installer**.
 3. Download this repository.
 4. Launch **Qt Creator**.
 5. Open the repo in **Qt Creator**.
@@ -33,7 +32,7 @@ Contributions, issues, and pull requests are welcomed!
 #### Method 2: Use Pre-Built Executable
 1. Download this directory.
    ```
-   YxWn-Gallery\release
+   YxWn-Gallery\build\Desktop_Qt_6_8_3_llvm_mingw_64_bit_Release\release
    ```
 2. Place the folder anywhere in your computer.
 3. Start the app by running the `YxWn-Gallery.exe` file.

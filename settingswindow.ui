@@ -248,7 +248,7 @@
     <number>0</number>
    </property>
    <property name="text">
-    <string>Include (require refresh) :</string>
+    <string>Include :</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
