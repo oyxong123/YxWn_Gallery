@@ -357,6 +357,7 @@ void MainWindow::chkEchoesThisDay_clicked(Qt::CheckState state) {
         filteredFilePathList = completeFilePathList;
     }
     else {  // Qt::Checked or Qt::PartiallyChecked
+        ui->spnEchoesThisDay->setValue(QDate::currentDate().year());
         ui->spnEchoesThisDay->setVisible(true);
         filterFiles();
     }
