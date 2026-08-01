@@ -48,9 +48,11 @@ Contributions, issues, and pull requests are welcomed!
 #### Possible new features:
 - Feature - Custom Preset (User-Created Preset Reading Custom-Selected Directories)
 
--  Feature - Echoes of This Day (Limit Available Year Options Accessible Based on Retrieved Files' Available Years) 
+- Feature - Echoes of This Day (Limit Available Year Options Accessible Based on Retrieved Files' Available Years) 
 
   {E.g. If retrieve files only have 2013, 2015, and 2016, Year Control can only be set to 2013, 2015, and 2016}
+
+- Feature - Autosave Checkbox During Toggle (Instead of During Exit)
 
 #### Possible improvements and bug fixes:
 - The current application window uses fixed size and will not scaled properly to different desktop sizes.
