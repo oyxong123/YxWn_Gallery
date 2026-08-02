@@ -358,7 +358,9 @@ void MainWindow::chkEchoesThisDay_clicked(Qt::CheckState state) {
     }
     else {  // Qt::Checked or Qt::PartiallyChecked
         ui->spnEchoesThisDay->setVisible(true);
-        ui->spnEchoesThisDay->setValue(QDate::currentDate().year());
+        int currentYear = QDate::currentDate().year();
+        if (ui->spnEchoesThisDay->value() == currentYear) filterFiles();
+        else ui->spnEchoesThisDay->setValue(currentYear);
     }
 }
 
